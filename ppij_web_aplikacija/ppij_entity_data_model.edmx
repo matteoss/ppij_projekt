@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ppij_database_model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="dogovor_termin">
+          <Key>
+            <PropertyRef Name="ID_dogovor_termin" />
+          </Key>
+          <Property Name="ID_dogovor_termin" Type="int" Nullable="false" />
+          <Property Name="ID_termin" Type="int" />
+          <Property Name="lokacija_x" Type="float" />
+          <Property Name="lokacija_y" Type="float" />
+          <Property Name="dogovor_status" Type="int" />
+          <Property Name="dogovor_ocijena" Type="int" />
+          <Property Name="ID_instruktor" Type="int" />
+          <Property Name="ID_klijent" Type="int" />
+          <Property Name="datum_dogovor" Type="date" />
+        </EntityType>
+        <EntityType Name="Kategorija">
+          <Key>
+            <PropertyRef Name="ID_kategorija" />
+          </Key>
+          <Property Name="ID_kategorija" Type="int" Nullable="false" />
+          <Property Name="naziv_kategorija" Type="varchar" MaxLength="30" />
+          <Property Name="kratica_kategorija" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Osoba">
+          <Key>
+            <PropertyRef Name="ID_osoba" />
+          </Key>
+          <Property Name="ID_osoba" Type="int" Nullable="false" />
+          <Property Name="ime_osoba" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="prezime_osoba" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="email_osoba" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="korisnicko_ime_osoba" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="razina_prava" Type="int" Nullable="false" />
+          <Property Name="lokacija_x" Type="float" />
+          <Property Name="lokacija_y" Type="float" />
+          <Property Name="lozinka" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="osoba_kategorija">
+          <Key>
+            <PropertyRef Name="ID_osoba" />
+            <PropertyRef Name="ID_kategorija" />
+          </Key>
+          <Property Name="ID_osoba" Type="int" Nullable="false" />
+          <Property Name="ID_kategorija" Type="int" Nullable="false" />
+          <Property Name="ocijena" Type="int" />
+        </EntityType>
+        <EntityType Name="osoba_termin">
+          <Key>
+            <PropertyRef Name="ID_osoba" />
+            <PropertyRef Name="ID_termin" />
+          </Key>
+          <Property Name="ID_osoba" Type="int" Nullable="false" />
+          <Property Name="ID_termin" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Termin">
+          <Key>
+            <PropertyRef Name="ID_termin" />
+          </Key>
+          <Property Name="ID_termin" Type="int" Nullable="false" />
+          <Property Name="dan_termin" Type="int" />
+          <Property Name="period_termin" Type="int" />
+        </EntityType>
+        <Association Name="FK__dogovor_t__ID_in__1ED998B2">
+          <End Role="Osoba" Type="Self.Osoba" Multiplicity="0..1" />
+          <End Role="dogovor_termin" Type="Self.dogovor_termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osoba">
+              <PropertyRef Name="ID_osoba" />
+            </Principal>
+            <Dependent Role="dogovor_termin">
+              <PropertyRef Name="ID_instruktor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__dogovor_t__ID_kl__1FCDBCEB">
+          <End Role="Osoba" Type="Self.Osoba" Multiplicity="0..1" />
+          <End Role="dogovor_termin" Type="Self.dogovor_termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osoba">
+              <PropertyRef Name="ID_osoba" />
+            </Principal>
+            <Dependent Role="dogovor_termin">
+              <PropertyRef Name="ID_klijent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__dogovor_t__ID_te__1DE57479">
+          <End Role="Termin" Type="Self.Termin" Multiplicity="0..1" />
+          <End Role="dogovor_termin" Type="Self.dogovor_termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termin">
+              <PropertyRef Name="ID_termin" />
+            </Principal>
+            <Dependent Role="dogovor_termin">
+              <PropertyRef Name="ID_termin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__osoba_kat__ID_ka__1B0907CE">
+          <End Role="Kategorija" Type="Self.Kategorija" Multiplicity="1" />
+          <End Role="osoba_kategorija" Type="Self.osoba_kategorija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategorija">
+              <PropertyRef Name="ID_kategorija" />
+            </Principal>
+            <Dependent Role="osoba_kategorija">
+              <PropertyRef Name="ID_kategorija" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__osoba_kat__ID_os__1A14E395">
+          <End Role="Osoba" Type="Self.Osoba" Multiplicity="1" />
+          <End Role="osoba_kategorija" Type="Self.osoba_kategorija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osoba">
+              <PropertyRef Name="ID_osoba" />
+            </Principal>
+            <Dependent Role="osoba_kategorija">
+              <PropertyRef Name="ID_osoba" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__osoba_ter__ID_os__164452B1">
+          <End Role="Osoba" Type="Self.Osoba" Multiplicity="1" />
+          <End Role="osoba_termin" Type="Self.osoba_termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osoba">
+              <PropertyRef Name="ID_osoba" />
+            </Principal>
+            <Dependent Role="osoba_termin">
+              <PropertyRef Name="ID_osoba" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__osoba_ter__ID_te__173876EA">
+          <End Role="Termin" Type="Self.Termin" Multiplicity="1" />
+          <End Role="osoba_termin" Type="Self.osoba_termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termin">
+              <PropertyRef Name="ID_termin" />
+            </Principal>
+            <Dependent Role="osoba_termin">
+              <PropertyRef Name="ID_termin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ppij_database_modelStoreContainer">
+          <EntitySet Name="dogovor_termin" EntityType="Self.dogovor_termin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategorija" EntityType="Self.Kategorija" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Osoba" EntityType="Self.Osoba" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="osoba_kategorija" EntityType="Self.osoba_kategorija" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="osoba_termin" EntityType="Self.osoba_termin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Termin" EntityType="Self.Termin" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__dogovor_t__ID_in__1ED998B2" Association="Self.FK__dogovor_t__ID_in__1ED998B2">
+            <End Role="Osoba" EntitySet="Osoba" />
+            <End Role="dogovor_termin" EntitySet="dogovor_termin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__dogovor_t__ID_kl__1FCDBCEB" Association="Self.FK__dogovor_t__ID_kl__1FCDBCEB">
+            <End Role="Osoba" EntitySet="Osoba" />
+            <End Role="dogovor_termin" EntitySet="dogovor_termin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__dogovor_t__ID_te__1DE57479" Association="Self.FK__dogovor_t__ID_te__1DE57479">
+            <End Role="Termin" EntitySet="Termin" />
+            <End Role="dogovor_termin" EntitySet="dogovor_termin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__osoba_kat__ID_ka__1B0907CE" Association="Self.FK__osoba_kat__ID_ka__1B0907CE">
+            <End Role="Kategorija" EntitySet="Kategorija" />
+            <End Role="osoba_kategorija" EntitySet="osoba_kategorija" />
+          </AssociationSet>
+          <AssociationSet Name="FK__osoba_kat__ID_os__1A14E395" Association="Self.FK__osoba_kat__ID_os__1A14E395">
+            <End Role="Osoba" EntitySet="Osoba" />
+            <End Role="osoba_kategorija" EntitySet="osoba_kategorija" />
+          </AssociationSet>
+          <AssociationSet Name="FK__osoba_ter__ID_os__164452B1" Association="Self.FK__osoba_ter__ID_os__164452B1">
+            <End Role="Osoba" EntitySet="Osoba" />
+            <End Role="osoba_termin" EntitySet="osoba_termin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__osoba_ter__ID_te__173876EA" Association="Self.FK__osoba_ter__ID_te__173876EA">
+            <End Role="Termin" EntitySet="Termin" />
+            <End Role="osoba_termin" EntitySet="osoba_termin" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ppij_database_model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="dogovor_termin">
+          <Key>
+            <PropertyRef Name="ID_dogovor_termin" />
+          </Key>
+          <Property Name="ID_dogovor_termin" Type="Int32" Nullable="false" />
+          <Property Name="ID_termin" Type="Int32" />
+          <Property Name="lokacija_x" Type="Double" />
+          <Property Name="lokacija_y" Type="Double" />
+          <Property Name="dogovor_status" Type="Int32" />
+          <Property Name="dogovor_ocijena" Type="Int32" />
+          <Property Name="ID_instruktor" Type="Int32" />
+          <Property Name="ID_klijent" Type="Int32" />
+          <NavigationProperty Name="Osoba" Relationship="Self.FK__dogovor_t__ID_in__1ED998B2" FromRole="dogovor_termin" ToRole="Osoba" />
+          <NavigationProperty Name="Osoba1" Relationship="Self.FK__dogovor_t__ID_kl__1FCDBCEB" FromRole="dogovor_termin" ToRole="Osoba" />
+          <NavigationProperty Name="Termin" Relationship="Self.FK__dogovor_t__ID_te__1DE57479" FromRole="dogovor_termin" ToRole="Termin" />
+          <Property Name="datum_dogovor" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Kategorija">
+          <Key>
+            <PropertyRef Name="ID_kategorija" />
+          </Key>
+          <Property Name="ID_kategorija" Type="Int32" Nullable="false" />
+          <Property Name="naziv_kategorija" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="kratica_kategorija" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="osoba_kategorija" Relationship="Self.FK__osoba_kat__ID_ka__1B0907CE" FromRole="Kategorija" ToRole="osoba_kategorija" />
+        </EntityType>
+        <EntityType Name="Osoba">
+          <Key>
+            <PropertyRef Name="ID_osoba" />
+          </Key>
+          <Property Name="ID_osoba" Type="Int32" Nullable="false" />
+          <Property Name="ime_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="prezime_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="korisnicko_ime_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="razina_prava" Type="Int32" Nullable="false" />
+          <Property Name="lokacija_x" Type="Double" />
+          <Property Name="lokacija_y" Type="Double" />
+          <NavigationProperty Name="dogovor_termin" Relationship="Self.FK__dogovor_t__ID_in__1ED998B2" FromRole="Osoba" ToRole="dogovor_termin" />
+          <NavigationProperty Name="dogovor_termin1" Relationship="Self.FK__dogovor_t__ID_kl__1FCDBCEB" FromRole="Osoba" ToRole="dogovor_termin" />
+          <NavigationProperty Name="osoba_kategorija" Relationship="Self.FK__osoba_kat__ID_os__1A14E395" FromRole="Osoba" ToRole="osoba_kategorija" />
+          <NavigationProperty Name="Termin" Relationship="Self.osoba_termin" FromRole="Osoba" ToRole="Termin" />
+          <Property Name="lozinka" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="osoba_kategorija">
+          <Key>
+            <PropertyRef Name="ID_osoba" />
+            <PropertyRef Name="ID_kategorija" />
+          </Key>
+          <Property Name="ID_osoba" Type="Int32" Nullable="false" />
+          <Property Name="ID_kategorija" Type="Int32" Nullable="false" />
+          <Property Name="ocijena" Type="Int32" />
+          <NavigationProperty Name="Kategorija" Relationship="Self.FK__osoba_kat__ID_ka__1B0907CE" FromRole="osoba_kategorija" ToRole="Kategorija" />
+          <NavigationProperty Name="Osoba" Relationship="Self.FK__osoba_kat__ID_os__1A14E395" FromRole="osoba_kategorija" ToRole="Osoba" />
+        </EntityType>
+        <EntityType Name="Termin">
+          <Key>
+            <PropertyRef Name="ID_termin" />
+          </Key>
+          <Property Name="ID_termin" Type="Int32" Nullable="false" />
+          <Property Name="dan_termin" Type="Int32" />
+          <Property Name="period_termin" Type="Int32" />
+          <NavigationProperty Name="dogovor_termin" Relationship="Self.FK__dogovor_t__ID_te__1DE57479" FromRole="Termin" ToRole="dogovor_termin" />
+          <NavigationProperty Name="Osoba" Relationship="Self.osoba_termin" FromRole="Termin" ToRole="Osoba" />
+        </EntityType>
+        <Association Name="FK__dogovor_t__ID_in__1ED998B2">
+          <End Role="Osoba" Type="Self.Osoba" Multiplicity="0..1" />
+          <End Role="dogovor_termin" Type="Self.dogovor_termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osoba">
+              <PropertyRef Name="ID_osoba" />
+            </Principal>
+            <Dependent Role="dogovor_termin">
+              <PropertyRef Name="ID_instruktor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__dogovor_t__ID_kl__1FCDBCEB">
+          <End Role="Osoba" Type="Self.Osoba" Multiplicity="0..1" />
+          <End Role="dogovor_termin" Type="Self.dogovor_termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osoba">
+              <PropertyRef Name="ID_osoba" />
+            </Principal>
+            <Dependent Role="dogovor_termin">
+              <PropertyRef Name="ID_klijent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__dogovor_t__ID_te__1DE57479">
+          <End Role="Termin" Type="Self.Termin" Multiplicity="0..1" />
+          <End Role="dogovor_termin" Type="Self.dogovor_termin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termin">
+              <PropertyRef Name="ID_termin" />
+            </Principal>
+            <Dependent Role="dogovor_termin">
+              <PropertyRef Name="ID_termin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__osoba_kat__ID_ka__1B0907CE">
+          <End Role="Kategorija" Type="Self.Kategorija" Multiplicity="1" />
+          <End Role="osoba_kategorija" Type="Self.osoba_kategorija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategorija">
+              <PropertyRef Name="ID_kategorija" />
+            </Principal>
+            <Dependent Role="osoba_kategorija">
+              <PropertyRef Name="ID_kategorija" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__osoba_kat__ID_os__1A14E395">
+          <End Role="Osoba" Type="Self.Osoba" Multiplicity="1" />
+          <End Role="osoba_kategorija" Type="Self.osoba_kategorija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osoba">
+              <PropertyRef Name="ID_osoba" />
+            </Principal>
+            <Dependent Role="osoba_kategorija">
+              <PropertyRef Name="ID_osoba" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="osoba_termin">
+          <End Role="Osoba" Type="Self.Osoba" Multiplicity="*" />
+          <End Role="Termin" Type="Self.Termin" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="ppij_databaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="dogovor_termin" EntityType="Self.dogovor_termin" />
+          <EntitySet Name="Kategorija" EntityType="Self.Kategorija" />
+          <EntitySet Name="Osoba" EntityType="Self.Osoba" />
+          <EntitySet Name="osoba_kategorija" EntityType="Self.osoba_kategorija" />
+          <EntitySet Name="Termin" EntityType="Self.Termin" />
+          <AssociationSet Name="FK__dogovor_t__ID_in__1ED998B2" Association="Self.FK__dogovor_t__ID_in__1ED998B2">
+            <End Role="Osoba" EntitySet="Osoba" />
+            <End Role="dogovor_termin" EntitySet="dogovor_termin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__dogovor_t__ID_kl__1FCDBCEB" Association="Self.FK__dogovor_t__ID_kl__1FCDBCEB">
+            <End Role="Osoba" EntitySet="Osoba" />
+            <End Role="dogovor_termin" EntitySet="dogovor_termin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__dogovor_t__ID_te__1DE57479" Association="Self.FK__dogovor_t__ID_te__1DE57479">
+            <End Role="Termin" EntitySet="Termin" />
+            <End Role="dogovor_termin" EntitySet="dogovor_termin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__osoba_kat__ID_ka__1B0907CE" Association="Self.FK__osoba_kat__ID_ka__1B0907CE">
+            <End Role="Kategorija" EntitySet="Kategorija" />
+            <End Role="osoba_kategorija" EntitySet="osoba_kategorija" />
+          </AssociationSet>
+          <AssociationSet Name="FK__osoba_kat__ID_os__1A14E395" Association="Self.FK__osoba_kat__ID_os__1A14E395">
+            <End Role="Osoba" EntitySet="Osoba" />
+            <End Role="osoba_kategorija" EntitySet="osoba_kategorija" />
+          </AssociationSet>
+          <AssociationSet Name="osoba_termin" Association="Self.osoba_termin">
+            <End Role="Osoba" EntitySet="Osoba" />
+            <End Role="Termin" EntitySet="Termin" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ppij_database_modelStoreContainer" CdmEntityContainer="ppij_databaseEntities">
+          <EntitySetMapping Name="dogovor_termin">
+            <EntityTypeMapping TypeName="ppij_database_model.dogovor_termin">
+              <MappingFragment StoreEntitySet="dogovor_termin">
+                <ScalarProperty Name="datum_dogovor" ColumnName="datum_dogovor" />
+                <ScalarProperty Name="ID_dogovor_termin" ColumnName="ID_dogovor_termin" />
+                <ScalarProperty Name="ID_termin" ColumnName="ID_termin" />
+                <ScalarProperty Name="lokacija_x" ColumnName="lokacija_x" />
+                <ScalarProperty Name="lokacija_y" ColumnName="lokacija_y" />
+                <ScalarProperty Name="dogovor_status" ColumnName="dogovor_status" />
+                <ScalarProperty Name="dogovor_ocijena" ColumnName="dogovor_ocijena" />
+                <ScalarProperty Name="ID_instruktor" ColumnName="ID_instruktor" />
+                <ScalarProperty Name="ID_klijent" ColumnName="ID_klijent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategorija">
+            <EntityTypeMapping TypeName="ppij_database_model.Kategorija">
+              <MappingFragment StoreEntitySet="Kategorija">
+                <ScalarProperty Name="ID_kategorija" ColumnName="ID_kategorija" />
+                <ScalarProperty Name="naziv_kategorija" ColumnName="naziv_kategorija" />
+                <ScalarProperty Name="kratica_kategorija" ColumnName="kratica_kategorija" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Osoba">
+            <EntityTypeMapping TypeName="ppij_database_model.Osoba">
+              <MappingFragment StoreEntitySet="Osoba">
+                <ScalarProperty Name="lozinka" ColumnName="lozinka" />
+                <ScalarProperty Name="ID_osoba" ColumnName="ID_osoba" />
+                <ScalarProperty Name="ime_osoba" ColumnName="ime_osoba" />
+                <ScalarProperty Name="prezime_osoba" ColumnName="prezime_osoba" />
+                <ScalarProperty Name="email_osoba" ColumnName="email_osoba" />
+                <ScalarProperty Name="korisnicko_ime_osoba" ColumnName="korisnicko_ime_osoba" />
+                <ScalarProperty Name="razina_prava" ColumnName="razina_prava" />
+                <ScalarProperty Name="lokacija_x" ColumnName="lokacija_x" />
+                <ScalarProperty Name="lokacija_y" ColumnName="lokacija_y" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="osoba_kategorija">
+            <EntityTypeMapping TypeName="ppij_database_model.osoba_kategorija">
+              <MappingFragment StoreEntitySet="osoba_kategorija">
+                <ScalarProperty Name="ID_osoba" ColumnName="ID_osoba" />
+                <ScalarProperty Name="ID_kategorija" ColumnName="ID_kategorija" />
+                <ScalarProperty Name="ocijena" ColumnName="ocijena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Termin">
+            <EntityTypeMapping TypeName="ppij_database_model.Termin">
+              <MappingFragment StoreEntitySet="Termin">
+                <ScalarProperty Name="ID_termin" ColumnName="ID_termin" />
+                <ScalarProperty Name="dan_termin" ColumnName="dan_termin" />
+                <ScalarProperty Name="period_termin" ColumnName="period_termin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="osoba_termin" TypeName="ppij_database_model.osoba_termin" StoreEntitySet="osoba_termin">
+            <EndProperty Name="Osoba">
+              <ScalarProperty Name="ID_osoba" ColumnName="ID_osoba" />
+            </EndProperty>
+            <EndProperty Name="Termin">
+              <ScalarProperty Name="ID_termin" ColumnName="ID_termin" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

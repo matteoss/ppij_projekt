@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8ff4d86daa53415e82d8829d27036d08" Name="Diagram1" ZoomLevel="69">
+        <EntityTypeShape EntityType="ppij_database_model.dogovor_termin" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="ppij_database_model.Kategorija" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ppij_database_model.Osoba" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="ppij_database_model.osoba_kategorija" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ppij_database_model.Termin" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
+        <AssociationConnector Association="ppij_database_model.FK__dogovor_t__ID_in__1ED998B2" ManuallyRouted="false" />
+        <AssociationConnector Association="ppij_database_model.FK__dogovor_t__ID_kl__1FCDBCEB" ManuallyRouted="false" />
+        <AssociationConnector Association="ppij_database_model.FK__dogovor_t__ID_te__1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="ppij_database_model.FK__osoba_kat__ID_ka__1B0907CE" ManuallyRouted="false" />
+        <AssociationConnector Association="ppij_database_model.FK__osoba_kat__ID_os__1A14E395" ManuallyRouted="false" />
+        <AssociationConnector Association="ppij_database_model.osoba_termin" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
