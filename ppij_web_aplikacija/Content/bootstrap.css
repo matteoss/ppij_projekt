@@ -70,7 +70,37 @@ a:hover {
   outline: 0;
 }
 
-.top-buffer { margin-top:50px; }
+.top-buffer { 
+    margin-top:50px;
+
+}
+
+.mali-razmak-gore {
+    margin-top:7px;
+}
+
+.mali-razmak-dolje {
+    margin-bottom:14px;
+}
+
+.margina-dolje{
+    bottom:50px;
+}
+
+#footer{
+   position:absolute;
+   bottom:60px;
+   width:80%;
+   height:20px;   /* Height of the footer */
+   background:none;
+}
+
+.centered
+{
+    margin: auto;
+    width: 400px;
+    height: 200px;
+}
 
 h1 {
   margin: 0.67em 0;

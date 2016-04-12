@@ -32,7 +32,7 @@
                     else
                     {
                         <li class="navbar-right">@Html.ActionLink("Login", "Index", "Login", new { area = "" }, null)</li>
-                        <li class="navbar-right">@Html.ActionLink("Registracija", "Index", "Registracija", new { area = "" }, null)</li>
+                        <li class="navbar-right">@Html.ActionLink("Registracija", "Registracija", "Login", new { area = "" }, null)</li>
                     }
                 </ul>
             </div>
@@ -43,8 +43,8 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
+        <footer id ="footer">
+            <hr />
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>

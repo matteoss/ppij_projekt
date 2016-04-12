@@ -1,0 +1,62 @@
+﻿@model ppij_web_aplikacija.Models.RegistracijaModel
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Registracija</title>
+    </head>
+    <body>
+        <div>
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary(true)
+                <fieldset>
+                    <div class="top-buffer">
+                        <div class="mali-razmak-gore row">
+                            <div class="col-md-4 text-right">
+                                <h4 class="mali-razmak-dolje">Ime</h4>
+                                <h4 class="mali-razmak-dolje">Prezime</h4>
+                                <h4 class="mali-razmak-dolje">Korisničko ime</h4>
+                                <h4 class="mali-razmak-dolje">Lozinka</h4>
+                                <h4 class="mali-razmak-dolje">Ponovljena Lozinka</h4>
+                                <h4 class="mali-razmak-dolje">email</h4>
+                                <h4 class="mali-razmak-dolje">Želim biti instruktor</h4>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="mali-razmak-gore">
+                                    @Html.EditorFor(model => model.ime)
+                                    @Html.ValidationMessageFor(model => model.ime)
+                                </div>
+                                <div class="mali-razmak-gore">
+                                    @Html.EditorFor(model => model.prezime)
+                                    @Html.ValidationMessageFor(model => model.prezime)
+                                </div>
+                                <div class="mali-razmak-gore">
+                                    @Html.EditorFor(model => model.korisnicko_ime)
+                                    @Html.ValidationMessageFor(model => model.korisnicko_ime)
+                                </div>
+                                <div class="mali-razmak-gore">
+                                    @Html.PasswordFor(model => model.lozinka)
+                                    @Html.ValidationMessageFor(model => model.lozinka)
+                                </div>
+                                <div class="mali-razmak-gore">
+                                    @Html.PasswordFor(model => model.lozinka_ponovljeno)
+                                    @Html.ValidationMessageFor(model => model.lozinka_ponovljeno)
+                                </div>
+                                <div class="mali-razmak-gore">
+                                    @Html.EditorFor(model => model.email)
+                                    @Html.ValidationMessageFor(model => model.email)
+                                </div>
+                                <div class="mali-razmak-gore">
+                                    @Html.CheckBoxFor(model => model.jeInstruktor)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mali-razmak-gore mali-razmak-dolje centered">
+                        <input type="submit" class="btn btn-default" title="Registriraj se" />
+                    </p>
+                </fieldset>
+            }
+        </div>
+    </body>
+</html>

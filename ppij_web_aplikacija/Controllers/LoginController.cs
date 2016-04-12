@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Diagnostics;
 using System.Web.Security;
+using System.Data.Entity.Validation;
 
 namespace ppij_web_aplikacija.Controllers
 {
@@ -31,6 +32,7 @@ namespace ppij_web_aplikacija.Controllers
                 if (String.Compare(o.lozinka, ((Osoba) osoba).lozinka) == 0)
                 {
                     Debug.WriteLine("uspjesna prijava");
+                    
                     FormsAuthentication.SetAuthCookie(o.korisnicko_ime, o.zapamtiMe);
                     return RedirectToAction("Index", "Home");
                 }
@@ -49,6 +51,68 @@ namespace ppij_web_aplikacija.Controllers
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
+        }
+        [HttpGet]
+        public ActionResult Registracija()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Registracija(Models.RegistracijaModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Debug.WriteLine(model.ime + " " + model.prezime + " " + model.lozinka + " " + model.email);
+                if (model.jeIstaLozinka() == false)
+                {
+                    
+                }
+                else
+                {
+                    using (ppij_databaseEntities data = new ppij_databaseEntities())
+                    {
+                        Osoba osoba = new Osoba();
+                        osoba.ime_osoba = model.ime;
+                        osoba.prezime_osoba = model.prezime;
+                        osoba.korisnicko_ime_osoba = model.korisnicko_ime;
+                        osoba.lozinka = model.lozinka;
+                        if (model.jeInstruktor == true)
+                        {
+                            osoba.razina_prava = 1;
+                        }
+                        else
+                        {
+                            osoba.razina_prava = 2;
+                        }
+                        osoba.email_osoba = model.email;
+                        osoba.lokacija_x = null;
+                        osoba.lokacija_y = null;
+                        osoba.ID_osoba = data.Osoba.OrderByDescending(o => o.ID_osoba).FirstOrDefault().ID_osoba + 1;
+                        osoba.dogovor_termin = null;
+                        osoba.dogovor_termin1 = null;
+                        osoba.osoba_kategorija = null;
+                        osoba.Termin = null;
+                        data.Osoba.Add(osoba);
+                        Debug.WriteLine(osoba.ID_osoba + " " + osoba.ime_osoba + " " + osoba.prezime_osoba + " " + osoba.korisnicko_ime_osoba + " " + osoba.lozinka);
+                        try
+                        {
+                            data.SaveChanges();
+                        }
+                        catch(DbEntityValidationException deve)
+                        {
+                            foreach (var validationErrors in deve.EntityValidationErrors)
+                            {
+                                foreach (var error in validationErrors.ValidationErrors)
+                                {
+                                    Trace.TraceInformation("Property: {0} Error: {1}", error.PropertyName, error.ErrorMessage);
+                                }
+                            }
+                        }
+                    }
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return View();
         }
     }
 }

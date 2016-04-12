@@ -9,15 +9,17 @@ namespace ppij_web_aplikacija.Controllers
     public class TestController : Controller
     {
         // GET: Test
-        [Authorize]
+        [Authorize(Roles="0")]
         public ActionResult Index()
         {
             List<Osoba> listaOsoba = new List<Osoba>();
-            var database = new ppij_databaseEntities();
-            var query = database.Osoba;
-            listaOsoba.AddRange(query.ToList<Osoba>());
-            ViewBag.Title = "naslov testa";
-            ViewBag.lista = listaOsoba;
+            using (var database = new ppij_databaseEntities())
+            {
+                var query = database.Osoba;
+                listaOsoba.AddRange(query.ToList<Osoba>());
+                ViewBag.Title = "naslov testa";
+                ViewBag.lista = listaOsoba;
+            }
             return View();
         }
         public string test()
