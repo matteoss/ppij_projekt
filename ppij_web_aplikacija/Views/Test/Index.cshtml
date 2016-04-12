@@ -11,6 +11,14 @@
         <p>
             <a href="~/">povratak</a>
         </p>
+        <ul>
+            @foreach(var osoba in ViewBag.lista)
+            {
+                <li>
+                    @osoba.ime_osoba @osoba.prezime_osoba @osoba.email_osoba
+                </li>
+            }
+        </ul>
     </div>
 </body>
 </html>

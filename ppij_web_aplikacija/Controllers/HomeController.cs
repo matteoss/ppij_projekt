@@ -10,7 +10,7 @@ namespace ppij_web_aplikacija.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Home Page " + User.Identity.Name;
 
             return View();
         }

@@ -21,8 +21,23 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("Registracija", "Index", "Help", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Pomoć", "Index", "Help", new { area = "" }, null)</li>
                 </ul>
+                <ul class ="nav navbar-right navbar-nav" >
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li class="navbar-right">@Html.ActionLink(User.Identity.Name, "Index", "Home", new { area = "" }, null)</li>
+                        <li class="navbar-right">@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, null)</li>
+                    }
+                    else
+                    {
+                        <li class="navbar-right">@Html.ActionLink("Login", "Index", "Login", new { area = "" }, null)</li>
+                        <li class="navbar-right">@Html.ActionLink("Registracija", "Index", "Registracija", new { area = "" }, null)</li>
+                    }
+                </ul>
+            </div>
+            <div class="navbar-collapse collapse">
+                
             </div>
         </div>
     </div>
