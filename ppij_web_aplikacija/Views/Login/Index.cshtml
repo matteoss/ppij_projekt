@@ -1,26 +1,51 @@
-﻿<!DOCTYPE html>
+﻿@model ppij_web_aplikacija.Models.OsobaLogin
+<!DOCTYPE html>
 <html>
     <head>
         <title>Login</title>
     </head>
     <body>
-        <div class="text-center">
-            <form method="post">
-                <div class="row col-lg-offset-4 top-buffer">
-                    <div class="col-md-2 text-right">
-                        <p>Korisničko ime</p>
-                        <p>Lozinka</p>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="text" name="korisnicko_ime" class="input-sm" /><br />
-                        <input type="password" name="lozinka" class="input-sm" /><br />
-                    </div>
-                </div>
-                <div class="text-center">
-                    <p>Zapamti me  <input type="checkbox" name="zapamtiMe" /></p>
-                    <input type="submit" class="btn btn-default" title="Login"/><br />
-                </div>
-            </form>
-        </div>
+    @using (Html.BeginForm())
+                {
+            @Html.ValidationSummary(true)
+            <fieldset>
+                    <form method="post">
+                        <div class=" row top-buffer text-right ">
+                            <div class="col-md-4 center-block">
+                                <div>
+                                    <text>
+                                        <mark>Korisničko ime </mark>
+                                        @Html.EditorFor(model => model.korisnicko_ime)
+                                    </text>
+                                </div>
+                                <div>
+                                    <text>
+                                        @Html.ValidationMessageFor(model => model.korisnicko_ime)
+                                        @Html.ValidationMessage("error_kor_ime")
+                                    </text>
+                                </div>
+                            </div>
+                            <div class="col-md-4 center-block mali-razmak-gore">
+                                <div>
+                                    <text>
+                                        <mark>Lozinka</mark>
+                                        @Html.PasswordFor(model => model.lozinka)
+                                    </text>
+                                </div>
+                                <div>
+                                    <text>
+                                        @Html.ValidationMessageFor(model => model.lozinka)
+                                        @Html.ValidationMessage("error_loz")
+                                    </text>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <p>Zapamti me  @Html.CheckBoxFor(model => model.zapamtiMe)</p>
+                            <input type="submit" class="btn btn-default" value="Login &raquo;" t/> <br />
+                        </div>
+                    </form>
+            </fieldset>
+            }
     </body>
 </html>

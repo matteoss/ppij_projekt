@@ -27,25 +27,33 @@ namespace ppij_web_aplikacija.Controllers
             Debug.WriteLine("kor_ime  " + o.korisnicko_ime);
             Debug.WriteLine("lozinka  " + o.lozinka);
             var osoba =  database.Osoba.Where(i => i.korisnicko_ime_osoba == o.korisnicko_ime).FirstOrDefault();
-            if (ModelState.IsValid && osoba != null)
-            {
-                if (String.Compare(o.lozinka, ((Osoba) osoba).lozinka) == 0)
+            if (ModelState.IsValid)
+                if (osoba != null)
                 {
-                    Debug.WriteLine("uspjesna prijava");
-                    
-                    FormsAuthentication.SetAuthCookie(o.korisnicko_ime, o.zapamtiMe);
-                    return RedirectToAction("Index", "Home");
+                    {
+                        if (String.Compare(o.lozinka, ((Osoba)osoba).lozinka) == 0)
+                        {
+                            Debug.WriteLine("uspjesna prijava");
+
+                            FormsAuthentication.SetAuthCookie(o.korisnicko_ime, o.zapamtiMe);
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            Debug.WriteLine("kriva lozinka");
+                            ModelState.AddModelError("error_loz", "Pogrešna Lozinka");
+                        }
+                    }
                 }
                 else
                 {
-                    Debug.WriteLine("kriva lozinka");
+                   ModelState.AddModelError("error_kor_ime", "Nepostojeće korisničko ime");
                 }
-            }
             else
             {
-                Debug.WriteLine("nema osobe");
+                Debug.WriteLine("model not valid");
             }
-            return RedirectToAction("Index", "Login");
+            return View();
         }
         public ActionResult Logout()
         {
@@ -65,7 +73,7 @@ namespace ppij_web_aplikacija.Controllers
                 Debug.WriteLine(model.ime + " " + model.prezime + " " + model.lozinka + " " + model.email);
                 if (model.jeIstaLozinka() == false)
                 {
-                    
+                    ModelState.AddModelError("error_ista", "lozinka nije ista");
                 }
                 else
                 {

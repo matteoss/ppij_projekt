@@ -70,9 +70,28 @@ a:hover {
   outline: 0;
 }
 
+.field-validation-error {
+        color:Red;
+    }
+
+.crvena-boja{
+    text-decoration-color:red;
+}
+.center-block{
+    margin-left:25%;
+}
+
 .top-buffer { 
     margin-top:50px;
+}
 
+.razmak-lijevo {
+    position:relative;
+    left:25%;
+}
+
+.mali-razmak-lijevo{
+    margin-left:30px;
 }
 
 .mali-razmak-gore {
@@ -128,7 +147,8 @@ hr {
 
 mark {
   color: #000;
-  background: #ff0;
+  font-size:large;
+  background: none;
 }
 
 code,

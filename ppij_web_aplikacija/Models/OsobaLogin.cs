@@ -8,12 +8,10 @@ namespace ppij_web_aplikacija.Models
 {
     public class OsobaLogin
     {
-        [Required]
-        [Display(Name= "korisnicko ime")]
+        [Required(ErrorMessage="Nedostaje korisničko ime")]
         public string korisnicko_ime { get; set; }
-        [Required]
+        [Required(ErrorMessage="Nedostaje lozinka")]
         [DataType(DataType.Password)]
-        [Display(Name="lozinka")]
         public string lozinka { get; set; }
         public Boolean zapamtiMe { get; set; }
         public Boolean JeIspravna(string korisnicko_ime_p, string lozinka_p)
