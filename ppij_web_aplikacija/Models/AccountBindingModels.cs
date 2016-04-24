@@ -21,33 +21,45 @@ namespace ppij_web_aplikacija.Models
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} mora sadržavati barem {2} znakova", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Nova lozinka")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Potvrda lozinke")]
+        [Compare("NewPassword", ErrorMessage = "Nova lozinka se ne podudara sa potvrđenom lozinkom")]
         public string ConfirmPassword { get; set; }
     }
 
     public class RegisterBindingModel
     {
-        [Required]
+        [Required(ErrorMessage="Nedostaje e-mail adresa")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} mora sadržavati barem {2} znakova", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Lozinka")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Nova lozinka se ne podudara sa potvrđenom lozinkom")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Nedostaje ime")]
+        public string ime { get; set; }
+
+        [Required(ErrorMessage = "Nedostaje prezime")]
+        public string prezime { get; set; }
+
+        [Required(ErrorMessage = "Nedostaje korisničko ime")]
+        public string korisnicko_ime { get; set; }
+
+        [Required]
+        public Boolean jeInstruktor { get; set; }
     }
 
     public class RegisterExternalBindingModel

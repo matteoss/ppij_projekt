@@ -1,4 +1,4 @@
-﻿@model ppij_web_aplikacija.Models.RegistracijaModel
+﻿@model ppij_web_aplikacija.Models.RegisterBindingModel
 <!DOCTYPE html>
 <html>
     <head>
@@ -35,17 +35,17 @@
                                     @Html.ValidationMessageFor(model => model.korisnicko_ime)
                                 </div>
                                 <div class="mali-razmak-gore">
-                                    @Html.PasswordFor(model => model.lozinka)
-                                    @Html.ValidationMessageFor(model => model.lozinka)
+                                    @Html.PasswordFor(model => model.Password)
+                                    @Html.ValidationMessageFor(model => model.Password)
                                 </div>
                                 <div class="mali-razmak-gore">
-                                    @Html.PasswordFor(model => model.lozinka_ponovljeno)
-                                    @Html.ValidationMessageFor(model => model.lozinka_ponovljeno)
+                                    @Html.PasswordFor(model => model.ConfirmPassword)
+                                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
                                     @Html.ValidationMessage("error_ista")
                                 </div>
                                 <div class="mali-razmak-gore">
-                                    @Html.EditorFor(model => model.email)
-                                    @Html.ValidationMessageFor(model => model.email)
+                                    @Html.EditorFor(model => model.Email)
+                                    @Html.ValidationMessageFor(model => model.Email)
                                 </div>
                                 <div class="mali-razmak-gore">
                                     @Html.CheckBoxFor(model => model.jeInstruktor)

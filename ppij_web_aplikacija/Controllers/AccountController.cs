@@ -317,7 +317,7 @@ namespace ppij_web_aplikacija.Controllers
 
             return logins;
         }
-
+        
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]

@@ -1,4 +1,4 @@
-﻿@model ppij_web_aplikacija.Osoba
+﻿@model ppij_web_aplikacija.Models.ChangePasswordBindingModel
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,9 +30,8 @@
                                             <mark>Stara lozinka</mark>
                                         </label>
                                         <div id="promjena_lozinke_stara" class="col-md-5">
-                                            @Html.EditorFor(model => model.ime_osoba)
-                                            @Html.ValidationMessageFor(model => model.ime_osoba)
-                                            @Html.ValidationMessage("error_kor_ime")
+                                            @Html.EditorFor(model => model.OldPassword)
+                                            @Html.ValidationMessage("error_old_password")
                                         </div>
                                     </div>
                                     <br />
@@ -41,9 +40,9 @@
                                         <label class="col-md-3 control-label" for="promjena_lozinke_nova">
                                             <mark>Nova lozinka</mark>
                                         </label>
-                                        <div id="promjena_lozinke_nova" class="col-md-5">
-                                            @Html.PasswordFor(model => model.lozinka)
-                                            @Html.ValidationMessageFor(model => model.lozinka)
+                                        <div id="promjena_lozinke_nova" class="col-md-6">
+                                            @Html.PasswordFor(model => model.NewPassword)
+                                            @Html.ValidationMessageFor(model => model.NewPassword)
                                             @Html.ValidationMessage("error_loz")
                                         </div>
                                     </div>
@@ -53,15 +52,15 @@
                                         <label class="col-md-3 control-label" for="promjena_lozinke_ponovljena">
                                             <mark>Ponovljena nova lozinka</mark>
                                         </label>
-                                        <div id="promjena_lozinke_ponovljena" class="col-md-5">
-                                            @Html.PasswordFor(model => model.lozinka)
-                                            @Html.ValidationMessageFor(model => model.lozinka)
+                                        <div id="promjena_lozinke_ponovljena" class="col-md-6">
+                                            @Html.PasswordFor(model => model.ConfirmPassword)
+                                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
                                             @Html.ValidationMessage("error_loz")
                                         </div>
                                     </div>
                                     <br />
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 mali-razmak-gore">
                                         <input type="submit" class="btn btn-default" value="Promjeni &raquo;" t /> <br />
                                     </div>
 

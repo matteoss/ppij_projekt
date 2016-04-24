@@ -216,7 +216,6 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\OsobaLogin.cs" />
-    <Compile Include="Models\RegistracijaModel.cs" />
     <Compile Include="Osoba.cs">
       <DependentUpon>ppij_entity_data_model.tt</DependentUpon>
     </Compile>
