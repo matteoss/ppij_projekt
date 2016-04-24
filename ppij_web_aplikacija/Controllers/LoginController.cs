@@ -36,7 +36,7 @@ namespace ppij_web_aplikacija.Controllers
                             Debug.WriteLine("uspjesna prijava");
 
                             FormsAuthentication.SetAuthCookie(o.korisnicko_ime, o.zapamtiMe);
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Index", "Profil");
                         }
                         else
                         {
