@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using System.Web.Helpers;
+
 namespace ppij_web_aplikacija.Controllers
 {
     public class ProfilController : Controller
@@ -19,18 +21,23 @@ namespace ppij_web_aplikacija.Controllers
         [HttpPost]
         public ActionResult Index(Models.ChangePasswordBindingModel model)
         {
-            /*using (ppij_databaseEntities data = new ppij_databaseEntities()) {
-                if (data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault().lozinka != model.OldPassword)
+            if (ModelState.IsValid) { 
+            using (ppij_databaseEntities data = new ppij_databaseEntities()) {
+                Osoba osoba = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
+                if (Crypto.VerifyHashedPassword(osoba.lozinka, model.OldPassword + osoba.salt) == false)
                 {
                     ModelState.AddModelError("error_old_password", "pogrešna lozinka");
                     return View();
                 }
-                String alert = model.NewPassword;
-                System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE=JavaScript>alert('" + alert + "')</SCRIPT>");
+                string salt = Crypto.GenerateSalt(12);
+                osoba.lozinka = Crypto.HashPassword(model.NewPassword + salt);
+                osoba.salt = salt;
+                data.SaveChanges();
                 
-            }*/
-            AccountController a = new AccountController();
-            a.ChangePassword(model).RunSynchronously();
+                //String alert = model.NewPassword;
+                //System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE=JavaScript>alert('" + alert + "')</SCRIPT>");
+            }
+            }
             return View();
         }
     }

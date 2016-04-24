@@ -40,6 +40,7 @@
           <Property Name="lokacija_x" Type="float" />
           <Property Name="lokacija_y" Type="float" />
           <Property Name="lozinka" Type="varchar" MaxLength="100" />
+          <Property Name="salt" Type="varchar" MaxLength="16" />
         </EntityType>
         <EntityType Name="osoba_kategorija">
           <Key>
@@ -233,6 +234,7 @@
           <NavigationProperty Name="osoba_kategorija" Relationship="Self.FK__osoba_kat__ID_os__1A14E395" FromRole="Osoba" ToRole="osoba_kategorija" />
           <NavigationProperty Name="Termin" Relationship="Self.osoba_termin" FromRole="Osoba" ToRole="Termin" />
           <Property Name="lozinka" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="salt" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="osoba_kategorija">
           <Key>
@@ -383,6 +385,7 @@
           <EntitySetMapping Name="Osoba">
             <EntityTypeMapping TypeName="ppij_database_model.Osoba">
               <MappingFragment StoreEntitySet="Osoba">
+                <ScalarProperty Name="salt" ColumnName="salt" />
                 <ScalarProperty Name="lozinka" ColumnName="lozinka" />
                 <ScalarProperty Name="ID_osoba" ColumnName="ID_osoba" />
                 <ScalarProperty Name="ime_osoba" ColumnName="ime_osoba" />

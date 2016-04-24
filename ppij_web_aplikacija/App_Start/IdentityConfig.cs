@@ -3,7 +3,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using Microsoft.Owin.Builder;
+using Microsoft.Owin.Host.SystemWeb;
 using ppij_web_aplikacija.Models;
+using Owin;
+using Microsoft.Owin.Security.Cookies;
 
 namespace ppij_web_aplikacija
 {
@@ -41,5 +45,24 @@ namespace ppij_web_aplikacija
             }
             return manager;
         }
+
+        /*public class IdentityConfig
+        {
+            public void Configuration(Owin.IAppBuilder app)
+            {
+                app.CreatePerOwinContext(() => new ApplicationDbContext());
+                app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+                app.CreatePerOwinContext<RoleManager<ApplicationUserRole>>((options, context) =>
+                    new RoleManager<ApplicationUserRole>(
+                        new RoleStore<ApplicationUserRole>(context.Get<ApplicationDbContext>())));
+
+                app.UseCookieAuthentication(new CookieAuthenticationOptions
+                {
+                    AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                    LoginPath = new PathString("/Home/Login"),
+                });
+            }
+        }*/
+
     }
 }

@@ -7,15 +7,20 @@
     <body>
         <div class="container">
             <div class="tabbable" role="tablist">
-                <ul class="nav nav-tabs">
-                    <li><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Postavke termina</a></li>
-                    <li><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Promjena lozinke</a></li>
+
+                <ul class="nav nav-tabs" id="myTab">
+                    <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Postavke termina</a></li>
+                    <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Promjena lozinke</a></li>
+                    <li role="presentation"><a href="#tab3" aria-controls="tab2" role="tab" data-toggle="tab">Postavke profila</a></li>
                 </ul>
 
                 <div class="tab-content">
+
+
                     <div class="tab-pane active top-buffer" role="tabpanel" id="tab1">
                         <a href="/">Početna stranica</a>
                     </div>
+
 
                     <div class="tab-pane" role="tabpanel" id="tab2">
                         <h3>Promjena lozinke</h3>
@@ -31,6 +36,7 @@
                                         </label>
                                         <div id="promjena_lozinke_stara" class="col-md-5">
                                             @Html.EditorFor(model => model.OldPassword)
+                                            @Html.ValidationMessageFor(model => model.OldPassword)
                                             @Html.ValidationMessage("error_old_password")
                                         </div>
                                     </div>
@@ -64,31 +70,50 @@
                                         <input type="submit" class="btn btn-default" value="Promjeni &raquo;" t /> <br />
                                     </div>
 
+
                                 </form>
                             </fieldset>
                         }
                     </div>
 
+
+                    <div class="tab-pane top-buffer" role="tabpanel" id="tab3">
+                        <h4>Postavke profila</h4>
+                        <a href="/">Početna stranica</a>
+                    </div>
+
+
                 </div>
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <script>
+                        $(document).ready(function () {
+                            activaTab('tab2');
+                        });
+                        function activaTab(tab) {
+                            $('#myTab a[href="#' + tab + '"]').tab('show');
+                        };
+                    </script>
+                }
+
+                <!--<script type="text/javascript">
+
+                    $('#myTab  a').click(function (e) {
+                        e.preventDefault();
+                        $(this).tab('show');
+                    });
+                    $("ul.nav-tabs#myTab > li > a").on("shown.bs.tab", function (e) {
+                        var id = $(e.target).attr("href");
+                        localStorage.setItem('selectedTab', id)
+                    });
+                    var selectedTab = localStorage.getItem('selectedTab');
+                    $('#myTab a[href="' + selectedTab + '"]').tab('show');
+
+                </script>-->
             </div>
+            
+
         </div>
-
-        <script>
-            $('#tab a').click(function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-            });
-
-            // store the currently selected tab in the hash value
-            $("ul.nav-tabs > li > a").on("shown.bs.tab", function (e) {
-                var id = $(e.target).attr("href").substr(1);
-                window.location.hash = id;
-            });
-
-            // on load of the page: switch to the currently selected tab
-            var hash = window.location.hash;
-            $('#tab a[href="' + hash + '"]').tab('show');
-
-        </script>
-    </body>
+</body>
 </html>

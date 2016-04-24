@@ -18,6 +18,12 @@ namespace ppij_web_aplikacija.Models
         }
     }
 
+    public class ApplicationUserRole : IdentityRole
+    {
+        public ApplicationUserRole() : base() { }
+        public ApplicationUserRole(string name) : base(name) { }
+    }
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()

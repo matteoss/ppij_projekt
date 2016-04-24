@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace ppij_web_aplikacija.Models
 {
@@ -15,17 +16,18 @@ namespace ppij_web_aplikacija.Models
 
     public class ChangePasswordBindingModel
     {
-        [Required]
+        [Required(ErrorMessage = "Nedostaje stara lozinka")]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Nedostaje nova lozinka")]
         [StringLength(100, ErrorMessage = "{0} mora sadržavati barem {2} znakova", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nova lozinka")]
         public string NewPassword { get; set; }
 
+        [Required(ErrorMessage = "Nedostaje ponovljena lozinka")]
         [DataType(DataType.Password)]
         [Display(Name = "Potvrda lozinke")]
         [Compare("NewPassword", ErrorMessage = "Nova lozinka se ne podudara sa potvrđenom lozinkom")]
@@ -35,6 +37,7 @@ namespace ppij_web_aplikacija.Models
     public class RegisterBindingModel
     {
         [Required(ErrorMessage="Nedostaje e-mail adresa")]
+        [EmailAddress(ErrorMessage="Neispravna Email adresa")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

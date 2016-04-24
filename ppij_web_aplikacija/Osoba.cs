@@ -32,6 +32,7 @@ namespace ppij_web_aplikacija
         public Nullable<double> lokacija_x { get; set; }
         public Nullable<double> lokacija_y { get; set; }
         public string lozinka { get; set; }
+        public string salt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<dogovor_termin> dogovor_termin { get; set; }
