@@ -10,9 +10,9 @@
             <div class="tabbable" role="tablist">
 
                 <ul class="nav nav-tabs" id="myTab" >
-                    <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Instrukcije</a></li>
+                    <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Moje instrukcije</a></li>
+                    <li role="presentation"><a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">Postavke profila</a></li>
                     <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Promjena lozinke</a></li>
-                    <li role="presentation"><a href="#tab3" aria-controls="tab2" role="tab" data-toggle="tab">Postavke profila</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -21,7 +21,37 @@
 
 
                     <div class="tab-pane active top-buffer" role="tabpanel" id="tab1">
-                        <a href="/">Početna stranica</a>
+                        @if (@ViewBag.razinaPrava == 1)
+                        {
+                            <h4>Popis Kategorija</h4>
+                            <ul>
+                                @foreach (var kategorija in ViewBag.kategorije)
+                                {
+                                    <li>
+                                        @kategorija.naziv_kategorija @kategorija.kratica_kategorija
+                                    </li>
+                                }
+                            </ul>
+                            <h4>Popis termina</h4>
+                            <ul>
+                                @foreach (var termin in ViewBag.termini)
+                                {
+                                    <li>
+                                        @termin.ID_termin
+                                    </li>
+                                }
+                            </ul>
+
+
+                        }
+                        else if (@ViewBag.razinaPrava == 2)
+                        {
+                            <p>Ukoliko želite biti instruktor odaberite opciju "Želim biti instruktor" u Postavkama profila</p>
+                        }
+                        else if (@ViewBag.razinaPrava == 0)
+                        {
+                            
+                        }
                     </div>
 
 
@@ -127,7 +157,6 @@
                 </div>
 
 
-
                 @if (@Html.ViewData.ModelState.IsValid == false)
                 {
                     <script type="text/javascript">
@@ -143,7 +172,6 @@
 
 
                 <script>
-
                     function addindex(){
                         $('#trenutniTab').val(getIndex());
                     }
@@ -154,6 +182,8 @@
                     }
                 </script>
 
+
+                
 
             </div>
         </div>

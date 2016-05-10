@@ -20,6 +20,22 @@ namespace ppij_web_aplikacija.Controllers
                 listaOsoba.AddRange(query.ToList<Osoba>());
                 ViewBag.Title = "naslov testa";
                 ViewBag.lista = listaOsoba;
+
+                /*Termin t;
+                for (int dan = 1; dan <= 7; dan++)
+                {
+                    for (int sat = 0; sat <= 23; sat++)
+                    {
+                        t = new Termin();
+                        t.dan_termin = dan;
+                        t.period_termin = sat;
+                        t.ID_termin = 100 * dan + sat;
+                        database.Termin.Add(t);
+                    }
+                }*/
+
+                
+                //database.SaveChanges();
             }
             return View();
         }

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace ppij_web_aplikacija.Models
 {
@@ -16,6 +17,7 @@ namespace ppij_web_aplikacija.Models
 
     public class PostavkeModel
     {
+        public MojeInstrukcije mojeInstrukcije { get; set; }
         public ChangePasswordBindingModel changePassword { get; set; }
         public OstalePostavke ostalePostavke { get; set; }
         public String trenutniTab { get; set; }
@@ -25,6 +27,14 @@ namespace ppij_web_aplikacija.Models
     {
         public Boolean instruktor { get; set; }
     }
+
+
+    public class MojeInstrukcije
+    {
+        public List<Kategorija> mojeKategorije { get; set; }
+        public List<Termin> mojiTermini { get; set; }
+    }
+
 
     public class ChangePasswordBindingModel
     {
