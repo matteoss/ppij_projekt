@@ -14,6 +14,18 @@ namespace ppij_web_aplikacija.Models
         public string ExternalAccessToken { get; set; }
     }
 
+    public class PostavkeModel
+    {
+        public ChangePasswordBindingModel changePassword { get; set; }
+        public OstalePostavke ostalePostavke { get; set; }
+        public String trenutniTab { get; set; }
+    }
+
+    public class OstalePostavke
+    {
+        public Boolean instruktor { get; set; }
+    }
+
     public class ChangePasswordBindingModel
     {
         [Required(ErrorMessage = "Nedostaje stara lozinka")]
@@ -32,6 +44,7 @@ namespace ppij_web_aplikacija.Models
         [Display(Name = "Potvrda lozinke")]
         [Compare("NewPassword", ErrorMessage = "Nova lozinka se ne podudara sa potvrđenom lozinkom")]
         public string ConfirmPassword { get; set; }
+
     }
 
     public class RegisterBindingModel
@@ -41,12 +54,13 @@ namespace ppij_web_aplikacija.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Nedostaje lozinka")]
         [StringLength(100, ErrorMessage = "{0} mora sadržavati barem {2} znakova", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Lozinka")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "Nedostaje ponovljena lozinka")]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "Nova lozinka se ne podudara sa potvrđenom lozinkom")]
