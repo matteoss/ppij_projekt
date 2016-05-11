@@ -74,7 +74,71 @@ a:hover {
         color:Red;
     }
 /********************************************************************************************/
+.redrazmak{
+    width:80px;
+}
 
+label {
+display:block;
+border:solid 1px gray;
+line-height:25px;
+height:25px;
+width: 80px;
+border-radius:7px;
+-webkit-font-smoothing: antialiased; 
+margin-top:2px;
+font-family:Arial,Helvetica,sans-serif;
+color:gray;
+text-align:center;
+}
+
+input[type=checkbox] {
+display: none;
+}
+
+input:checked + label {
+border: solid 1px red;
+color: #F00;
+}
+
+input:checked + label:before {
+content: "\2713";
+}
+
+/***********************************************************************/
+
+.header-fixed {
+    width: 100% 
+}
+
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+    display: block;
+}
+
+.header-fixed > tbody > tr:after,
+.header-fixed > thead > tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.header-fixed > tbody {
+    overflow-y: auto;
+    height: 300px;
+}
+
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+    width: 97px;
+    height: 45px;
+    float: left;
+}
 /*****************************************************/
 
 .crvena-boja{
@@ -276,7 +340,7 @@ textarea {
 
 table {
   border-collapse: collapse;
-  border-spacing: 0;
+  border-spacing: 20px;
 }
 
 @media print {

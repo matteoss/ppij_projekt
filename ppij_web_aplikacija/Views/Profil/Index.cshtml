@@ -33,14 +33,9 @@
                                 }
                             </ul>
                             <h4>Popis termina</h4>
-                            <ul>
-                                @foreach (var termin in ViewBag.termini)
-                                {
-                                    <li>
-                                        @termin.ID_termin
-                                    </li>
-                                }
-                            </ul>
+                            <div id="table" style="width:800px;">
+                                <!--tablica sa terminima-->
+                            </div>
 
 
                         }
@@ -143,7 +138,7 @@
                                         </div>
                                     </div>
 
-                                    <div id="tekst2" class="hidden">
+                                    <div id="tekst2" class="hidden" >
                                         @Html.EditorFor(model => model.trenutniTab)
                                     </div>
 
@@ -180,9 +175,41 @@
                         var index = ($('#myTab .active')).index();
                         return index;
                     }
+
+
+                    jQuery(document).ready(function () {
+                        var rows = " ";
+                        var col = " ";
+                        var table = '<table class="table-bordered table table-striped header-fixed"> <thead><tr><th>sat  </th><th>PON</th><th>UTO</th><th>SRI</th><th>ČET</th><th>PET</th><th>SUB</th><th>NED</th></tr> </thead><tbody>';
+                        for(var i = 0; i <= 23; i++){
+                            rows = rows + '<tr><td><div class="redrazmak">'+i+'h    '+'</div></td>';
+                            col = " ";
+                            for (var j = 1; j <= 7; j++) {
+                                col = col + '<td><div class="redrazmak ">'
+                                    + '<input id="d' + j + '' + i + '" type="checkbox" name="d' + j + '' + i + '" onclick="changeText(this.id);"/>'
+                                        + '<label for="d' + j + '' + i + '">'
+                                            + 'Slobodno'
+                                        + '</label>'
+                                    + '</div></td>';
+                            }
+                            rows = rows + col;
+                            rows = rows + '</tr>';
+                        }
+                        table = table + rows + '</tbody></table>';
+                        document.getElementById("table").innerHTML = table;
+                    });
+
+                    function changeText(id) {
+
+                        if ($('#' + id).is(':checked')) {
+                            $('#' + id).siblings('label').html('Zauzeto');
+                        } else {
+                            $('#' + id).siblings('label').html('Slobodno');
+                        }
+                    }
                 </script>
 
-
+                <!--'<input id="d' + j + '' + i + '" type="checkbox" name="lists" /><label for="lists">Travel</label>'  '<button class="btn-default" >Gumb</button>'-->
                 
 
             </div>
