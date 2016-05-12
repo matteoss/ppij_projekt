@@ -34,6 +34,7 @@ namespace ppij_web_aplikacija.Controllers
                                       select kategorija;
                 ViewBag.kategorije = queryKategorije.ToList<Kategorija>();
 
+                model.mojeInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
                 model.mojeInstrukcije.dogovoreni_termini_kao_instruktor = new List<dogovor_term_osoba>();
                 model.mojeInstrukcije.dogovoreni_termini_kao_klijent = new List<dogovor_term_osoba>();
 
@@ -59,10 +60,7 @@ namespace ppij_web_aplikacija.Controllers
                     });
                 }
 
-
-                model.mojeInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
-
-                model.trenutniTab = "0";
+                model.trenutniTab = "1";
                 if (osoba.razina_prava == 1)
                 {
                     model.ostalePostavke.instruktor = true;
@@ -79,6 +77,11 @@ namespace ppij_web_aplikacija.Controllers
             }
         }
 
+
+
+
+
+
         [HttpPost]
         public ActionResult Index(Models.PostavkeModel model)
         {
@@ -89,7 +92,9 @@ namespace ppij_web_aplikacija.Controllers
                 if (ModelState.IsValid)
                 {
                     String trenutniTab = model.trenutniTab;
-                    if (trenutniTab.Equals("0"))
+
+
+                    if (trenutniTab.Equals("1"))
                     {
                         foreach (dogovor_term_osoba dto in model.mojeInstrukcije.dogovoreni_termini_kao_klijent)
                         {
@@ -97,12 +102,13 @@ namespace ppij_web_aplikacija.Controllers
                             {
                                 dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();
                                 dogovor.dogovor_status = 0;
+                                Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
                             }
                         }
                     }
 
 
-                    else if (trenutniTab.Equals("1"))
+                    else if (trenutniTab.Equals("2"))
                     {
                         foreach (String t in model.mojeInstrukcije.mojiTermini)
                         {
@@ -142,7 +148,7 @@ namespace ppij_web_aplikacija.Controllers
 
 
 
-                    else if (trenutniTab.Equals("3"))
+                    else if (trenutniTab.Equals("4"))
                     {
                         if (Crypto.VerifyHashedPassword(osoba.lozinka, model.changePassword.OldPassword + osoba.salt) == false)
                         {
@@ -156,7 +162,7 @@ namespace ppij_web_aplikacija.Controllers
 
 
 
-                    else if (trenutniTab.Equals("2"))
+                    else if (trenutniTab.Equals("3"))
                     {
                         if (osoba.razina_prava != 0)
                         {
@@ -171,26 +177,56 @@ namespace ppij_web_aplikacija.Controllers
                         }
                     }
                     data.SaveChanges();
-
-                    
-                    //String alert = model.NewPassword;
-                    //System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE=JavaScript>alert('" + alert + "')</SCRIPT>");
                 }
 
-
-
-
+                model.ostalePostavke = new OstalePostavke();
+                model.mojeInstrukcije = new MojeInstrukcije();
                 ViewBag.razinaPrava = osoba.razina_prava;
                 var queryKategorije = from kategorija in data.Kategorija
                                       join osobakategorija in data.osoba_kategorija on kategorija.ID_kategorija equals osobakategorija.ID_kategorija
                                       where osobakategorija.ID_osoba == osoba.ID_osoba
                                       select kategorija;
                 ViewBag.kategorije = queryKategorije.ToList<Kategorija>();
-                return RedirectToAction("Index", "Profil");;
+
+                model.mojeInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
+                model.mojeInstrukcije.dogovoreni_termini_kao_instruktor = new List<dogovor_term_osoba>();
+                model.mojeInstrukcije.dogovoreni_termini_kao_klijent = new List<dogovor_term_osoba>();
+                foreach (dogovor_termin dogovor in osoba.dogovor_termin.ToList())
+                {
+                    model.mojeInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
+                    {
+                        termin = dogovor,
+                        ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
+                        prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
+                        kategorija = data.Kategorija.Where(k => k.ID_kategorija == dogovor.ID_kategorija).FirstOrDefault().kratica_kategorija,
+                        odustani = false
+                    });
+                }
+                foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList())
+                {
+                    model.mojeInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
+                    {
+                        termin = dogovor,
+                        ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
+                        prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
+                        kategorija = data.Kategorija.Where(k => k.ID_kategorija == dogovor.ID_kategorija).FirstOrDefault().kratica_kategorija,
+                        odustani = false
+                    });
+                }
+                if (osoba.razina_prava == 1)
+                {
+                    model.ostalePostavke.instruktor = true;
+                }
+                else
+                {
+                    model.ostalePostavke.instruktor = false;
+                }
+                foreach (String t in model.mojeInstrukcije.mojiTermini)
+                {
+                    Debug.WriteLine("get: " + t);
+                }
+                return View(model);
             }
         }
-
     }
-
-
 }

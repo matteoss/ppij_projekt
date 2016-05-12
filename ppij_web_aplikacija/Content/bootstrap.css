@@ -94,11 +94,10 @@ text-align:center;
 .mycheck{
 
 }
-
-
 input[type=checkbox].mycheck{
 display: none;
 }
+
 
 input:checked + .mylabel {
 border: solid 1px red;

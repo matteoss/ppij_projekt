@@ -35,7 +35,6 @@ namespace ppij_web_aplikacija.Models
         public List<String> mojiTermini { get; set; }
         public List<dogovor_term_osoba> dogovoreni_termini_kao_instruktor { get; set; }
         public List<dogovor_term_osoba> dogovoreni_termini_kao_klijent { get; set; }
-        public String jsonklijent { get; set; }
 
     }
 

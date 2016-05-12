@@ -13,10 +13,10 @@
 
                 <ul class="nav nav-tabs" id="myTab">
                     <!--Popis tabova-->
-                    <li role="presentation" class="active"><a href="#tab4" aria-controls="tab4" role="tab" data-toggle="tab">Moje dogovorene instrukcije</a></li>
-                    <li role="presentation"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Nudim instrukcije</a></li>
+                    <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Moje dogovorene instrukcije</a></li>
+                    <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Nudim instrukcije</a></li>
                     <li role="presentation"><a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">Postavke profila</a></li>
-                    <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Promjena lozinke</a></li>
+                    <li role="presentation"><a href="#tab4" aria-controls="tab4" role="tab" data-toggle="tab">Promjena lozinke</a></li>
                 </ul>
 
 
@@ -24,9 +24,97 @@
                 <div class="tab-content">
 
 
+                    <!--Moje dogovorene instrukcije tab-->
+                    <div class="tab-pane active top-buffer" role="tabpanel" id="tab1">
+                        <h3>Dogovorene instrukcije kao klijent</h3>
+                        @using (Html.BeginForm())
+                        {
+                            <fieldset>
+                                <form class="form-horizontal ">
+                                    <div style="width:800px;">
+                                        <table class="table-bordered table table-striped header-fixed">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:150px;">Datum</th>
+                                                    <th style="width:100px;">Predmet</th>
+                                                    <th style="width:100px;">Ime</th>
+                                                    <th style="width:130px;">Prezime</th>
+                                                    <th style="width:100px;">Status</th>
+                                                    <th style="width:200px;">Ocjena</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (var i = 0; i < Model.mojeInstrukcije.dogovoreni_termini_kao_klijent.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td style="width:150px;">
+                                                            @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i])
+                                                            @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor)
+                                                        </td>
+                                                        <td style="width:100px;">
+                                                            @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].kategorija)
+                                                        </td>
+                                                        <td style="width:100px;">
+                                                            @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].ime)
+                                                        </td>
+                                                        <td style="width:130px;">
+                                                            @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].prezime)
+                                                        </td>
+                                                        <td style="width:100px;">
+                                                            @if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 0)
+                                                            {
+                                                                <p>Odustano</p>
+                                                            }
+                                                            else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor < @DateTime.Now)
+                                                            {
+                                                                <p>Prisustvovano</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <input id="odustani@(i)" type="checkbox" class="mycheck" name="odustani@(i)" onclick="odustani(@(i));"/>
+                                                                <label class="mylabel" for="odustani@(i)">Odustani</label>
+                                                                @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].odustani, new { id = "hiddenodustani"+i})
+                                                            }
+                                                        </td>
+                                                        <td style="width:200px;">
+                                                            @if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 1)
+                                                            {
+                                                                if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor <= @DateTime.Now)
+                                                                {
+                                                                    <label class="col-md-3 control-label" for="ocjena">Upiši ocjenu:</label>
+                                                                    <div id="ocjena" class="col-md-6">
+                                                                        @Html.TextBoxFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena)
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <p>Termin još nije prošao</p>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <p>Odustali ste</p>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab1" })
+                                    <div class="col-md-2 mali-razmak-gore">
+                                        <input onclick="dodajindex(1);" type="submit" class="btn btn-default" value="Prihvati izmjene &raquo;" /> <br />
+                                    </div>
+                                </form>
+                            </fieldset>
+                        }
+                    </div>
+
+
+
 
                     <!--Nudim instrukcije tab-->
-                    <div class="tab-pane  top-buffer" role="tabpanel" id="tab1">
+                    <div class="tab-pane  top-buffer" role="tabpanel" id="tab2">
                         @if (@ViewBag.razinaPrava == 1)
                         {
                             using (Html.BeginForm())
@@ -63,14 +151,10 @@
                                             <tbody id="tableT"></tbody>
                                         </table>
                                     </div>
-                                    <div id="prazan">
-                                        @Html.HiddenFor(model => model.mojeInstrukcije.mojiTermini, new { id = "hiddenstateid" })
-                                    </div>
-                                    <div id="tekst0">
-                                        @Html.HiddenFor(model => model.trenutniTab)
-                                    </div>
+                                    @Html.HiddenFor(model => model.mojeInstrukcije.mojiTermini, new { id = "hiddenstateid" })
+                                    @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab2" })
                                     <div class="col-md-2 mali-razmak-gore">
-                                        <input onclick="addterminmodel();" type="submit" class="btn btn-default" value="Promjeni &raquo;" /> <br />
+                                        <input onclick="addterminmodel(2);" type="submit" class="btn btn-default" value="Promjeni &raquo;" /> <br />
                                     </div>
                                 </fieldset>
                             }
@@ -81,7 +165,39 @@
                         }
                         else if (@ViewBag.razinaPrava == 0)
                         {
+                            <p>Imate administratorska prava</p>
+                        }
+                    </div>
 
+
+
+
+                    <!--Postavke profila tab-->
+                    <div class="tab-pane top-buffer" role="tabpanel" id="tab3">
+                        <h3>Postavke profila</h3>
+                        @using (Html.BeginForm())
+                        {
+
+                            <fieldset>
+                                <form class="form-horizontal " method="post">
+
+                                    <div class="row">
+                                        <label class="col-md-3 control-label" for="jeinstruktor">
+                                            <mark>Želim biti instruktor</mark>
+                                        </label>
+                                        <div id="jeinstruktor" class="col-md-6">
+                                            @Html.CheckBoxFor(model => model.ostalePostavke.instruktor)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-2 mali-razmak-gore">
+                                            <input onclick="dodajindex(3);" type="submit" class="btn btn-default" value="Promjeni &raquo;" /> <br />
+                                        </div>
+                                    </div>
+                                    @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab3"})
+                                </form>
+                            </fieldset>
                         }
                     </div>
 
@@ -89,7 +205,7 @@
 
 
                     <!--Promjena lozinke tab-->
-                    <div class="tab-pane" role="tabpanel" id="tab2">
+                    <div class="tab-pane" role="tabpanel" id="tab4">
                         <h3>Promjena lozinke</h3>
                         @using (Html.BeginForm())
                     {
@@ -132,17 +248,10 @@
                                 </div>
                             </div>
                             <br />
-
-
+                            @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab4" })
                             <div class="col-md-2 mali-razmak-gore">
-                                <input onclick="addindex();" type="submit" class="btn btn-default" value="Promjeni &raquo;" /> <br />
+                                <input onclick="dodajindex(4);" type="submit" class="btn btn-default" value="Promjeni &raquo;" /> <br />
                             </div>
-
-
-                            <div id="tekst1" class="hidden">
-                                @Html.EditorFor(model => model.trenutniTab)
-                            </div>
-
                         </form>
                     </fieldset>
                     }
@@ -150,150 +259,22 @@
 
 
 
-
-                    <!--Postavke profila tab-->
-                    <div class="tab-pane top-buffer" role="tabpanel" id="tab3">
-                        <h3>Postavke profila</h3>
-                        @using (Html.BeginForm())
-                    {
-
-                    <fieldset>
-                        <form class="form-horizontal " method="post">
-
-                            <div class="row">
-                                <label class="col-md-3 control-label" for="jeinstruktor">
-                                    <mark>Želim biti instruktor</mark>
-                                </label>
-                                <div id="jeinstruktor" class="col-md-6">
-                                    @Html.CheckBoxFor(model => model.ostalePostavke.instruktor)
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-2 mali-razmak-gore">
-                                    <input onclick="addindex();" type="submit" class="btn btn-default" value="Promjeni &raquo;" /> <br />
-                                </div>
-                            </div>
-
-                            <div id="tekst2" class="hidden">
-                                @Html.EditorFor(model => model.trenutniTab)
-                            </div>
-
-                        </form>
-                    </fieldset>
-                    }
-                    </div>
-
-
-
-                    <!--Moje dogovorene instrukcije tab-->
-                    <div class="tab-pane active top-buffer" role="tabpanel" id="tab4">
-                        <h3>Dogovorene instrukcije kao klijent</h3>
-                        @using (Html.BeginForm())
-                        {
-                            <fieldset>
-                                <form class="form-horizontal ">
-                                    <div id="odabraniTermini" class="hidden">
-
-                                    </div>
-                                    <div style="width:800px;">
-                                        <table class="table-bordered table table-striped header-fixed">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width:150px;">Datum</th>
-                                                    <th style="width:100px;">Predmet</th>
-                                                    <th style="width:100px;">Ime</th>
-                                                    <th style="width:130px;">Prezime</th>
-                                                    <th style="width:100px;">Status</th>
-                                                    <th style="width:200px;">Ocjena</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @for (var i = 0; i < Model.mojeInstrukcije.dogovoreni_termini_kao_klijent.Count; i++)
-                                                {
-                                                    <tr>
-                                                        <td style="width:150px;">
-                                                            @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor)
-                                                        </td>
-                                                        <td style="width:100px;">
-                                                            @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].kategorija)
-                                                        </td>
-                                                        <td style="width:100px;">
-                                                            @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].ime)
-                                                        </td>
-                                                        <td style="width:130px;">
-                                                            @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].prezime)
-                                                        </td>
-                                                        <td style="width:100px;">
-                                                            @if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 0)
-                                                            {
-                                                                <p>Odustano</p>
-                                                            }
-                                                            else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor < @DateTime.Now)
-                                                            {
-                                                                <p>Prisustvovano</p>
-                                                            }
-                                                            else
-                                                            {
-                                                                <input id="odustani@(i)" type="checkbox" class="mycheck" name="odustani@(i)" />
-                                                                <label class="mylabel" for="odustani@(i)">Odustani</label>
-                                                            }
-                                                        </td>
-                                                        <td style="width:200px;">
-                                                            @if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 1)
-                                                            {
-                                                                if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor <= @DateTime.Now)
-                                                                {
-                                                                    <label class="col-md-3 control-label" for="ocjena">Upiši ocjenu:</label>
-                                                                    <div id="ocjena" class="col-md-6">
-                                                                        @Html.TextBoxFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena)
-                                                                    </div>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <p>Termin još nije prošao</p>
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                <p>Odustali ste</p>
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div id="tekst02" class="hidden">
-                                        @Html.EditorFor(model => model.trenutniTab)
-                                    </div>
-                                    <div class="col-md-2 mali-razmak-gore">
-                                        <input onclick="addindex();" type="submit" class="btn btn-default" value="Prihvati izmjene &raquo;" /> <br />
-                                    </div>
-                                </form>
-                            </fieldset>
-                        }
-                    </div>
                 </div>
 
 
 
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        activaTab('tab' + @Html.Raw(Model.trenutniTab) );
+                    });
+                    function activaTab(tab) {
+                        $('#myTab a[href="#' + tab + '"]').tab('show');
+                    };
+                </script>
 
-                @if (@Html.ViewData.ModelState.IsValid == false)
-                {
-                    <script type="text/javascript">
-                        //neuspio pokušaj promjene lozinke -- treba izmjeniti
-                        $(document).ready(function () {
-                            activaTab('tab2');
-                        });
-                        function activaTab(tab) {
-                            $('#myTab a[href="#' + tab + '"]').tab('show');
-                        };
-                    </script>
-                }
+                <div id="test123">
 
-
-
+                </div>
 
 
 
@@ -302,23 +283,26 @@
                     var dodanitermini;
                     var dogovorenitermini;
 
-
-                    //dodavanje indeksa aktivnog taba u model
-                    function addindex(){
-                        $('#trenutniTab').val(getIndex());
-                    }
-                    //indeks aktivnog taba
-                    function getIndex() {
-                        var index = ($('#myTab .active')).index();
-                        return index;
+                    function odustani(id){
+                        if($('#hiddenodustani' +id).val(id) == true){
+                            $('#hiddenodustani' +id).val(false)
+                        }
+                        else{
+                            $('#hiddenodustani' +id).val(true)
+                        }
                     }
 
+                    //index taba gdje je kliknut submit
+                    function dodajindex(id){
+                        $('#trenutniTab' +id).val(id);
+                    }
+                    
 
                     //tekst termina: Slobodno/Zauzeto
                     function oznaciTermine(){
                         for(var i =0; i < dodanitermini.length; i++){
                             $("#" + dodanitermini[i]).prop("checked", true);
-                            $('#' + dodanitermini[i]).siblings('label').html('Zauzeto');
+                            $('#' + dodanitermini[i]).siblings('label').html('Odabrano');
                         }
                     }
 
@@ -351,7 +335,7 @@
                     //interakcija sa tablicom termina
                     function changeText(id) {
                         if ($('#' + id).is(':checked')) {
-                            $('#' + id).siblings('label').html('Zauzeto');
+                            $('#' + id).siblings('label').html('Odabrano');
                             dodajtermin(id);
                         } else {
                             $('#' + id).siblings('label').html('Slobodno');
@@ -363,7 +347,6 @@
                     //dodavanje termina u popis
                     function dodajtermin(id) {
                         dodanitermini.push(id);
-                        document.getElementById("testni").innerHTML = dodanitermini;
                     }
                     //uklanjanje termina sa popisa
                     function uklonitermin(id) {
@@ -373,13 +356,12 @@
                                 break;
                             }
                         }
-                        document.getElementById("testni").innerHTML = dodanitermini;
                     }
 
 
                     //dodavanje termina u model
-                    function addterminmodel() {
-                        addindex();
+                    function addterminmodel(id) {
+                        dodajindex(id);
                         $("#hiddenstateid").val(dodanitermini);
                     }
                 </script>
