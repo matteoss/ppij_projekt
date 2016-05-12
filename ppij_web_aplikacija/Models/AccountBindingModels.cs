@@ -32,7 +32,7 @@ namespace ppij_web_aplikacija.Models
     public class MojeInstrukcije
     {
         public List<Kategorija> mojeKategorije { get; set; }
-        public List<Termin> mojiTermini { get; set; }
+        public List<String> mojiTermini { get; set; }
     }
 
 

@@ -78,7 +78,7 @@ a:hover {
     width:80px;
 }
 
-label {
+.mylabel {
 display:block;
 border:solid 1px gray;
 line-height:25px;
@@ -91,17 +91,21 @@ font-family:Arial,Helvetica,sans-serif;
 color:gray;
 text-align:center;
 }
+.mycheck{
 
-input[type=checkbox] {
+}
+
+
+input[type=checkbox].mycheck{
 display: none;
 }
 
-input:checked + label {
+input:checked + .mylabel {
 border: solid 1px red;
 color: #F00;
 }
 
-input:checked + label:before {
+input:checked + .mylabel:before {
 content: "\2713";
 }
 

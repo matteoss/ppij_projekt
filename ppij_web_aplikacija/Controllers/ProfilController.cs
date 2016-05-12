@@ -33,8 +33,7 @@ namespace ppij_web_aplikacija.Controllers
                                       select kategorija;
                 ViewBag.kategorije = queryKategorije.ToList<Kategorija>();
 
-                ViewBag.termini = data.Termin.Where(t => t.Osoba.Where(o => o.ID_osoba == osoba.ID_osoba).Count() > 0).ToList<Termin>();
-
+                model.mojeInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
                 model.trenutniTab = "2";
                 if (osoba.razina_prava == 1)
                 {
@@ -43,6 +42,10 @@ namespace ppij_web_aplikacija.Controllers
                 else
                 {
                     model.ostalePostavke.instruktor = false;
+                }
+                foreach (String t in model.mojeInstrukcije.mojiTermini)
+                {
+                    Debug.WriteLine("get: " + t);
                 }
                 return View(model);
             }
@@ -58,7 +61,44 @@ namespace ppij_web_aplikacija.Controllers
                 if (ModelState.IsValid)
                 {
                     String trenutniTab = model.trenutniTab;
-                    if (trenutniTab.Equals("1"))
+                    if (trenutniTab.Equals("0"))
+                    {
+                        foreach (String t in model.mojeInstrukcije.mojiTermini)
+                        {
+                            Debug.WriteLine("post: " + t);
+                        }
+                        model.mojeInstrukcije.mojiTermini = model.mojeInstrukcije.mojiTermini.FirstOrDefault().Split(',').ToList();
+                        List<Termin> toBeDel = new List<Termin>();
+                        foreach (Termin s in osoba.Termin) //provjera starih termina - da li su još aktualni
+                        {
+                            Debug.WriteLine("check to be deleted: " + s.ID_termin);
+                            if (model.mojeInstrukcije.mojiTermini.Contains(s.ID_termin.ToString()) == false)
+                            {
+                                Debug.WriteLine("to be deleted: " + s.ID_termin);
+                                toBeDel.Add(s);
+                            }
+                        }
+                        foreach(Termin t in toBeDel)
+                        {
+                            osoba.Termin.Remove(t);
+                        }
+                        data.SaveChanges();
+                        foreach (String s in model.mojeInstrukcije.mojiTermini) //provjera novih termina - koje treba dodati u bazu
+                        {
+                            Debug.WriteLine("check to be added: " + s);
+                            if (s.Length > 0)
+                            {
+                                int id = Int32.Parse(s);
+                                if (osoba.Termin.Where(st => st.ID_termin == id).Count() == 0)
+                                {
+                                    Debug.WriteLine("to be added: " + s);
+                                    Termin ter = data.Termin.Where(t => t.ID_termin == id).FirstOrDefault();
+                                    osoba.Termin.Add(ter);
+                                }
+                            }
+                        }
+                    }
+                    else if (trenutniTab.Equals("1"))
                     {
                         if (Crypto.VerifyHashedPassword(osoba.lozinka, model.changePassword.OldPassword + osoba.salt) == false)
                         {
@@ -95,11 +135,14 @@ namespace ppij_web_aplikacija.Controllers
                                       where osobakategorija.ID_osoba == osoba.ID_osoba
                                       select kategorija;
                 ViewBag.kategorije = queryKategorije.ToList<Kategorija>();
-
-                ViewBag.termini = data.Termin.Where(t => t.Osoba.Where(o => o.ID_osoba == osoba.ID_osoba).Count() > 0).ToList<Termin>();
+                foreach (String t in model.mojeInstrukcije.mojiTermini)
+                {
+                    Debug.WriteLine("post: " + t);
+                }
                 return View(model);
             }
         }
+
     }
 
 
