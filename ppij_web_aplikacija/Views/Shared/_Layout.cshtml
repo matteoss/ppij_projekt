@@ -43,14 +43,14 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <footer id ="footer">
-            <hr />
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
     </div>
-
+    <footer id="footer">
+        <hr />
+        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
+
 </html>

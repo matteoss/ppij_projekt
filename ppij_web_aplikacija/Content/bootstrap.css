@@ -134,17 +134,23 @@ content: "\2713";
 
 .header-fixed > tbody {
     overflow-y: auto;
-    height: 300px;
+    height: 400px;
+}
+
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+    height: 45px;
+    float: left;
 }
 
 .header-fixed > tbody > tr > td,
 .header-fixed > thead > tr > th {
     width: 97px;
-    height: 45px;
-    float: left;
 }
-/*****************************************************/
 
+/*********/
+
+/*****************************************************/
 .crvena-boja{
     text-decoration-color:red;
 }
@@ -177,11 +183,13 @@ content: "\2713";
     bottom:50px;
 }
 /***********************************************************************************************/
+
 #footer{
-   position:absolute;
-   bottom:60px;
-   width:80%;
-   height:20px;   /* Height of the footer */
+  height: 50px;
+  position: absolute;
+  margin-top: -20px;
+  left: 40px;
+  right: 0;   /* Height of the footer */
    background:none;
 }
 

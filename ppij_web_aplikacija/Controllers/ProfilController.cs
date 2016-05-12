@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Helpers;
 using ppij_web_aplikacija.Models;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace ppij_web_aplikacija.Controllers
 {
@@ -33,8 +34,35 @@ namespace ppij_web_aplikacija.Controllers
                                       select kategorija;
                 ViewBag.kategorije = queryKategorije.ToList<Kategorija>();
 
+                model.mojeInstrukcije.dogovoreni_termini_kao_instruktor = new List<dogovor_term_osoba>();
+                model.mojeInstrukcije.dogovoreni_termini_kao_klijent = new List<dogovor_term_osoba>();
+
+                foreach(dogovor_termin dogovor in osoba.dogovor_termin.ToList()){
+                    model.mojeInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
+                    {
+                        termin = dogovor,
+                        ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
+                        prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
+                        kategorija = data.Kategorija.Where(k => k.ID_kategorija == dogovor.ID_kategorija).FirstOrDefault().kratica_kategorija,
+                        odustani = false
+                    });
+                }
+                foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList())
+                {
+                    model.mojeInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
+                    {
+                        termin = dogovor,
+                        ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
+                        prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
+                        kategorija = data.Kategorija.Where(k => k.ID_kategorija == dogovor.ID_kategorija).FirstOrDefault().kratica_kategorija,
+                        odustani = false
+                    });
+                }
+
+
                 model.mojeInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
-                model.trenutniTab = "2";
+
+                model.trenutniTab = "0";
                 if (osoba.razina_prava == 1)
                 {
                     model.ostalePostavke.instruktor = true;
@@ -62,6 +90,19 @@ namespace ppij_web_aplikacija.Controllers
                 {
                     String trenutniTab = model.trenutniTab;
                     if (trenutniTab.Equals("0"))
+                    {
+                        foreach (dogovor_term_osoba dto in model.mojeInstrukcije.dogovoreni_termini_kao_klijent)
+                        {
+                            if (dto.odustani == true)
+                            {
+                                dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();
+                                dogovor.dogovor_status = 0;
+                            }
+                        }
+                    }
+
+
+                    else if (trenutniTab.Equals("1"))
                     {
                         foreach (String t in model.mojeInstrukcije.mojiTermini)
                         {
@@ -98,7 +139,10 @@ namespace ppij_web_aplikacija.Controllers
                             }
                         }
                     }
-                    else if (trenutniTab.Equals("1"))
+
+
+
+                    else if (trenutniTab.Equals("3"))
                     {
                         if (Crypto.VerifyHashedPassword(osoba.lozinka, model.changePassword.OldPassword + osoba.salt) == false)
                         {
@@ -109,6 +153,9 @@ namespace ppij_web_aplikacija.Controllers
                         osoba.lozinka = Crypto.HashPassword(model.changePassword.NewPassword + salt);
                         osoba.salt = salt;
                     }
+
+
+
                     else if (trenutniTab.Equals("2"))
                     {
                         if (osoba.razina_prava != 0)
@@ -129,17 +176,17 @@ namespace ppij_web_aplikacija.Controllers
                     //String alert = model.NewPassword;
                     //System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE=JavaScript>alert('" + alert + "')</SCRIPT>");
                 }
+
+
+
+
                 ViewBag.razinaPrava = osoba.razina_prava;
                 var queryKategorije = from kategorija in data.Kategorija
                                       join osobakategorija in data.osoba_kategorija on kategorija.ID_kategorija equals osobakategorija.ID_kategorija
                                       where osobakategorija.ID_osoba == osoba.ID_osoba
                                       select kategorija;
                 ViewBag.kategorije = queryKategorije.ToList<Kategorija>();
-                foreach (String t in model.mojeInstrukcije.mojiTermini)
-                {
-                    Debug.WriteLine("post: " + t);
-                }
-                return View(model);
+                return RedirectToAction("Index", "Profil");;
             }
         }
 

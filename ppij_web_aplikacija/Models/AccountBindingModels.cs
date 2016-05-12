@@ -33,8 +33,20 @@ namespace ppij_web_aplikacija.Models
     {
         public List<Kategorija> mojeKategorije { get; set; }
         public List<String> mojiTermini { get; set; }
+        public List<dogovor_term_osoba> dogovoreni_termini_kao_instruktor { get; set; }
+        public List<dogovor_term_osoba> dogovoreni_termini_kao_klijent { get; set; }
+        public String jsonklijent { get; set; }
+
     }
 
+    public class dogovor_term_osoba
+    {
+        public String ime { get; set; }
+        public String prezime { get; set; }
+        public dogovor_termin termin { get; set; }
+        public Boolean odustani { get; set; }
+        public String kategorija { get; set; }
+    }
 
     public class ChangePasswordBindingModel
     {

@@ -18,13 +18,14 @@
           <Property Name="ID_instruktor" Type="int" />
           <Property Name="ID_klijent" Type="int" />
           <Property Name="datum_dogovor" Type="date" />
+          <Property Name="ID_kategorija" Type="int" />
         </EntityType>
         <EntityType Name="Kategorija">
           <Key>
             <PropertyRef Name="ID_kategorija" />
           </Key>
           <Property Name="ID_kategorija" Type="int" Nullable="false" />
-          <Property Name="naziv_kategorija" Type="varchar" MaxLength="30" />
+          <Property Name="naziv_kategorija" Type="varchar" MaxLength="50" />
           <Property Name="kratica_kategorija" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Osoba">
@@ -207,13 +208,14 @@
           <NavigationProperty Name="Osoba1" Relationship="Self.FK__dogovor_t__ID_kl__1FCDBCEB" FromRole="dogovor_termin" ToRole="Osoba" />
           <NavigationProperty Name="Termin" Relationship="Self.FK__dogovor_t__ID_te__1DE57479" FromRole="dogovor_termin" ToRole="Termin" />
           <Property Name="datum_dogovor" Type="DateTime" Precision="0" />
+          <Property Name="ID_kategorija" Type="Int32" />
         </EntityType>
         <EntityType Name="Kategorija">
           <Key>
             <PropertyRef Name="ID_kategorija" />
           </Key>
           <Property Name="ID_kategorija" Type="Int32" Nullable="false" />
-          <Property Name="naziv_kategorija" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="naziv_kategorija" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="kratica_kategorija" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="osoba_kategorija" Relationship="Self.FK__osoba_kat__ID_ka__1B0907CE" FromRole="Kategorija" ToRole="osoba_kategorija" />
         </EntityType>
@@ -361,6 +363,7 @@
           <EntitySetMapping Name="dogovor_termin">
             <EntityTypeMapping TypeName="ppij_database_model.dogovor_termin">
               <MappingFragment StoreEntitySet="dogovor_termin">
+                <ScalarProperty Name="ID_kategorija" ColumnName="ID_kategorija" />
                 <ScalarProperty Name="datum_dogovor" ColumnName="datum_dogovor" />
                 <ScalarProperty Name="ID_dogovor_termin" ColumnName="ID_dogovor_termin" />
                 <ScalarProperty Name="ID_termin" ColumnName="ID_termin" />
