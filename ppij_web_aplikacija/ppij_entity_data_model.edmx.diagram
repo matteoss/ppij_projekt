@@ -20,9 +20,6 @@
         <AssociationConnector Association="ppij_database_model.FK__osoba_pre__ID_os__4CA06362" />
         <AssociationConnector Association="ppij_database_model.FK__osoba_kat__ID_ka__1B0907CE1" />
         <AssociationConnector Association="ppij_database_model.FK__osoba_pre__ID_pr__4D94879B" />
-        <AssociationConnector Association="ppij_database_model.FK__Kategorij__ID_na__36B122431" />
-        <AssociationConnector Association="ppij_database_model.FK__osoba_pre__ID_os__4CA06362" />
-        <AssociationConnector Association="ppij_database_model.FK__osoba_pre__ID_pr__4D94879B" />
         <AssociationConnector Association="ppij_database_model.FK__Predmet__ID_usta__5AEE82B9" />
       </Diagram>
     </edmx:Diagrams>

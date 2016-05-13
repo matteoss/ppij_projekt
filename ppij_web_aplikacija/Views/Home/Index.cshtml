@@ -1,42 +1,19 @@
-﻿<div class="jumbotron">
-    <h1>Instrukcije.hr</h1>
-    <p class="lead">Dobrodošli na Instrukcije.hr!</p>
-    @if (User.Identity.IsAuthenticated)
-    {
-        <p><a href="/Instrukcije/" class="btn btn-primary btn-lg">Traži instrukcije &raquo;</a></p>
-    }
-    else
-    {
-        <p><a href="/Login/" class="btn btn-primary btn-lg">Traži instrukcije &raquo;</a></p>
-    }
+﻿﻿<link href="~/Content/homepage.css" rel="stylesheet" />
+
+<div class="jumbotron">
+    <div class="jumbotron-content">
+        <p class="lead">Dobrodošli na Instrukcije.hr!</p>
+    </div>
 </div>
 <div class="row">
-    <div class="col-md-4">
-        <h2>Za početak</h2>
-        <p>napravite registraciju</p>
-        @if (User.Identity.IsAuthenticated) { 
-            <p><a class="btn btn-default" href="/Profil/">Learn more &raquo;</a></p>
-        }
-        else
-        {
-            <p><a class="btn btn-default" href="/Login/Registracija">Learn more &raquo;</a></p>
-        }
+    <div class="col-xs-12 col-md-6">
+        <h2>Nudite li ili tražite instrukcije?</h2>
+        <p>Instrukcije.hr je pravo mjesto za Vas!</p>
+        <p><a class="btn btn-default" href="/test/">Registracija &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Želite li pružati ili primati instrukcije</h2>
-        <p>Web stranica pruža mogućnost registracije kao instruktor ili kao klijent</p>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <p><a class="btn btn-default" href="/Profil/">Learn more &raquo;</a></p>
-        }
-        else
-        {
-            <p><a class="btn btn-default" href="/Login/Registracija">Learn more &raquo;</a></p>
-        }
-    </div>
-    <div class="col-md-4">
-        <h2>Zadovoljni dobivenim instrukcijama?</h2>
-        <p>Web stranica pruža mogućnost ocijenjivanja instruktora</p>
-        <p><a class="btn btn-default" href="/Home/">Learn more &raquo;</a></p>
+    <div class="col-xs-12 col-md-6">
+        <h2>Zadovoljni dobivenim instrukcijama ili klijentima?</h2>
+        <p>Imate mogućnost ocjenjivanja instruktora i klijenta.</p>
+        <p><a class="btn btn-default" href="/test/">Ocijenite &raquo;</a></p>
     </div>
 </div>
