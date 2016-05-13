@@ -28,11 +28,11 @@ namespace ppij_web_aplikacija.Controllers
                 model.ostalePostavke = new OstalePostavke();
                 model.mojeInstrukcije = new MojeInstrukcije();
 
-                var queryKategorije = from kategorija in data.Kategorija
-                                      join osobakategorija in data.osoba_kategorija on kategorija.ID_kategorija equals osobakategorija.ID_kategorija
-                                      where osobakategorija.ID_osoba == osoba.ID_osoba
-                                      select kategorija;
-                ViewBag.kategorije = queryKategorije.ToList<Kategorija>();
+                var queryPredmeti = from predmet in data.Predmet
+                                      join osobaPredmet in data.osoba_predmet on predmet.ID_predmet equals osobaPredmet.ID_predmet
+                                      where osobaPredmet.ID_osoba == osoba.ID_osoba
+                                      select predmet;
+                ViewBag.predmeti = queryPredmeti.ToList<Predmet>();
 
                 model.mojeInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
                 model.mojeInstrukcije.dogovoreni_termini_kao_instruktor = new List<dogovor_term_osoba>();
@@ -44,7 +44,7 @@ namespace ppij_web_aplikacija.Controllers
                         termin = dogovor,
                         ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
                         prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
-                        kategorija = data.Kategorija.Where(k => k.ID_kategorija == dogovor.ID_kategorija).FirstOrDefault().kratica_kategorija,
+                        predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
                         odustani = false
                     });
                 }
@@ -55,9 +55,32 @@ namespace ppij_web_aplikacija.Controllers
                         termin = dogovor,
                         ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
                         prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
-                        kategorija = data.Kategorija.Where(k => k.ID_kategorija == dogovor.ID_kategorija).FirstOrDefault().kratica_kategorija,
+                        predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
                         odustani = false
                     });
+                }
+
+                model.mojeInstrukcije.popis_kategorija = new List<odabranaKategorija>();
+                foreach (Kategorija kateg in data.Kategorija)
+                {
+                    odabranaKategorija odabrananadkat = new odabranaKategorija();
+                    odabrananadkat.mojiPredmeti = new List<odabranPredmet>();
+                    foreach (Predmet pred in data.Predmet.Where(k => k.ID_kategorija == kateg.ID_kategorija))
+                    {
+                        odabranPredmet item = new odabranPredmet();
+                        item.predmet = pred;
+                        if (osoba.osoba_predmet.Where(k => k.ID_predmet == pred.ID_kategorija).Count() == 1)
+                        {
+                            item.odabran = true;
+                        }
+                        else
+                        {
+                            item.odabran = false;
+                        }
+                        odabrananadkat.mojiPredmeti.Add(item);
+                    }
+                    odabrananadkat.kategorija_ime = kateg.naziv_kategorija;
+                    model.mojeInstrukcije.popis_kategorija.Add(odabrananadkat);
                 }
 
                 model.trenutniTab = "1";
@@ -212,11 +235,11 @@ namespace ppij_web_aplikacija.Controllers
                 model.ostalePostavke = new OstalePostavke();
                 model.mojeInstrukcije = new MojeInstrukcije();
                 ViewBag.razinaPrava = osoba.razina_prava;
-                var queryKategorije = from kategorija in data.Kategorija
-                                      join osobakategorija in data.osoba_kategorija on kategorija.ID_kategorija equals osobakategorija.ID_kategorija
-                                      where osobakategorija.ID_osoba == osoba.ID_osoba
-                                      select kategorija;
-                ViewBag.kategorije = queryKategorije.ToList<Kategorija>();
+                var queryPredmeti = from predmet in data.Predmet
+                                      join osobaPredmet in data.osoba_predmet on predmet.ID_predmet equals osobaPredmet.ID_predmet
+                                      where osobaPredmet.ID_osoba == osoba.ID_osoba
+                                      select predmet;
+                ViewBag.predmet = queryPredmeti.ToList<Predmet>();
 
                 model.mojeInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
                 model.mojeInstrukcije.dogovoreni_termini_kao_instruktor = new List<dogovor_term_osoba>();
@@ -228,7 +251,7 @@ namespace ppij_web_aplikacija.Controllers
                         termin = dogovor,
                         ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
                         prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
-                        kategorija = data.Kategorija.Where(k => k.ID_kategorija == dogovor.ID_kategorija).FirstOrDefault().kratica_kategorija,
+                        predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
                         odustani = false
                     });
                 }
@@ -239,9 +262,31 @@ namespace ppij_web_aplikacija.Controllers
                         termin = dogovor,
                         ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
                         prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
-                        kategorija = data.Kategorija.Where(k => k.ID_kategorija == dogovor.ID_kategorija).FirstOrDefault().kratica_kategorija,
+                        predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
                         odustani = false
                     });
+                } 
+                model.mojeInstrukcije.popis_kategorija = new List<odabranaKategorija>();
+                foreach (Kategorija kateg in data.Kategorija)
+                {
+                    odabranaKategorija odabrananadkat = new odabranaKategorija();
+                    odabrananadkat.mojiPredmeti = new List<odabranPredmet>();
+                    foreach (Predmet pred in data.Predmet.Where(k => k.ID_kategorija == kateg.ID_kategorija))
+                    {
+                        odabranPredmet item = new odabranPredmet();
+                        item.predmet = pred;
+                        if (osoba.osoba_predmet.Where(k => k.ID_predmet == pred.ID_kategorija).Count() == 1)
+                        {
+                            item.odabran = true;
+                        }
+                        else
+                        {
+                            item.odabran = false;
+                        }
+                        odabrananadkat.mojiPredmeti.Add(item);
+                    }
+                    odabrananadkat.kategorija_ime = kateg.naziv_kategorija;
+                    model.mojeInstrukcije.popis_kategorija.Add(odabrananadkat);
                 }
                 if (osoba.razina_prava == 1)
                 {

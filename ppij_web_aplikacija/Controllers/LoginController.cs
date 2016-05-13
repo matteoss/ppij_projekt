@@ -139,7 +139,7 @@ namespace ppij_web_aplikacija.Controllers
                     osoba.ID_osoba = data.Osoba.OrderByDescending(o => o.ID_osoba).FirstOrDefault().ID_osoba + 1;
                     osoba.dogovor_termin = null;
                     osoba.dogovor_termin1 = null;
-                    osoba.osoba_kategorija = null;
+                    osoba.osoba_predmet = null;
                     osoba.Termin = null;
                     data.Osoba.Add(osoba);
                     //Debug.WriteLine(osoba.ID_osoba + " " + osoba.ime_osoba + " " + osoba.prezime_osoba + " " + osoba.korisnicko_ime_osoba + " " + osoba.lozinka);

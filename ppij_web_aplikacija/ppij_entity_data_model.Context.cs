@@ -28,7 +28,9 @@ namespace ppij_web_aplikacija
         public virtual DbSet<dogovor_termin> dogovor_termin { get; set; }
         public virtual DbSet<Kategorija> Kategorija { get; set; }
         public virtual DbSet<Osoba> Osoba { get; set; }
-        public virtual DbSet<osoba_kategorija> osoba_kategorija { get; set; }
         public virtual DbSet<Termin> Termin { get; set; }
+        public virtual DbSet<osoba_predmet> osoba_predmet { get; set; }
+        public virtual DbSet<Predmet> Predmet { get; set; }
+        public virtual DbSet<Ustanova> Ustanova { get; set; }
     }
 }

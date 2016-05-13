@@ -12,16 +12,16 @@ namespace ppij_web_aplikacija
     using System;
     using System.Collections.Generic;
     
-    public partial class Kategorija
+    public partial class Ustanova
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Kategorija()
+        public Ustanova()
         {
             this.Predmet = new HashSet<Predmet>();
         }
     
-        public int ID_kategorija { get; set; }
-        public string naziv_kategorija { get; set; }
+        public int ID_ustanova { get; set; }
+        public string Naziv_ustanova { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Predmet> Predmet { get; set; }

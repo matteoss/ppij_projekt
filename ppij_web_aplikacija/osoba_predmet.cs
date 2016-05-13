@@ -12,13 +12,13 @@ namespace ppij_web_aplikacija
     using System;
     using System.Collections.Generic;
     
-    public partial class osoba_kategorija
+    public partial class osoba_predmet
     {
         public int ID_osoba { get; set; }
-        public int ID_kategorija { get; set; }
+        public int ID_predmet { get; set; }
         public Nullable<int> ocijena { get; set; }
     
-        public virtual Kategorija Kategorija { get; set; }
         public virtual Osoba Osoba { get; set; }
+        public virtual Predmet Predmet { get; set; }
     }
 }

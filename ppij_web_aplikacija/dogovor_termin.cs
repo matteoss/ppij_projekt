@@ -23,7 +23,7 @@ namespace ppij_web_aplikacija
         public Nullable<int> ID_instruktor { get; set; }
         public Nullable<int> ID_klijent { get; set; }
         public Nullable<System.DateTime> datum_dogovor { get; set; }
-        public Nullable<int> ID_kategorija { get; set; }
+        public Nullable<int> ID_predmet { get; set; }
     
         public virtual Osoba Osoba { get; set; }
         public virtual Osoba Osoba1 { get; set; }

@@ -18,15 +18,14 @@
           <Property Name="ID_instruktor" Type="int" />
           <Property Name="ID_klijent" Type="int" />
           <Property Name="datum_dogovor" Type="date" />
-          <Property Name="ID_kategorija" Type="int" />
+          <Property Name="ID_predmet" Type="int" />
         </EntityType>
         <EntityType Name="Kategorija">
           <Key>
             <PropertyRef Name="ID_kategorija" />
           </Key>
-          <Property Name="ID_kategorija" Type="int" Nullable="false" />
           <Property Name="naziv_kategorija" Type="varchar" MaxLength="50" />
-          <Property Name="kratica_kategorija" Type="varchar" MaxLength="10" />
+          <Property Name="ID_kategorija" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Osoba">
           <Key>
@@ -43,13 +42,13 @@
           <Property Name="lozinka" Type="varchar" MaxLength="100" />
           <Property Name="salt" Type="varchar" MaxLength="16" />
         </EntityType>
-        <EntityType Name="osoba_kategorija">
+        <EntityType Name="osoba_predmet">
           <Key>
             <PropertyRef Name="ID_osoba" />
-            <PropertyRef Name="ID_kategorija" />
+            <PropertyRef Name="ID_predmet" />
           </Key>
           <Property Name="ID_osoba" Type="int" Nullable="false" />
-          <Property Name="ID_kategorija" Type="int" Nullable="false" />
+          <Property Name="ID_predmet" Type="int" Nullable="false" />
           <Property Name="ocijena" Type="int" />
         </EntityType>
         <EntityType Name="osoba_termin">
@@ -60,6 +59,17 @@
           <Property Name="ID_osoba" Type="int" Nullable="false" />
           <Property Name="ID_termin" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Predmet">
+          <Key>
+            <PropertyRef Name="ID_predmet" />
+          </Key>
+          <Property Name="ID_predmet" Type="int" Nullable="false" />
+          <Property Name="naziv_predmet" Type="varchar" MaxLength="50" />
+          <Property Name="kratica_predmet" Type="varchar" MaxLength="10" />
+          <Property Name="ID_kategorija" Type="int" />
+          <Property Name="ID_ustanova" Type="int" />
+          <Property Name="opis_predmet" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="Termin">
           <Key>
             <PropertyRef Name="ID_termin" />
@@ -67,6 +77,13 @@
           <Property Name="ID_termin" Type="int" Nullable="false" />
           <Property Name="dan_termin" Type="int" />
           <Property Name="period_termin" Type="int" />
+        </EntityType>
+        <EntityType Name="Ustanova">
+          <Key>
+            <PropertyRef Name="ID_ustanova" />
+          </Key>
+          <Property Name="ID_ustanova" Type="int" Nullable="false" />
+          <Property Name="Naziv_ustanova" Type="varchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK__dogovor_t__ID_in__1ED998B2">
           <End Role="Osoba" Type="Self.Osoba" Multiplicity="0..1" />
@@ -104,27 +121,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__osoba_kat__ID_ka__1B0907CE">
-          <End Role="Kategorija" Type="Self.Kategorija" Multiplicity="1" />
-          <End Role="osoba_kategorija" Type="Self.osoba_kategorija" Multiplicity="*" />
+        <Association Name="FK__Kategorij__ID_na__36B12243">
+          <End Role="Kategorija" Type="Self.Kategorija" Multiplicity="0..1" />
+          <End Role="Predmet" Type="Self.Predmet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Kategorija">
               <PropertyRef Name="ID_kategorija" />
             </Principal>
-            <Dependent Role="osoba_kategorija">
+            <Dependent Role="Predmet">
               <PropertyRef Name="ID_kategorija" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__osoba_kat__ID_os__1A14E395">
+        <Association Name="FK__osoba_pre__ID_os__4CA06362">
           <End Role="Osoba" Type="Self.Osoba" Multiplicity="1" />
-          <End Role="osoba_kategorija" Type="Self.osoba_kategorija" Multiplicity="*" />
+          <End Role="osoba_predmet" Type="Self.osoba_predmet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Osoba">
               <PropertyRef Name="ID_osoba" />
             </Principal>
-            <Dependent Role="osoba_kategorija">
+            <Dependent Role="osoba_predmet">
               <PropertyRef Name="ID_osoba" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__osoba_pre__ID_pr__4D94879B">
+          <End Role="Predmet" Type="Self.Predmet" Multiplicity="1" />
+          <End Role="osoba_predmet" Type="Self.osoba_predmet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Predmet">
+              <PropertyRef Name="ID_predmet" />
+            </Principal>
+            <Dependent Role="osoba_predmet">
+              <PropertyRef Name="ID_predmet" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -152,13 +181,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Predmet__ID_usta__5AEE82B9">
+          <End Role="Ustanova" Type="Self.Ustanova" Multiplicity="0..1" />
+          <End Role="Predmet" Type="Self.Predmet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ustanova">
+              <PropertyRef Name="ID_ustanova" />
+            </Principal>
+            <Dependent Role="Predmet">
+              <PropertyRef Name="ID_ustanova" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ppij_database_modelStoreContainer">
           <EntitySet Name="dogovor_termin" EntityType="Self.dogovor_termin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kategorija" EntityType="Self.Kategorija" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Osoba" EntityType="Self.Osoba" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="osoba_kategorija" EntityType="Self.osoba_kategorija" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="osoba_predmet" EntityType="Self.osoba_predmet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="osoba_termin" EntityType="Self.osoba_termin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Predmet" EntityType="Self.Predmet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Termin" EntityType="Self.Termin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ustanova" EntityType="Self.Ustanova" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__dogovor_t__ID_in__1ED998B2" Association="Self.FK__dogovor_t__ID_in__1ED998B2">
             <End Role="Osoba" EntitySet="Osoba" />
             <End Role="dogovor_termin" EntitySet="dogovor_termin" />
@@ -171,13 +214,17 @@
             <End Role="Termin" EntitySet="Termin" />
             <End Role="dogovor_termin" EntitySet="dogovor_termin" />
           </AssociationSet>
-          <AssociationSet Name="FK__osoba_kat__ID_ka__1B0907CE" Association="Self.FK__osoba_kat__ID_ka__1B0907CE">
+          <AssociationSet Name="FK__Kategorij__ID_na__36B12243" Association="Self.FK__Kategorij__ID_na__36B12243">
             <End Role="Kategorija" EntitySet="Kategorija" />
-            <End Role="osoba_kategorija" EntitySet="osoba_kategorija" />
+            <End Role="Predmet" EntitySet="Predmet" />
           </AssociationSet>
-          <AssociationSet Name="FK__osoba_kat__ID_os__1A14E395" Association="Self.FK__osoba_kat__ID_os__1A14E395">
+          <AssociationSet Name="FK__osoba_pre__ID_os__4CA06362" Association="Self.FK__osoba_pre__ID_os__4CA06362">
             <End Role="Osoba" EntitySet="Osoba" />
-            <End Role="osoba_kategorija" EntitySet="osoba_kategorija" />
+            <End Role="osoba_predmet" EntitySet="osoba_predmet" />
+          </AssociationSet>
+          <AssociationSet Name="FK__osoba_pre__ID_pr__4D94879B" Association="Self.FK__osoba_pre__ID_pr__4D94879B">
+            <End Role="Predmet" EntitySet="Predmet" />
+            <End Role="osoba_predmet" EntitySet="osoba_predmet" />
           </AssociationSet>
           <AssociationSet Name="FK__osoba_ter__ID_os__164452B1" Association="Self.FK__osoba_ter__ID_os__164452B1">
             <End Role="Osoba" EntitySet="Osoba" />
@@ -186,6 +233,10 @@
           <AssociationSet Name="FK__osoba_ter__ID_te__173876EA" Association="Self.FK__osoba_ter__ID_te__173876EA">
             <End Role="Termin" EntitySet="Termin" />
             <End Role="osoba_termin" EntitySet="osoba_termin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Predmet__ID_usta__5AEE82B9" Association="Self.FK__Predmet__ID_usta__5AEE82B9">
+            <End Role="Ustanova" EntitySet="Ustanova" />
+            <End Role="Predmet" EntitySet="Predmet" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -208,7 +259,7 @@
           <NavigationProperty Name="Osoba1" Relationship="Self.FK__dogovor_t__ID_kl__1FCDBCEB" FromRole="dogovor_termin" ToRole="Osoba" />
           <NavigationProperty Name="Termin" Relationship="Self.FK__dogovor_t__ID_te__1DE57479" FromRole="dogovor_termin" ToRole="Termin" />
           <Property Name="datum_dogovor" Type="DateTime" Precision="0" />
-          <Property Name="ID_kategorija" Type="Int32" />
+          <Property Name="ID_predmet" Type="Int32" />
         </EntityType>
         <EntityType Name="Kategorija">
           <Key>
@@ -216,8 +267,7 @@
           </Key>
           <Property Name="ID_kategorija" Type="Int32" Nullable="false" />
           <Property Name="naziv_kategorija" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="kratica_kategorija" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="osoba_kategorija" Relationship="Self.FK__osoba_kat__ID_ka__1B0907CE" FromRole="Kategorija" ToRole="osoba_kategorija" />
+          <NavigationProperty Name="Predmet" Relationship="ppij_database_model.FK__Kategorij__ID_na__36B122431" FromRole="Kategorija" ToRole="Predmet" />
         </EntityType>
         <EntityType Name="Osoba">
           <Key>
@@ -233,21 +283,10 @@
           <Property Name="lokacija_y" Type="Double" />
           <NavigationProperty Name="dogovor_termin" Relationship="Self.FK__dogovor_t__ID_in__1ED998B2" FromRole="Osoba" ToRole="dogovor_termin" />
           <NavigationProperty Name="dogovor_termin1" Relationship="Self.FK__dogovor_t__ID_kl__1FCDBCEB" FromRole="Osoba" ToRole="dogovor_termin" />
-          <NavigationProperty Name="osoba_kategorija" Relationship="Self.FK__osoba_kat__ID_os__1A14E395" FromRole="Osoba" ToRole="osoba_kategorija" />
           <NavigationProperty Name="Termin" Relationship="Self.osoba_termin" FromRole="Osoba" ToRole="Termin" />
           <Property Name="lozinka" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="salt" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="osoba_kategorija">
-          <Key>
-            <PropertyRef Name="ID_osoba" />
-            <PropertyRef Name="ID_kategorija" />
-          </Key>
-          <Property Name="ID_osoba" Type="Int32" Nullable="false" />
-          <Property Name="ID_kategorija" Type="Int32" Nullable="false" />
-          <Property Name="ocijena" Type="Int32" />
-          <NavigationProperty Name="Kategorija" Relationship="Self.FK__osoba_kat__ID_ka__1B0907CE" FromRole="osoba_kategorija" ToRole="Kategorija" />
-          <NavigationProperty Name="Osoba" Relationship="Self.FK__osoba_kat__ID_os__1A14E395" FromRole="osoba_kategorija" ToRole="Osoba" />
+          <NavigationProperty Name="osoba_predmet" Relationship="ppij_database_model.FK__osoba_pre__ID_os__4CA06362" FromRole="Osoba" ToRole="osoba_predmet" />
         </EntityType>
         <EntityType Name="Termin">
           <Key>
@@ -295,30 +334,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__osoba_kat__ID_ka__1B0907CE">
-          <End Role="Kategorija" Type="Self.Kategorija" Multiplicity="1" />
-          <End Role="osoba_kategorija" Type="Self.osoba_kategorija" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Kategorija">
-              <PropertyRef Name="ID_kategorija" />
-            </Principal>
-            <Dependent Role="osoba_kategorija">
-              <PropertyRef Name="ID_kategorija" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__osoba_kat__ID_os__1A14E395">
-          <End Role="Osoba" Type="Self.Osoba" Multiplicity="1" />
-          <End Role="osoba_kategorija" Type="Self.osoba_kategorija" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Osoba">
-              <PropertyRef Name="ID_osoba" />
-            </Principal>
-            <Dependent Role="osoba_kategorija">
-              <PropertyRef Name="ID_osoba" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="osoba_termin">
           <End Role="Osoba" Type="Self.Osoba" Multiplicity="*" />
           <End Role="Termin" Type="Self.Termin" Multiplicity="*" />
@@ -327,7 +342,6 @@
           <EntitySet Name="dogovor_termin" EntityType="Self.dogovor_termin" />
           <EntitySet Name="Kategorija" EntityType="Self.Kategorija" />
           <EntitySet Name="Osoba" EntityType="Self.Osoba" />
-          <EntitySet Name="osoba_kategorija" EntityType="Self.osoba_kategorija" />
           <EntitySet Name="Termin" EntityType="Self.Termin" />
           <AssociationSet Name="FK__dogovor_t__ID_in__1ED998B2" Association="Self.FK__dogovor_t__ID_in__1ED998B2">
             <End Role="Osoba" EntitySet="Osoba" />
@@ -341,19 +355,111 @@
             <End Role="Termin" EntitySet="Termin" />
             <End Role="dogovor_termin" EntitySet="dogovor_termin" />
           </AssociationSet>
-          <AssociationSet Name="FK__osoba_kat__ID_ka__1B0907CE" Association="Self.FK__osoba_kat__ID_ka__1B0907CE">
-            <End Role="Kategorija" EntitySet="Kategorija" />
-            <End Role="osoba_kategorija" EntitySet="osoba_kategorija" />
-          </AssociationSet>
-          <AssociationSet Name="FK__osoba_kat__ID_os__1A14E395" Association="Self.FK__osoba_kat__ID_os__1A14E395">
-            <End Role="Osoba" EntitySet="Osoba" />
-            <End Role="osoba_kategorija" EntitySet="osoba_kategorija" />
-          </AssociationSet>
           <AssociationSet Name="osoba_termin" Association="Self.osoba_termin">
             <End Role="Osoba" EntitySet="Osoba" />
             <End Role="Termin" EntitySet="Termin" />
           </AssociationSet>
+          <EntitySet Name="osoba_predmet" EntityType="ppij_database_model.osoba_predmet" />
+          <EntitySet Name="Predmet" EntityType="ppij_database_model.Predmet" />
+          <EntitySet Name="Ustanova" EntityType="ppij_database_model.Ustanova" />
+          <AssociationSet Name="FK__Kategorij__ID_na__36B122431" Association="ppij_database_model.FK__Kategorij__ID_na__36B122431">
+            <End Role="Kategorija" EntitySet="Kategorija" />
+            <End Role="Predmet" EntitySet="Predmet" />
+          </AssociationSet>
+          <AssociationSet Name="FK__osoba_pre__ID_os__4CA06362" Association="ppij_database_model.FK__osoba_pre__ID_os__4CA06362">
+            <End Role="Osoba" EntitySet="Osoba" />
+            <End Role="osoba_predmet" EntitySet="osoba_predmet" />
+          </AssociationSet>
+          <AssociationSet Name="FK__osoba_pre__ID_pr__4D94879B" Association="ppij_database_model.FK__osoba_pre__ID_pr__4D94879B">
+            <End Role="Predmet" EntitySet="Predmet" />
+            <End Role="osoba_predmet" EntitySet="osoba_predmet" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Predmet__ID_usta__5AEE82B9" Association="ppij_database_model.FK__Predmet__ID_usta__5AEE82B9">
+            <End Role="Ustanova" EntitySet="Ustanova" />
+            <End Role="Predmet" EntitySet="Predmet" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="osoba_predmet">
+          <Key>
+            <PropertyRef Name="ID_osoba" />
+            <PropertyRef Name="ID_predmet" />
+          </Key>
+          <Property Name="ID_osoba" Type="Int32" Nullable="false" />
+          <Property Name="ID_predmet" Type="Int32" Nullable="false" />
+          <Property Name="ocijena" Type="Int32" />
+          <NavigationProperty Name="Osoba" Relationship="ppij_database_model.FK__osoba_pre__ID_os__4CA06362" FromRole="osoba_predmet" ToRole="Osoba" />
+          <NavigationProperty Name="Predmet" Relationship="ppij_database_model.FK__osoba_pre__ID_pr__4D94879B" FromRole="osoba_predmet" ToRole="Predmet" />
+        </EntityType>
+        <EntityType Name="Predmet">
+          <Key>
+            <PropertyRef Name="ID_predmet" />
+          </Key>
+          <Property Name="ID_predmet" Type="Int32" Nullable="false" />
+          <Property Name="naziv_predmet" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kratica_predmet" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ID_kategorija" Type="Int32" />
+          <Property Name="ID_ustanova" Type="Int32" />
+          <Property Name="opis_predmet" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Kategorija" Relationship="ppij_database_model.FK__Kategorij__ID_na__36B122431" FromRole="Predmet" ToRole="Kategorija" />
+          <NavigationProperty Name="osoba_predmet" Relationship="ppij_database_model.FK__osoba_pre__ID_pr__4D94879B" FromRole="Predmet" ToRole="osoba_predmet" />
+          <NavigationProperty Name="Ustanova" Relationship="ppij_database_model.FK__Predmet__ID_usta__5AEE82B9" FromRole="Predmet" ToRole="Ustanova" />
+        </EntityType>
+        <EntityType Name="Ustanova">
+          <Key>
+            <PropertyRef Name="ID_ustanova" />
+          </Key>
+          <Property Name="ID_ustanova" Type="Int32" Nullable="false" />
+          <Property Name="Naziv_ustanova" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Predmet" Relationship="ppij_database_model.FK__Predmet__ID_usta__5AEE82B9" FromRole="Ustanova" ToRole="Predmet" />
+        </EntityType>
+        <Association Name="FK__Kategorij__ID_na__36B122431">
+          <End Type="ppij_database_model.Kategorija" Role="Kategorija" Multiplicity="0..1" />
+          <End Type="ppij_database_model.Predmet" Role="Predmet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategorija">
+              <PropertyRef Name="ID_kategorija" />
+            </Principal>
+            <Dependent Role="Predmet">
+              <PropertyRef Name="ID_kategorija" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__osoba_pre__ID_os__4CA06362">
+          <End Type="ppij_database_model.Osoba" Role="Osoba" Multiplicity="1" />
+          <End Type="ppij_database_model.osoba_predmet" Role="osoba_predmet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osoba">
+              <PropertyRef Name="ID_osoba" />
+            </Principal>
+            <Dependent Role="osoba_predmet">
+              <PropertyRef Name="ID_osoba" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__osoba_pre__ID_pr__4D94879B">
+          <End Type="ppij_database_model.Predmet" Role="Predmet" Multiplicity="1" />
+          <End Type="ppij_database_model.osoba_predmet" Role="osoba_predmet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Predmet">
+              <PropertyRef Name="ID_predmet" />
+            </Principal>
+            <Dependent Role="osoba_predmet">
+              <PropertyRef Name="ID_predmet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Predmet__ID_usta__5AEE82B9">
+          <End Type="ppij_database_model.Ustanova" Role="Ustanova" Multiplicity="0..1" />
+          <End Type="ppij_database_model.Predmet" Role="Predmet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ustanova">
+              <PropertyRef Name="ID_ustanova" />
+            </Principal>
+            <Dependent Role="Predmet">
+              <PropertyRef Name="ID_ustanova" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -363,7 +469,7 @@
           <EntitySetMapping Name="dogovor_termin">
             <EntityTypeMapping TypeName="ppij_database_model.dogovor_termin">
               <MappingFragment StoreEntitySet="dogovor_termin">
-                <ScalarProperty Name="ID_kategorija" ColumnName="ID_kategorija" />
+                <ScalarProperty Name="ID_predmet" ColumnName="ID_predmet" />
                 <ScalarProperty Name="datum_dogovor" ColumnName="datum_dogovor" />
                 <ScalarProperty Name="ID_dogovor_termin" ColumnName="ID_dogovor_termin" />
                 <ScalarProperty Name="ID_termin" ColumnName="ID_termin" />
@@ -381,7 +487,6 @@
               <MappingFragment StoreEntitySet="Kategorija">
                 <ScalarProperty Name="ID_kategorija" ColumnName="ID_kategorija" />
                 <ScalarProperty Name="naziv_kategorija" ColumnName="naziv_kategorija" />
-                <ScalarProperty Name="kratica_kategorija" ColumnName="kratica_kategorija" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -398,15 +503,6 @@
                 <ScalarProperty Name="razina_prava" ColumnName="razina_prava" />
                 <ScalarProperty Name="lokacija_x" ColumnName="lokacija_x" />
                 <ScalarProperty Name="lokacija_y" ColumnName="lokacija_y" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="osoba_kategorija">
-            <EntityTypeMapping TypeName="ppij_database_model.osoba_kategorija">
-              <MappingFragment StoreEntitySet="osoba_kategorija">
-                <ScalarProperty Name="ID_osoba" ColumnName="ID_osoba" />
-                <ScalarProperty Name="ID_kategorija" ColumnName="ID_kategorija" />
-                <ScalarProperty Name="ocijena" ColumnName="ocijena" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -427,6 +523,35 @@
               <ScalarProperty Name="ID_termin" ColumnName="ID_termin" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="osoba_predmet">
+            <EntityTypeMapping TypeName="ppij_database_model.osoba_predmet">
+              <MappingFragment StoreEntitySet="osoba_predmet">
+                <ScalarProperty Name="ocijena" ColumnName="ocijena" />
+                <ScalarProperty Name="ID_predmet" ColumnName="ID_predmet" />
+                <ScalarProperty Name="ID_osoba" ColumnName="ID_osoba" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Predmet">
+            <EntityTypeMapping TypeName="ppij_database_model.Predmet">
+              <MappingFragment StoreEntitySet="Predmet">
+                <ScalarProperty Name="opis_predmet" ColumnName="opis_predmet" />
+                <ScalarProperty Name="ID_ustanova" ColumnName="ID_ustanova" />
+                <ScalarProperty Name="ID_kategorija" ColumnName="ID_kategorija" />
+                <ScalarProperty Name="kratica_predmet" ColumnName="kratica_predmet" />
+                <ScalarProperty Name="naziv_predmet" ColumnName="naziv_predmet" />
+                <ScalarProperty Name="ID_predmet" ColumnName="ID_predmet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ustanova">
+            <EntityTypeMapping TypeName="ppij_database_model.Ustanova">
+              <MappingFragment StoreEntitySet="Ustanova">
+                <ScalarProperty Name="Naziv_ustanova" ColumnName="Naziv_ustanova" />
+                <ScalarProperty Name="ID_ustanova" ColumnName="ID_ustanova" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

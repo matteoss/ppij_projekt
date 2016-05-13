@@ -223,7 +223,7 @@
     <Compile Include="Osoba.cs">
       <DependentUpon>ppij_entity_data_model.tt</DependentUpon>
     </Compile>
-    <Compile Include="osoba_kategorija.cs">
+    <Compile Include="osoba_predmet.cs">
       <DependentUpon>ppij_entity_data_model.tt</DependentUpon>
     </Compile>
     <Compile Include="ppij_entity_data_model.Context.cs">
@@ -241,11 +241,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ppij_entity_data_model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Predmet.cs">
+      <DependentUpon>ppij_entity_data_model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Termin.cs">
+      <DependentUpon>ppij_entity_data_model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ustanova.cs">
       <DependentUpon>ppij_entity_data_model.tt</DependentUpon>
     </Compile>
   </ItemGroup>

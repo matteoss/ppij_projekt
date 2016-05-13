@@ -74,6 +74,102 @@ a:hover {
         color:Red;
     }
 /********************************************************************************************/
+.dropdown {
+  position: absolute;
+  top:50%;
+  transform: translateY(-50%);
+  width:150px;
+}
+
+a {
+  color: #000;
+}
+
+.dropdown dd,
+.dropdown dt {
+  font-size:large;
+  margin: 0px;
+  padding: 0px;
+}
+
+.dropdown ul {
+  margin: -1px 0 0 0;
+}
+
+.dropdown dd {
+  position: relative;
+}
+
+.dropdown a,
+.dropdown a:visited {
+  color: #000;
+  text-decoration: none;
+  outline: none;
+  font-size: 12px;
+}
+
+.dropdown dt a {
+  margin-top:35px;
+  background-color:blue;
+  font-size:large;
+  display: block;
+  padding: 8px 20px 5px 10px;
+  min-height: 25px;
+  line-height: 24px;
+  overflow: hidden;
+  border: 0;
+  width: 150px;
+}
+
+.dropdown dt a span,
+.multiSel span {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 3px 2px 0;
+}
+
+.dropdown dd ul {
+  border:solid 1px gray;
+  background-color:snow;
+  border: 0;
+  color: blue;
+  display: none;
+  left: 0px;
+  padding: 2px 15px 2px 5px;
+  position: absolute;
+  top: 2px;
+  width: 480px;
+  list-style: none;
+  height: 300px;
+  overflow: auto;
+  border:solid 3px gray;
+}
+
+.dropdown span.value {
+  display: none;
+}
+
+.dropdown dd ul li a {
+  padding: 5px;
+  display: block;
+}
+
+.dropdown dd ul li a:hover {
+  background-color: #000;
+}
+
+button {
+  background-color: #6BBE92;
+  width: 502px;
+  border: 0;
+  padding: 10px 0;
+  margin: 5px 0;
+  text-align: center;
+  color: #000;
+  font-weight: bold;
+}
+
+/*********************************/
 .redrazmak{
     width:80px;
 }
@@ -81,6 +177,34 @@ a:hover {
 .prihvati-lijevo{
     margin-left:647px;
 }
+
+
+.mydroplabel {
+display:block;
+border:solid 1px gray;
+line-height:25px;
+height:30px;
+width: 350px;
+border-radius:5px;
+-webkit-font-smoothing: antialiased; 
+margin-top:2px;
+font-family:Arial,Helvetica,sans-serif;
+color:gray;
+text-align:center;
+}
+
+
+input:checked + .mydroplabel {
+border: solid 1px green;
+background-color:#ffff99;
+color:green;
+}
+
+input:checked + .mydroplabel:before {
+content: "\2713";
+}
+
+
 
 
 .myseenlabel {
