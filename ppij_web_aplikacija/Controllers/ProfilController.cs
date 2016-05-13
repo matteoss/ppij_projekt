@@ -96,22 +96,43 @@ namespace ppij_web_aplikacija.Controllers
 
                     if (trenutniTab.Equals("1"))
                     {
-                        foreach (dogovor_term_osoba dto in model.mojeInstrukcije.dogovoreni_termini_kao_klijent)
+                        if (model.mojeInstrukcije.dogovoreni_termini_kao_klijent != null)
                         {
-                            if (dto.odustani == true)
+                            foreach (dogovor_term_osoba dto in model.mojeInstrukcije.dogovoreni_termini_kao_klijent)
                             {
-                                dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();
-                                dogovor.dogovor_status = 0;
-                                Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
+                                if (dto.odustani == true)
+                                {
+                                    dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();
+                                    if (dogovor.dogovor_status == 1)
+                                    {
+                                        dogovor.dogovor_status = 2;
+                                    }
+                                    else if (dogovor.dogovor_status == 3)
+                                    {
+                                        dogovor.dogovor_status = 0;
+                                    }
+                                    Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
+                                }
                             }
                         }
-                        foreach (dogovor_term_osoba dto in model.mojeInstrukcije.dogovoreni_termini_kao_instruktor)
+
+                        if (model.mojeInstrukcije.dogovoreni_termini_kao_instruktor != null)
                         {
-                            if (dto.odustani == true)
+                            foreach (dogovor_term_osoba dto in model.mojeInstrukcije.dogovoreni_termini_kao_instruktor)
                             {
-                                dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();
-                                dogovor.dogovor_status = 0;
-                                Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
+                                if (dto.odustani == true)
+                                {
+                                    dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();
+                                    if (dogovor.dogovor_status == 1)
+                                    {
+                                        dogovor.dogovor_status = 3;
+                                    }
+                                    else if (dogovor.dogovor_status == 2)
+                                    {
+                                        dogovor.dogovor_status = 0;
+                                    }
+                                    Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
+                                }
                             }
                         }
                     }

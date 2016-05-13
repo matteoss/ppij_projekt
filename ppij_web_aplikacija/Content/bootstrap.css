@@ -78,6 +78,35 @@ a:hover {
     width:80px;
 }
 
+.prihvati-lijevo{
+    margin-left:647px;
+}
+
+
+.myseenlabel {
+display:block;
+border: solid 1px red;
+line-height:25px;
+height:25px;
+width: 80px;
+border-radius:7px;
+-webkit-font-smoothing: antialiased; 
+margin-top:2px;
+font-family:Arial,Helvetica,sans-serif;
+color: #F00;
+text-align:center;
+}
+
+input:checked + .myseenlabel {
+border:solid 1px gray;
+color:gray;
+}
+
+input:checked + .myseenlabel::before {
+content: "\2713";
+}
+
+/************/
 .mylabel {
 display:block;
 border:solid 1px gray;
@@ -91,6 +120,7 @@ font-family:Arial,Helvetica,sans-serif;
 color:gray;
 text-align:center;
 }
+
 .mycheck{
 
 }
