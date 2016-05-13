@@ -96,8 +96,10 @@ namespace ppij_web_aplikacija.Controllers
 
                     if (trenutniTab.Equals("1"))
                     {
+                        Debug.WriteLine("check 1: " + model.mojeInstrukcije.dogovoreni_termini_kao_klijent.Count);
                         foreach (dogovor_term_osoba dto in model.mojeInstrukcije.dogovoreni_termini_kao_klijent)
                         {
+                            Debug.WriteLine("check dogovora: " + dto.termin.ID_termin);
                             if (dto.odustani == true)
                             {
                                 dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();

@@ -30,7 +30,7 @@
                         @using (Html.BeginForm())
                         {
                             <fieldset>
-                                <form class="form-horizontal ">
+                                <form class="form-horizontal " method="post">
                                     <div style="width:800px;">
                                         <table class="table-bordered table table-striped header-fixed">
                                             <thead>
@@ -48,7 +48,7 @@
                                                 {
                                                     <tr>
                                                         <td style="width:150px;">
-                                                            @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i])
+                                                            @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.ID_dogovor_termin)
                                                             @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor)
                                                         </td>
                                                         <td style="width:100px;">
@@ -71,9 +71,9 @@
                                                             }
                                                             else
                                                             {
-                                                                <input id="odustani@(i)" type="checkbox" class="mycheck" name="odustani@(i)" onclick="odustani(@(i));"/>
+                                                                <input id="odustani@(i)" type="checkbox" class="mycheck" name="odustani@(i)" onclick="odustani(@(i));" />
                                                                 <label class="mylabel" for="odustani@(i)">Odustani</label>
-                                                                @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].odustani, new { id = "hiddenodustani"+i})
+                                                                @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].odustani, new { id = "hiddenodustani" + i })
                                                             }
                                                         </td>
                                                         <td style="width:200px;">
@@ -277,14 +277,14 @@
                 </div>
 
 
-
                 <script>
                     //odabrani termini za model
                     var dodanitermini;
                     var dogovorenitermini;
 
+                    //odustani od dogovorenog termina
                     function odustani(id){
-                        if($('#hiddenodustani' +id).val(id) == true){
+                        if($('#hiddenodustani' +id).val() == 'true'){
                             $('#hiddenodustani' +id).val(false)
                         }
                         else{
