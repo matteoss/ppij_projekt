@@ -19,4 +19,15 @@ textarea {
 
 #footer{
     margin-top: 20px;
+    right:40px;
 }
+
+.navbar-header{
+    display: inline;
+}
+
+button.navbar-toggle{
+    width: 45px;
+    color: #999999;
+}
+
