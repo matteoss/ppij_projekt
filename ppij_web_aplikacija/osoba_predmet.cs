@@ -16,7 +16,7 @@ namespace ppij_web_aplikacija
     {
         public int ID_osoba { get; set; }
         public int ID_predmet { get; set; }
-        public Nullable<int> ocijena { get; set; }
+        public Nullable<decimal> cijena { get; set; }
     
         public virtual Osoba Osoba { get; set; }
         public virtual Predmet Predmet { get; set; }

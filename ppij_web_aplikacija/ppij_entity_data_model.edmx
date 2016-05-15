@@ -5,12 +5,19 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ppij_database_model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="dogovor_popis_termina">
+          <Key>
+            <PropertyRef Name="ID_dogovor_termin" />
+            <PropertyRef Name="ID_termin" />
+          </Key>
+          <Property Name="ID_dogovor_termin" Type="int" Nullable="false" />
+          <Property Name="ID_termin" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="dogovor_termin">
           <Key>
             <PropertyRef Name="ID_dogovor_termin" />
           </Key>
           <Property Name="ID_dogovor_termin" Type="int" Nullable="false" />
-          <Property Name="ID_termin" Type="int" />
           <Property Name="lokacija_x" Type="float" />
           <Property Name="lokacija_y" Type="float" />
           <Property Name="dogovor_status" Type="int" />
@@ -49,7 +56,7 @@
           </Key>
           <Property Name="ID_osoba" Type="int" Nullable="false" />
           <Property Name="ID_predmet" Type="int" Nullable="false" />
-          <Property Name="ocijena" Type="int" />
+          <Property Name="cijena" Type="decimal" Precision="6" Scale="2" />
         </EntityType>
         <EntityType Name="osoba_termin">
           <Key>
@@ -85,6 +92,30 @@
           <Property Name="ID_ustanova" Type="int" Nullable="false" />
           <Property Name="Naziv_ustanova" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK__dogovor_p__ID_do__02FC7413">
+          <End Role="dogovor_termin" Type="Self.dogovor_termin" Multiplicity="1" />
+          <End Role="dogovor_popis_termina" Type="Self.dogovor_popis_termina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="dogovor_termin">
+              <PropertyRef Name="ID_dogovor_termin" />
+            </Principal>
+            <Dependent Role="dogovor_popis_termina">
+              <PropertyRef Name="ID_dogovor_termin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__dogovor_p__ID_te__03F0984C">
+          <End Role="Termin" Type="Self.Termin" Multiplicity="1" />
+          <End Role="dogovor_popis_termina" Type="Self.dogovor_popis_termina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Termin">
+              <PropertyRef Name="ID_termin" />
+            </Principal>
+            <Dependent Role="dogovor_popis_termina">
+              <PropertyRef Name="ID_termin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__dogovor_t__ID_in__1ED998B2">
           <End Role="Osoba" Type="Self.Osoba" Multiplicity="0..1" />
           <End Role="dogovor_termin" Type="Self.dogovor_termin" Multiplicity="*" />
@@ -106,18 +137,6 @@
             </Principal>
             <Dependent Role="dogovor_termin">
               <PropertyRef Name="ID_klijent" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__dogovor_t__ID_te__1DE57479">
-          <End Role="Termin" Type="Self.Termin" Multiplicity="0..1" />
-          <End Role="dogovor_termin" Type="Self.dogovor_termin" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Termin">
-              <PropertyRef Name="ID_termin" />
-            </Principal>
-            <Dependent Role="dogovor_termin">
-              <PropertyRef Name="ID_termin" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -194,6 +213,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ppij_database_modelStoreContainer">
+          <EntitySet Name="dogovor_popis_termina" EntityType="Self.dogovor_popis_termina" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="dogovor_termin" EntityType="Self.dogovor_termin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kategorija" EntityType="Self.Kategorija" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Osoba" EntityType="Self.Osoba" Schema="dbo" store:Type="Tables" />
@@ -202,16 +222,20 @@
           <EntitySet Name="Predmet" EntityType="Self.Predmet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Termin" EntityType="Self.Termin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ustanova" EntityType="Self.Ustanova" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__dogovor_p__ID_do__02FC7413" Association="Self.FK__dogovor_p__ID_do__02FC7413">
+            <End Role="dogovor_termin" EntitySet="dogovor_termin" />
+            <End Role="dogovor_popis_termina" EntitySet="dogovor_popis_termina" />
+          </AssociationSet>
+          <AssociationSet Name="FK__dogovor_p__ID_te__03F0984C" Association="Self.FK__dogovor_p__ID_te__03F0984C">
+            <End Role="Termin" EntitySet="Termin" />
+            <End Role="dogovor_popis_termina" EntitySet="dogovor_popis_termina" />
+          </AssociationSet>
           <AssociationSet Name="FK__dogovor_t__ID_in__1ED998B2" Association="Self.FK__dogovor_t__ID_in__1ED998B2">
             <End Role="Osoba" EntitySet="Osoba" />
             <End Role="dogovor_termin" EntitySet="dogovor_termin" />
           </AssociationSet>
           <AssociationSet Name="FK__dogovor_t__ID_kl__1FCDBCEB" Association="Self.FK__dogovor_t__ID_kl__1FCDBCEB">
             <End Role="Osoba" EntitySet="Osoba" />
-            <End Role="dogovor_termin" EntitySet="dogovor_termin" />
-          </AssociationSet>
-          <AssociationSet Name="FK__dogovor_t__ID_te__1DE57479" Association="Self.FK__dogovor_t__ID_te__1DE57479">
-            <End Role="Termin" EntitySet="Termin" />
             <End Role="dogovor_termin" EntitySet="dogovor_termin" />
           </AssociationSet>
           <AssociationSet Name="FK__Kategorij__ID_na__36B12243" Association="Self.FK__Kategorij__ID_na__36B12243">
@@ -248,7 +272,6 @@
             <PropertyRef Name="ID_dogovor_termin" />
           </Key>
           <Property Name="ID_dogovor_termin" Type="Int32" Nullable="false" />
-          <Property Name="ID_termin" Type="Int32" />
           <Property Name="lokacija_x" Type="Double" />
           <Property Name="lokacija_y" Type="Double" />
           <Property Name="dogovor_status" Type="Int32" />
@@ -257,9 +280,9 @@
           <Property Name="ID_klijent" Type="Int32" />
           <NavigationProperty Name="Osoba" Relationship="Self.FK__dogovor_t__ID_in__1ED998B2" FromRole="dogovor_termin" ToRole="Osoba" />
           <NavigationProperty Name="Osoba1" Relationship="Self.FK__dogovor_t__ID_kl__1FCDBCEB" FromRole="dogovor_termin" ToRole="Osoba" />
-          <NavigationProperty Name="Termin" Relationship="Self.FK__dogovor_t__ID_te__1DE57479" FromRole="dogovor_termin" ToRole="Termin" />
           <Property Name="datum_dogovor" Type="DateTime" Precision="0" />
           <Property Name="ID_predmet" Type="Int32" />
+          <NavigationProperty Name="Termin" Relationship="ppij_database_model.dogovor_popis_termina" FromRole="dogovor_termin" ToRole="Termin" />
         </EntityType>
         <EntityType Name="Kategorija">
           <Key>
@@ -295,8 +318,8 @@
           <Property Name="ID_termin" Type="Int32" Nullable="false" />
           <Property Name="dan_termin" Type="Int32" />
           <Property Name="period_termin" Type="Int32" />
-          <NavigationProperty Name="dogovor_termin" Relationship="Self.FK__dogovor_t__ID_te__1DE57479" FromRole="Termin" ToRole="dogovor_termin" />
           <NavigationProperty Name="Osoba" Relationship="Self.osoba_termin" FromRole="Termin" ToRole="Osoba" />
+          <NavigationProperty Name="dogovor_termin" Relationship="ppij_database_model.dogovor_popis_termina" FromRole="Termin" ToRole="dogovor_termin" />
         </EntityType>
         <Association Name="FK__dogovor_t__ID_in__1ED998B2">
           <End Role="Osoba" Type="Self.Osoba" Multiplicity="0..1" />
@@ -322,18 +345,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__dogovor_t__ID_te__1DE57479">
-          <End Role="Termin" Type="Self.Termin" Multiplicity="0..1" />
-          <End Role="dogovor_termin" Type="Self.dogovor_termin" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Termin">
-              <PropertyRef Name="ID_termin" />
-            </Principal>
-            <Dependent Role="dogovor_termin">
-              <PropertyRef Name="ID_termin" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="osoba_termin">
           <End Role="Osoba" Type="Self.Osoba" Multiplicity="*" />
           <End Role="Termin" Type="Self.Termin" Multiplicity="*" />
@@ -349,10 +360,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__dogovor_t__ID_kl__1FCDBCEB" Association="Self.FK__dogovor_t__ID_kl__1FCDBCEB">
             <End Role="Osoba" EntitySet="Osoba" />
-            <End Role="dogovor_termin" EntitySet="dogovor_termin" />
-          </AssociationSet>
-          <AssociationSet Name="FK__dogovor_t__ID_te__1DE57479" Association="Self.FK__dogovor_t__ID_te__1DE57479">
-            <End Role="Termin" EntitySet="Termin" />
             <End Role="dogovor_termin" EntitySet="dogovor_termin" />
           </AssociationSet>
           <AssociationSet Name="osoba_termin" Association="Self.osoba_termin">
@@ -378,6 +385,10 @@
             <End Role="Ustanova" EntitySet="Ustanova" />
             <End Role="Predmet" EntitySet="Predmet" />
           </AssociationSet>
+          <AssociationSet Name="dogovor_popis_termina" Association="ppij_database_model.dogovor_popis_termina">
+            <End Role="dogovor_termin" EntitySet="dogovor_termin" />
+            <End Role="Termin" EntitySet="Termin" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="osoba_predmet">
           <Key>
@@ -386,9 +397,9 @@
           </Key>
           <Property Name="ID_osoba" Type="Int32" Nullable="false" />
           <Property Name="ID_predmet" Type="Int32" Nullable="false" />
-          <Property Name="ocijena" Type="Int32" />
           <NavigationProperty Name="Osoba" Relationship="ppij_database_model.FK__osoba_pre__ID_os__4CA06362" FromRole="osoba_predmet" ToRole="Osoba" />
           <NavigationProperty Name="Predmet" Relationship="ppij_database_model.FK__osoba_pre__ID_pr__4D94879B" FromRole="osoba_predmet" ToRole="Predmet" />
+          <Property Name="cijena" Type="Decimal" Precision="6" Scale="2" />
         </EntityType>
         <EntityType Name="Predmet">
           <Key>
@@ -460,6 +471,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="dogovor_popis_termina">
+          <End Type="ppij_database_model.dogovor_termin" Role="dogovor_termin" Multiplicity="*" />
+          <End Type="ppij_database_model.Termin" Role="Termin" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -472,7 +487,6 @@
                 <ScalarProperty Name="ID_predmet" ColumnName="ID_predmet" />
                 <ScalarProperty Name="datum_dogovor" ColumnName="datum_dogovor" />
                 <ScalarProperty Name="ID_dogovor_termin" ColumnName="ID_dogovor_termin" />
-                <ScalarProperty Name="ID_termin" ColumnName="ID_termin" />
                 <ScalarProperty Name="lokacija_x" ColumnName="lokacija_x" />
                 <ScalarProperty Name="lokacija_y" ColumnName="lokacija_y" />
                 <ScalarProperty Name="dogovor_status" ColumnName="dogovor_status" />
@@ -526,7 +540,7 @@
           <EntitySetMapping Name="osoba_predmet">
             <EntityTypeMapping TypeName="ppij_database_model.osoba_predmet">
               <MappingFragment StoreEntitySet="osoba_predmet">
-                <ScalarProperty Name="ocijena" ColumnName="ocijena" />
+                <ScalarProperty Name="cijena" ColumnName="cijena" />
                 <ScalarProperty Name="ID_predmet" ColumnName="ID_predmet" />
                 <ScalarProperty Name="ID_osoba" ColumnName="ID_osoba" />
               </MappingFragment>
@@ -552,6 +566,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="dogovor_popis_termina" TypeName="ppij_database_model.dogovor_popis_termina" StoreEntitySet="dogovor_popis_termina">
+            <EndProperty Name="Termin">
+              <ScalarProperty Name="ID_termin" ColumnName="ID_termin" />
+            </EndProperty>
+            <EndProperty Name="dogovor_termin">
+              <ScalarProperty Name="ID_dogovor_termin" ColumnName="ID_dogovor_termin" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -17,8 +17,8 @@ namespace ppij_web_aplikacija
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Termin()
         {
-            this.dogovor_termin = new HashSet<dogovor_termin>();
             this.Osoba = new HashSet<Osoba>();
+            this.dogovor_termin = new HashSet<dogovor_termin>();
         }
     
         public int ID_termin { get; set; }
@@ -26,8 +26,8 @@ namespace ppij_web_aplikacija
         public Nullable<int> period_termin { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<dogovor_termin> dogovor_termin { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Osoba> Osoba { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<dogovor_termin> dogovor_termin { get; set; }
     }
 }

@@ -11,7 +11,6 @@
         <EntityTypeShape EntityType="ppij_database_model.Termin" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
         <AssociationConnector Association="ppij_database_model.FK__dogovor_t__ID_in__1ED998B2" ManuallyRouted="false" />
         <AssociationConnector Association="ppij_database_model.FK__dogovor_t__ID_kl__1FCDBCEB" ManuallyRouted="false" />
-        <AssociationConnector Association="ppij_database_model.FK__dogovor_t__ID_te__1DE57479" ManuallyRouted="false" />
         <AssociationConnector Association="ppij_database_model.osoba_termin" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ppij_database_model.osoba_predmet" Width="1.5" PointX="6.25" PointY="4" />
         <EntityTypeShape EntityType="ppij_database_model.Predmet" Width="1.5" PointX="3" PointY="7.875" />
@@ -21,6 +20,7 @@
         <AssociationConnector Association="ppij_database_model.FK__osoba_kat__ID_ka__1B0907CE1" />
         <AssociationConnector Association="ppij_database_model.FK__osoba_pre__ID_pr__4D94879B" />
         <AssociationConnector Association="ppij_database_model.FK__Predmet__ID_usta__5AEE82B9" />
+        <AssociationConnector Association="ppij_database_model.dogovor_popis_termina" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

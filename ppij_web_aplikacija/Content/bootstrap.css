@@ -265,17 +265,26 @@ content: "\2713";
 /***********************************************************************/
 
 .header-fixed {
-    width: 100% 
+    width: 100%;
+    
+}
+
+.header-fixed > thead,
+.header-fixed > thead > tr,
+.header-fixed > thead > tr > th{
+    background-color:black;
+    color:white;
 }
 
 .header-fixed > thead,
 .header-fixed > tbody,
-.header-fixed > thead > tr,
 .header-fixed > tbody > tr,
+.header-fixed > thead > tr,
 .header-fixed > thead > tr > th,
 .header-fixed > tbody > tr > td {
     display: block;
 }
+
 
 .header-fixed > tbody > tr:after,
 .header-fixed > thead > tr:after {
@@ -300,6 +309,7 @@ content: "\2713";
 .header-fixed > thead > tr > th {
     width: 97px;
 }
+
 
 /*********/
 
