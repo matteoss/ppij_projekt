@@ -4145,6 +4145,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   margin: 9px 0;
   overflow: hidden;
   background-color: #e5e5e5;
+  
 }
 
 .nav > li > a > img {
@@ -4152,12 +4153,14 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .nav-tabs {
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 2px solid #dddddd;
 }
 
 .nav-tabs > li {
   float: left;
   margin-bottom: -1px;
+  background-color:none;
+  font-size:medium;
 }
 
 .nav-tabs > li > a {
@@ -4176,11 +4179,30 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a:focus {
   color: #555555;
   cursor: default;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
+  background-color: none;
+  border: 2px solid #dddddd;
   border-bottom-color: transparent;
+  font-weight:600;
 }
 
+/**********************/
+
+.subtabs{
+}
+
+.subtabs > li{
+    background-color:none;
+}
+
+.nav-tabs.subtabs{
+    border-bottom:none;
+}
+
+.nav-tabs.subtabs > li.active > a{
+    border-bottom: 2px solid #dddddd; 
+}
+
+/**********************/
 .nav-tabs.nav-justified {
   width: 100%;
   border-bottom: 0;
