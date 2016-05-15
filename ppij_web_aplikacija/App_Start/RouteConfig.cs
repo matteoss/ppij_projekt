@@ -7,17 +7,35 @@ using System.Web.Routing;
 
 namespace ppij_web_aplikacija
 {
-    public class RouteConfig
-    {
-        public static void RegisterRoutes(RouteCollection routes)
-        {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+	public class RouteConfig
+	{
+		public static void RegisterRoutes(RouteCollection routes)
+		{
+			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
-        }
-    }
+			routes.MapRoute(
+				name: "Kategorije",
+				url: "instrukcije",
+				defaults: new { controller = "Instrukcije", action = "Kategorija" }
+				);
+
+			routes.MapRoute(
+				name: "Predmeti",
+				url: "instrukcije/{kategorija_id}",
+				defaults: new { controller = "Instrukcije", action = "Predmet" }
+				);
+
+			routes.MapRoute(
+				name: "Instrukcije",
+				url: "instrukcije/{kategorija_id}/{predmet_id}",
+				defaults: new { controller = "Instrukcije", action = "Instrukcija" }
+				);
+
+			routes.MapRoute(
+				name: "Default",
+				url: "{controller}/{action}/{id}",
+				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+			);
+		}
+	}
 }

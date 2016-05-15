@@ -1,0 +1,33 @@
+﻿@model ppij_web_aplikacija.Models.PredmetModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <h3>Biranje predmeta</h3>
+    <hr />
+    @using (Html.BeginForm("Index"))
+    {
+        <div>
+            Tražilica
+            @Html.TextBoxFor(model => model.Trazilica)
+            <input type="submit" value="Traži" />
+        </div>
+    }
+    <hr />
+    <p>
+        @foreach (var opis in Model.Opisi)
+        {
+            <div>
+                @opis.Predmet.naziv_predmet -
+                broj instrukcija: @opis.BrojInstrukcija -
+                @Html.RouteLink("Odaberi", "Instrukcije", 
+                new { kategorija_id = opis.Predmet.ID_kategorija, predmet_id = opis.Predmet.ID_predmet })
+            </div>
+        }
+    </p>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+﻿@model ppij_web_aplikacija.Models.KategorijaModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <h3>Biranje kategorija</h3>
+    <hr />
+    @using (Html.BeginForm("Index"))
+    {
+        <div>
+            Tražilica
+            @Html.TextBoxFor(model => model.Trazilica)
+            <input type="submit" value="Traži" />
+        </div>
+    }
+    <hr />
+    <p>
+        @foreach (var opis in Model.Opisi)
+        {
+            <div>
+                @opis.Kategorija.naziv_kategorija -
+                broj instrukcija: @opis.BrojInstrukcija -
+                @Html.RouteLink("Odaberi", "Predmeti", new { kategorija_id = opis.Kategorija.ID_kategorija})
+            </div>
+        }
+    </p>
+
+</body>
+</html>
