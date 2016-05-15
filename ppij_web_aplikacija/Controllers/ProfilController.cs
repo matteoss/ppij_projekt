@@ -119,7 +119,7 @@ namespace ppij_web_aplikacija.Controllers
 
                     if (trenutniTab.Equals("1"))
                     {
-                        if (model.mojeInstrukcije.dogovoreni_termini_kao_klijent != null)
+                        if (model.mojeInstrukcije != null &&  model.mojeInstrukcije.dogovoreni_termini_kao_klijent != null)
                         {
                             foreach (dogovor_term_osoba dto in model.mojeInstrukcije.dogovoreni_termini_kao_klijent)
                             {
@@ -139,7 +139,7 @@ namespace ppij_web_aplikacija.Controllers
                             }
                         }
 
-                        if (model.mojeInstrukcije.dogovoreni_termini_kao_instruktor != null)
+                        if (model.mojeInstrukcije != null &&  model.mojeInstrukcije.dogovoreni_termini_kao_instruktor != null)
                         {
                             foreach (dogovor_term_osoba dto in model.mojeInstrukcije.dogovoreni_termini_kao_instruktor)
                             {
