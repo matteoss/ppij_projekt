@@ -20,14 +20,20 @@ namespace ppij_web_aplikacija
 				);
 
 			routes.MapRoute(
-				name: "Predmeti",
+				name: "Ustanove",
 				url: "instrukcije/{kategorija_id}",
+				defaults: new { controller = "Instrukcije", action = "Ustanova" }
+				);
+
+			routes.MapRoute(
+				name: "Predmeti",
+				url: "instrukcije/{kategorija_id}/{ustanova_id}",
 				defaults: new { controller = "Instrukcije", action = "Predmet" }
 				);
 
 			routes.MapRoute(
 				name: "Instrukcije",
-				url: "instrukcije/{kategorija_id}/{predmet_id}",
+				url: "instrukcije/{kategorija_id}/{ustanova_id}/{predmet_id}",
 				defaults: new { controller = "Instrukcije", action = "Instrukcija" }
 				);
 

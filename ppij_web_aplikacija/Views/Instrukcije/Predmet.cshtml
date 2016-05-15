@@ -22,9 +22,7 @@
         {
             <div>
                 @opis.Predmet.naziv_predmet -
-                broj instrukcija: @opis.BrojInstrukcija -
-                @Html.RouteLink("Odaberi", "Instrukcije", 
-                new { kategorija_id = opis.Predmet.ID_kategorija, predmet_id = opis.Predmet.ID_predmet })
+                @Html.RouteLink("Odaberi", "Instrukcije", new { predmet_id = opis.Predmet.ID_predmet })
             </div>
         }
     </p>

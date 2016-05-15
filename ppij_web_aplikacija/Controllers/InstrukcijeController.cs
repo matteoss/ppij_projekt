@@ -36,13 +36,27 @@ namespace ppij_web_aplikacija.Controllers
 			return View(model);
 		}
 
+		public ActionResult Ustanova(UstanovaModel model)
+		{
+			List<Ustanova> ustanove;
+			using (var db = new ppij_databaseEntities())
+			{
+				ustanove = db.Ustanova.ToList();
+			}
+			model.Ustanove = ustanove;
+			return View(model);
+		}
+
 		public ActionResult Predmet(PredmetModel model)
 		{
 			List<OpisPredmeta> opisi = new List<OpisPredmeta>();
 			using (var db = new ppij_databaseEntities())
 			{
-				int ID = Int32.Parse((string)RouteData.Values["kategorija_id"]);
-				ICollection<Predmet> predmeti = db.Predmet.Where(p => p.ID_kategorija == ID).ToList();
+				int ID_kategorija = Int32.Parse((string)RouteData.Values["kategorija_id"]);
+				int ID_ustanova = Int32.Parse((string)RouteData.Values["ustanova_id"]);
+				ICollection<Predmet> predmeti = db.Predmet.Where(p => p.ID_kategorija == ID_kategorija)
+														  .Where(p => p.ID_ustanova == ID_ustanova)
+														  .ToList();
 				foreach (Predmet predmet in predmeti)
 				{
 					OpisPredmeta opis = new OpisPredmeta();

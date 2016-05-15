@@ -222,12 +222,13 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\InstrukcijaModel.cs" />
-    <Compile Include="Models\OpisInstrukcije.cs" />
-    <Compile Include="Models\OpisKategorije.cs" />
-    <Compile Include="Models\KategorijaModel.cs" />
-    <Compile Include="Models\OpisPredmeta.cs" />
-    <Compile Include="Models\PredmetModel.cs" />
+    <Compile Include="Models\Instrukcije\InstrukcijaModel.cs" />
+    <Compile Include="Models\Instrukcije\OpisInstrukcije.cs" />
+    <Compile Include="Models\Instrukcije\OpisKategorije.cs" />
+    <Compile Include="Models\Instrukcije\KategorijaModel.cs" />
+    <Compile Include="Models\Instrukcije\OpisPredmeta.cs" />
+    <Compile Include="Models\Instrukcije\PredmetModel.cs" />
+    <Compile Include="Models\Instrukcije\UstanovaModel.cs" />
     <Compile Include="Models\OsobaLogin.cs" />
     <Compile Include="Osoba.cs">
       <DependentUpon>ppij_entity_data_model.tt</DependentUpon>
@@ -357,8 +358,10 @@
     <Content Include="Views\Login\Registracija.cshtml" />
     <Content Include="Views\Profil\Index.cshtml" />
     <Content Include="Views\Profil\Postavke.cshtml" />
-    <Content Include="Views\Instrukcije\Kategorija.cshtml" />
+    <Content Include="Views\Instrukcije\Ustanova.cshtml" />
     <Content Include="Views\Instrukcije\Predmet.cshtml" />
+    <Content Include="Views\Instrukcije\Kategorija.cshtml" />
+    <Content Include="Views\Instrukcije\Instrukcija.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
