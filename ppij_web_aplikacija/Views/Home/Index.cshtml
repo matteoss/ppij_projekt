@@ -1,19 +1,25 @@
 ﻿﻿<link href="~/Content/homepage.css" rel="stylesheet" />
 
-<div class="jumbotron">
-    <div class="jumbotron-content">
-        <p class="lead">Dobrodošli na Instrukcije.hr!</p>
+@section Header{
+    <div class="container-fluid viewport-pane" id="head-section">
+        <div id="titles">
+            <h1 id="page-title" class="fade-in-element">Instrukcije.hr</h1>
+        </div>
+        <div class="gradient"></div>
     </div>
-</div>
+}
 <div class="row">
     <div class="col-xs-12 col-md-6">
-        <h2>Nudite li ili tražite instrukcije?</h2>
-        <p>Instrukcije.hr je pravo mjesto za Vas!</p>
-        <p><a class="btn btn-default" href="/test/">Registracija &raquo;</a></p>
+        <h2 class="fade-in-element">Nudite li ili tražite instrukcije?</h2>
+        <p class="fade-in-element">Instrukcije.hr je pravo mjesto za Vas!</p>
+        <p class="fade-in-element"><a class="btn btn-primary" href="/Login/Registracija">Registracija &raquo;</a></p>
     </div>
     <div class="col-xs-12 col-md-6">
-        <h2>Zadovoljni dobivenim instrukcijama ili klijentima?</h2>
-        <p>Imate mogućnost ocjenjivanja instruktora i klijenta.</p>
-        <p><a class="btn btn-default" href="/test/">Ocijenite &raquo;</a></p>
+        <h2 class="fade-in-element">Zadovoljni dobivenim instrukcijama ili klijentima?</h2>
+        <p class="fade-in-element">Imate mogućnost ocjenjivanja instruktora i klijenta.</p>
+        <p class="fade-in-element"><a class="btn btn-primary" href="/test/">Ocijenite &raquo;</a></p>
     </div>
 </div>
+
+<script src="~/Scripts/fade-in.js"></script>
+<script src="~/Scripts/parallax-scroll.js"></script>

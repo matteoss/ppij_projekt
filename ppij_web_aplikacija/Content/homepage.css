@@ -1,29 +1,64 @@
-﻿.jumbotron{
-    background-image: url("Images/instrukcije6.jpg");
-    background-repeat: no-repeat;
-    height: calc(100vh - 100px);
-    background-size: cover;
-    padding-top: 0;
-    background-position: center;
-    border-radius: 10px;
+﻿
+@font-face {
+    font-family: 'PermanentMarker';
+    src: url('../fonts/PermanentMarker.ttf') format('truetype');
 }
 
-.jumbotron-content > p{
-    padding-top: 4vh;
-    margin-top: 0;
-    font-size: 6vh;
-    margin-top: 5rem;
-    text-align: center;
-    font-weight: 700;
-    color: #5C89BD;
-    text-shadow:
-       1px 1px 0 #000,
-      -1px -1px 0 #000,  
-       1px -1px 0 #000,
-      -1px 1px 0 #000,
-       1px 1px 0 #000;
+
+.fade-in-element { opacity: 0; }
+
+body{
+    padding-top: 0;
+    background-color: black;
+}
+
+body > * {
+    color: #F3BA28;
 }
 
 .row{
-    margin: 0;
+    
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#head-section{
+    background-size: cover;
+    position: relative;
+    background-position: top;
+    background-image: url("Images/instrukcije3.jpg");
+    height: 100%;
+    min-height: 100vh;
+    width: 100vw;
+    max-width: 100%;
+    z-index: 5;
+}
+
+#page-title{
+    text-shadow: -1px 0 #951602, 0 1px #951602, 1px 0 #951602, 0 -1px #951602;
+    color: #F3BA28;
+    font-size: 3.5em;
+    text-align: center;
+    padding-top: 50vh;
+    font-family: PermanentMarker;
+    letter-spacing: 0.05rem;
+}
+
+
+.gradient{
+    height: 50%;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    left: 0px;
+    background: linear-gradient(transparent, black);
+    margin-bottom:-3px;
+    z-index: -10;
+}
+
+
+@media (min-width: 1024px) {
+    #page-title{
+        font-size: 11rem
+    }
 }

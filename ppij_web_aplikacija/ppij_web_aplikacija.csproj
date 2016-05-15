@@ -272,6 +272,14 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\homepage.css" />
+    <Content Include="Content\Images\instrukcije1.jpg" />
+    <Content Include="Content\Images\instrukcije2.jpg" />
+    <Content Include="Content\Images\instrukcije3.jpg" />
+    <Content Include="Content\Images\instrukcije4.jpg" />
+    <Content Include="Content\Images\instrukcije5.jpg" />
+    <Content Include="Content\Images\instrukcije6.jpg" />
+    <Content Include="Content\Images\instrukcije7.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -313,6 +321,7 @@
     <Content Include="ppij_entity_data_model.edmx.diagram">
       <DependentUpon>ppij_entity_data_model.edmx</DependentUpon>
     </Content>
+    <Content Include="fonts\PermanentMarker.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -322,6 +331,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\parallax-scroll.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Web.config">
