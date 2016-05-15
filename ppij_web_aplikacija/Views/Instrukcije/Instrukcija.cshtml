@@ -1,4 +1,4 @@
-﻿@model ppij_web_aplikacija.Models.InstrukcijaModel
+﻿@model ppij_web_aplikacija.Models.Instrukcije.InstrukcijaModel
 
 <!DOCTYPE html>
 <html>
@@ -7,5 +7,29 @@
 </head>
 <body>
     <h3>Biranje instrukcije</h3>
+    <hr />
+    @using (Html.BeginForm("Index"))
+    {
+        <div>
+            @Html.LabelFor(m => Model.Ime)
+            @Html.TextBoxFor(m => Model.Ime)
+        </div>
+        <div>
+            @Html.LabelFor(m => Model.Prezime)
+            @Html.TextBoxFor(m => Model.Prezime)
+        </div>
+        <div>
+            @Html.LabelFor(m => Model.OdabraniDanID)
+            @Html.DropDownListFor(m => Model.OdabraniDanID, Model.Dani)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.OdabraniTerminID)
+            @Html.DropDownListFor(m => Model.OdabraniTerminID, Model.Termini)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.OdabranoTrajanjeID)
+            @Html.DropDownListFor(m => Model.OdabranoTrajanjeID, Model.Trajanja)
+        </div>
+    }
 </body>
 </html>

@@ -1,4 +1,5 @@
-﻿using ppij_web_aplikacija.Models;
+﻿using ppij_web_aplikacija.Models.Instrukcije;
+using ppij_web_aplikacija.Models.Instrukcije.Opisnici;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,6 +77,7 @@ namespace ppij_web_aplikacija.Controllers
 		public ActionResult Instrukcija(InstrukcijaModel model)
 		{
 			List<OpisInstrukcije> opisi = new List<OpisInstrukcije>();
+
 			return View(model);
 		}
 	}

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ppij_web_aplikacija.Models
+namespace ppij_web_aplikacija.Models.Instrukcije.Opisnici
 {
-	public class OpisKategorije
+	public class OpisPredmeta
 	{
-		public Kategorija Kategorija { get; set; }
+		public Predmet Predmet { get; set; }
 		public int BrojInstrukcija { get; set; }
 	}
 }
