@@ -45,13 +45,11 @@
                                     {
                                         <fieldset>
                                             <form class="form-horizontal " method="post">
-                                                <div style="width:800px;">
+                                                <div style="width:900px;">
                                                     <div>
-                                                        <h3>Dogovorene instrukcije kao klijent</h3>
-                                                        <div class="col-md-2 mali-razmak-gore prihvati-lijevo">
-                                                            <input type="submit" class="btn btn-default " style="font-weight: bold;" value="Prihvati izmjene &raquo;" onclick="dodajindex(11);" /> <br />
+                                                        <div class="col-md-2 prihvati-lijevo">
+                                                            <input onclick="dodajindex(11);" type="submit" class="btn btn-default " style="font-weight: bold;" value="Prihvati izmjene &raquo;"  /> <br />
                                                         </div>
-
 
                                                         <table class="table-bordered table table-striped header-fixed">
                                                             <thead>
@@ -60,87 +58,130 @@
                                                                     <th style="width:100px;">Predmet</th>
                                                                     <th style="width:100px;">Ime</th>
                                                                     <th style="width:130px;">Prezime</th>
-                                                                    <th style="width:100px;">Status</th>
-                                                                    <th style="width:200px;">Ocjena</th>
+                                                                    <th style="width:200px;">Status</th>
+                                                                    <th style="width:100px;">Viđeno</th>
+                                                                    <th style="width:100px;">Odustani</th>
                                                                 </tr>
                                                             </thead>
 
                                                             <tbody>
-                                                                @for (i = 0; i < Model.mojeInstrukcije.dogovoreni_termini_kao_klijent.Count; i++)
+                                                                @for (i = 0; i < Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Count; i++)
                                                                 {
                                                                 <tr>
                                                                     <td style="width:150px;">
-                                                                        @Html.HiddenFor(model => model.mojeInstrukcije)
-                                                                        @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.ID_dogovor_termin)
-                                                                        @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor)
+                                                                        @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.ID_dogovor_termin)
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor)
                                                                     </td>
                                                                     <td style="width:100px;">
-                                                                        @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].predmet)
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].predmet)
                                                                     </td>
                                                                     <td style="width:100px;">
-                                                                        @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].ime)
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].ime)
                                                                     </td>
                                                                     <td style="width:130px;">
-                                                                        @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].prezime)
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].prezime)
                                                                     </td>
-                                                                    <td style="width:100px;">
-                                                                    @if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 0)
-                                                                    {
-                                                                        <p>Odustano</p>
-                                                                    }
-                                                                    else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 2)
-                                                                    {
-                                                                        <p><b>Odustano</b></p>
-                                                                    }
-                                                                    else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 3)
-                                                                    {
-                                                                        <input id="idseen@(i)" type="checkbox" class="mycheck" name="idseen@(i)" onclick="seen(@(i));" />
-                                                                        <label class="myseenlabel" for="idseen@(i)">Otkazano</label>
-                                                                        @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].odustani, new { id = "hiddenodustani" + i })
-                                                                    }
-                                                                    else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 1)
-                                                                    {
-
-                                                                        if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor < @DateTime.Now)
-                                                                        {
-                                                                            <p>Prisustvovano</p>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <input id="odustani@(i)" type="checkbox" class="mycheck" name="odustani@(i)" onclick="odustani(@(i));" />
-                                                                            <label class="mylabel" for="odustani@(i)">Odustani</label>
-                                                                            @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].odustani, new { id = "hiddenodustani" + i })
-                                                                        }
-                                                                    }
-                                                                    </td>
+                                                                        <!-- SVE ZA OCIJENE + TEKST STATUSA INSTRUKCIJA-->
                                                                     <td style="width:200px;">
-                                                                    @if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 1)
+                                                                    @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor <= @DateTime.Now)
                                                                     {
-                                                                        if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor <= @DateTime.Now)
+                                                                        if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 11)
                                                                         {
-                                                                            <label class="col-md-3 control-label" for="ocjena">Upiši ocjenu:</label>
-                                                                            <div id="ocjena" class="col-md-6">
-                                                                                @Html.TextBoxFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena)
+                                                                            <label class="control-label" for="ocjena">Ocjenite:</label>
+                                                                            <div id="ocjena" class="col-md-5">
+                                                                                @Html.TextBoxFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena)
                                                                             </div>
                                                                         }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 10)
+                                                                        {
+                                                                            <p>Nije odgovoreno</p>
+                                                                        }
                                                                         else
                                                                         {
-                                                                            <p>Termin još nije prošao</p>
+                                                                            <p>Odustano</p>
                                                                         }
                                                                     }
-                                                                    else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 2)
+                                                                    else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 1)
+                                                                    {
+                                                                        <p><b style="color:green;">Termin potvrđen</b></p>
+                                                                    }
+                                                                    else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 2)
                                                                     {
                                                                         <p><b>Zatražili ste odustajanje</b></p>
                                                                     }
-                                                                    else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 3)
+                                                                    else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 3)
                                                                     {
                                                                         <p><b style="color:red;">Instruktor je otkazao</b></p>
+                                                                    }
+                                                                    else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 10)
+                                                                    {
+                                                                        <p><b style="color:green;">Poslan zahtjev</b></p>
+                                                                    }
+                                                                    else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 11)
+                                                                    {
+                                                                        <p><b style="color:green;">Instruktor je potvrdio</b></p>
                                                                     }
                                                                     else
                                                                     {
                                                                         <p>Odustano</p>
                                                                     }
                                                                     </td>
+                                                                    <!--SEEN LABEL-->
+                                                                    <td>
+                                                                        @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 3 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 11)
+                                                                        {
+                                                                            <input id="seenid@(i)" type="checkbox" class="mycheck" name="seenid@(i)" onclick="seen(@(i));" />
+                                                                            <label class="myseenlabel" for="seenid@(i)">OK</label>
+                                                                            @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].seen, new { id = "seenidstore" + i })
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <input id="seenid@(i)" type="checkbox" class="mycheck" name="seenid@(i)" onclick="seen(@(i));" checked disabled />
+                                                                            <label class="myseenlabel" for="seenid@(i)">Viđeno</label>
+                                                                            @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].seen, new { id = "seenidstore" + i })
+                                                                        }
+                                                                    </td>
+                                                                    <!-- SVE OPCIJE ZA ODUSTAJANJE-->
+                                                                    <td style="width:100px;">
+                                                                        @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 0 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 20)
+                                                                        {
+                                                                            <p>Odustano</p>
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 2)
+                                                                        {
+                                                                            <p><b>Odustano</b></p>
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 3)
+                                                                        {
+                                                                            <p></p>
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 11 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 10)
+                                                                        {
+
+                                                                            if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor < @DateTime.Now)
+                                                                            {
+                                                                                if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 10)
+                                                                                {
+                                                                                    <p></p>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <p>Prisustvovano</p>
+                                                                                }
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <input id="odustani@(i)" type="checkbox" class="mycheck" name="odustani@(i)" onclick="odustani(@(i));" />
+                                                                                <label class="myodustanilabel" for="odustani@(i)">Odustani</label>
+                                                                                @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].odustani, new { id = "hiddenodustani" + i })
+                                                                            }
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 10)
+                                                                        {
+                                                                            <p><b>Zahtjev poslan</b></p>
+                                                                        }
+                                                                    </td>
+                                                                    
                                                                 </tr>
                                                                 }
                                                             </tbody>
@@ -165,15 +206,11 @@
                                     {
                                         <fieldset>
                                             <form class="form-horizontal " method="post">
-                                                <div style="width:800px;">
+                                                <div style="width:900px;">
                                                     <div>
-
-
-                                                        <h3>Dogovorene instrukcije kao instruktor</h3>
-                                                        <div class="col-md-2 mali-razmak-gore prihvati-lijevo">
-                                                            <input type="submit" class="btn btn-default" style="font-weight: bold;" value="Prihvati izmjene &raquo;" onclick="dodajindex(12);" /> <br />
+                                                        <div class="col-md-2 prihvati-lijevo">
+                                                            <input onclick="dodajindex(12);" type="submit" class="btn btn-default" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                         </div>
-
 
                                                         <table class="table-bordered table table-striped header-fixed">
                                                             <thead>
@@ -182,87 +219,129 @@
                                                                     <th style="width:100px;">Predmet</th>
                                                                     <th style="width:100px;">Ime</th>
                                                                     <th style="width:130px;">Prezime</th>
-                                                                    <th style="width:100px;">Status</th>
-                                                                    <th style="width:200px;">Ocjena</th>
+                                                                    <th style="width:200px;">Status</th>
+                                                                    <th style="width:100px;">Viđeno</th>
+                                                                    <th style="width:100px;">Odustani</th>
                                                                 </tr>
                                                             </thead>
 
                                                             <tbody>
-                                                                @for (; i < Model.mojeInstrukcije.dogovoreni_termini_kao_instruktor.Count; i++)
+                                                                @for (var e = 0; e < Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Count; e++)
                                                                 {
                                                                 <tr>
                                                                     <td style="width:150px;">
-                                                                        @Html.HiddenFor(model => model.mojeInstrukcije)
-                                                                        @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.ID_dogovor_termin)
-                                                                        @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.datum_dogovor)
+                                                                        @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.ID_dogovor_termin)
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor)
                                                                     </td>
                                                                     <td style="width:100px;">
-                                                                        @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].predmet)
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].predmet)
                                                                     </td>
                                                                     <td style="width:100px;">
-                                                                        @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].ime)
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].ime)
                                                                     </td>
                                                                     <td style="width:130px;">
-                                                                        @Html.DisplayFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].prezime)
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].prezime)
                                                                     </td>
-                                                                    <td style="width:100px;">
-                                                                    @if (@Model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.dogovor_status == 0)
-                                                                    {
-                                                                        <p>Odustano</p>
-                                                                    }
-                                                                    else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.dogovor_status == 2)
-                                                                    {
-                                                                        <input id="idseen@(i)" type="checkbox" class="mycheck" name="idseen@(i)" onclick="seen(@(i));" />
-                                                                        <label class="myseenlabel" for="idseen@(i)">Odustani</label>
-                                                                        @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].odustani, new { id = "hiddenodustani" + i })
-                                                                    }
-                                                                    else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.dogovor_status == 3)
-                                                                    {
-                                                                        <p><b>Odustano</b></p>
-                                                                    }
-                                                                    else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.dogovor_status == 1)
-                                                                    {
-                                                                        if (@Model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.datum_dogovor < @DateTime.Now)
+                                                                        <!-- SVE ZA TEKSTOVE STATUSA-->
+                                                                    <td style="width:200px;">
+                                                                        @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now)
                                                                         {
-                                                                            <p>Prisustvovano</p>
+                                                                            if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 11)
+                                                                            {
+                                                                                <p>Prisustvovano</p>
+                                                                            }
+                                                                            else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10)
+                                                                            {
+                                                                                <p><b style="color:red;">Termin je prošao</b></p>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <p>Otkazano</p>
+                                                                            }
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 11)
+                                                                        {
+                                                                            <p><b style="color:green;">Termin je potvrđen</b></p>
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 2)
+                                                                        {
+                                                                            <p><b style="color:red;">Klijent je odustao</b></p>
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 3)
+                                                                        {
+                                                                            <p><b>Zatražili ste odustajanje</b></p>
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10)
+                                                                        {
+                                                                            <p><b style="color:green;">Čeka se Vaša potvrda</b></p>                                                                            
                                                                         }
                                                                         else
+                                                                        {
+                                                                            <p>Otkazano</p>
+                                                                        }
+                                                                    </td>
+                                                                    <!--SEEN LABEL-->
+                                                                    <td>
+                                                                        @if ((@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now && @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10) || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 2)
+                                                                        {
+                                                                            <input id="seenid@(i)" type="checkbox" class="mycheck" name="seenid@(i)" onclick="seen(@(i));"/>
+                                                                            <label class="myseenlabel" for="seenid@(i)">OK</label>
+                                                                            @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].seen, new { id = "seenidstore" + i })
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10)
+                                                                        {
+                                                                            <input id="seenid@(i)" type="checkbox" class="mycheck" name="seenid@(i)" onclick="seen(@(i));" />
+                                                                            <label class="myacceptlabel" for="seenid@(i)">Potvrdi</label>
+                                                                            @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].seen, new { id = "seenidstore" + i })
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <input id="seenid@(i)" type="checkbox" class="mycheck" name="seenid@(i)" onclick="seen(@(i));" checked disabled/>
+                                                                            <label class="myseenlabel" for="seenid@(i)">Viđeno</label>
+                                                                            @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].seen, new { id = "seenidstore" + i })
+                                                                        }
+                                                                    </td>
+                                                                    <!-- SVE OPCIJE ZA ODUSTAJANJE-->
+                                                                    <td style="width:100px;">
+                                                                        @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now)
+                                                                        {
+                                                                            <p></p>
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 0)
+                                                                        {
+                                                                            <p>Odustano</p>
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 2)
+                                                                        {
+                                                                            <p><b>Odustano</b></p>
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 3)
+                                                                        {
+                                                                            <p>Odustano</p>
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 11)
+                                                                        {
+                                                                            if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now)
+                                                                            {
+                                                                                <p></p>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <input id="odustani@(i)" type="checkbox" class="mycheck" name="odustani@(i)" onclick="odustani(@(i));" />
+                                                                                <label class="myodustanilabel" for="odustani@(i)">Odustani</label>
+                                                                                @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].odustani, new { id = "hiddenodustani" + i })
+                                                                            }
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10)
                                                                         {
                                                                             <input id="odustani@(i)" type="checkbox" class="mycheck" name="odustani@(i)" onclick="odustani(@(i));" />
-                                                                            <label class="mylabel" for="odustani@(i)">Odustani</label>
-                                                                            @Html.HiddenFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].odustani, new { id = "hiddenodustani" + i })
+                                                                            <label class="myodustanilabel" for="odustani@(i)">Odustani</label>
+                                                                            @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].odustani, new { id = "hiddenodustani" + i })
                                                                         }
-                                                                    }
                                                                     </td>
-                                                                    <td style="width:200px;">
-                                                                    @if (@Model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.dogovor_status == 1)
-                                                                    {
-                                                                        if (@Model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.datum_dogovor <= @DateTime.Now)
-                                                                        {
-                                                                            <label class="col-md-3 control-label" for="ocjena">Upiši ocjenu:</label>
-                                                                            <div id="ocjena" class="col-md-6">
-                                                                            @Html.TextBoxFor(model => model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.dogovor_ocijena)
-                                                                            </div>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <p>Termin još nije prošao</p>
-                                                                        }
-                                                                    }
-                                                                    else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.dogovor_status == 2)
-                                                                    {
-                                                                        <p><b style="color:red;">Klijent je odustao</b></p>
-                                                                    }
-                                                                    else if (@Model.mojeInstrukcije.dogovoreni_termini_kao_instruktor[i].termin.dogovor_status == 3)
-                                                                    {
-                                                                        <p><b>Zatražili ste odustajanje</b></p>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <p>Otkazano</p>
-                                                                    }
-                                                                    </td>
+                                                                    
                                                                 </tr>
+                                                                    { i++; }
                                                                 }
                                                             </tbody>
                                                         </table>
@@ -289,11 +368,6 @@
                         @if (@ViewBag.razinaPrava == 1 || @ViewBag.razinaPrava == 0)
                         {
 
-                            if (@ViewBag.razinaPrava == 0)
-                            {
-                                <p>Imate administratorska prava</p>
-                            }
-
                             
                             
                             <div class=" tabbable " style="margin-top:-40px" role="tablist">
@@ -307,41 +381,25 @@
                                 <div class="tab-content">
 
                                     <div class="tab-pane active top-buffer" role="tabpanel" id="tab21">
-                                        @using (Html.BeginForm())
+                                        @using (Html.BeginForm("SelectKategorija", "Profil", FormMethod.Post))
                                         {
                                             <fieldset>
                                                 <form class="form-horizontal " method="post">
-                                                    <h4>Popis Kategorija</h4>
-                                                    @for (var k = 0; k < Model.mojeInstrukcije.popis_kategorija.Count; k++)
-                                                    {
-                                                        @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab21" })
-                                                        <!--<dl class="dropdown">
-                            <dt >
-                                <a href="#">-->
-                                                        <div>
-                                                            @Html.DisplayFor(model => model.mojeInstrukcije.popis_kategorija[k].kategorija_ime)
-                                                        </div>
-                                                        <!--<span class="hida" >Odabrano: </span>
-                                </a>
-                            </dt>-->
-
-                                                        <!--<dd id="dd@(k)">
-                            <div class="mutliSelect">-->
-                                                        <ul id="ul@(k)">
-                                                            @for (var j = 0; j < Model.mojeInstrukcije.popis_kategorija[k].mojiPredmeti.Count; j++)
+                                                    <ul>
+                                                        @for (var k = 0; k < Model.mojeVlastiteInstrukcije.popis_kategorija.Count; k++)
+                                                        {
+                                                            @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.popis_kategorija[k].kategorija_ime)
+                                                            for (var j = 0; j < Model.mojeVlastiteInstrukcije.popis_kategorija[k].mojiPredmeti.Count; j++)
                                                             {
                                                                 <li>
-                                                                    <input id="nad@(k)kat@(j)" type="checkbox" class="mycheck" name="nad@(k)kat@(j)" onclick="" />
-                                                                    <label class="mydroplabel" for="nad@(k)kat@(j)">@Html.DisplayFor(model => model.mojeInstrukcije.popis_kategorija[k].mojiPredmeti[j].predmet.naziv_predmet)</label>
+                                                                    @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.popis_kategorija[k].mojiPredmeti[j])
+
                                                                 </li>
                                                             }
-                                                        </ul>
-                                                        <!--</div>
-                                </dd>
-                            </dl>-->
-                                                    }
+                                                        }
+                                                    </ul>
                                                     <div class="col-md-2 mali-razmak-gore">
-                                                        <input onclick="addterminmodel(21);" type="submit" class="btn btn-default" value="Promjeni &raquo;" /> <br />
+                                                        <input type="submit" class="btn btn-default" value="Promjeni &raquo;" /> <br />
                                                     </div>
                                                 </form>
                                             </fieldset>
@@ -355,9 +413,8 @@
                                         {
                                             <fieldset>
                                                 <form class="form-horizontal " method="post">
-                                                    <h4>Popis termina</h4>
-                                                    <div class="col-md-2 mali-razmak-gore">
-                                                        <input onclick="addterminmodel(22);" type="submit" class="btn btn-default prihvati-lijevo" value="Promjeni &raquo;" /> <br />
+                                                    <div class="col-md-2 ">
+                                                        <input onclick="addterminmodel(22);" type="submit" class="btn btn-default" style="font-weight:bold; margin-left:700px;" value="Promjeni &raquo;" /> <br />
                                                     </div>
                                                     <div style="width:800px;">
                                                         <table class="table-bordered table table-striped header-fixed">
@@ -376,11 +433,11 @@
                                                             <tbody id="tableT"></tbody>
                                                         </table>
                                                     </div>
-                                                    @Html.HiddenFor(model => model.mojeInstrukcije.mojiTermini, new { id = "hiddenstateid" })
+                                                    @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.mojiTermini, new { id = "hiddenstateid" })
                                                     @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab22" })
 
                                                     <div class="col-md-2 mali-razmak-gore">
-                                                        <input onclick="addterminmodel(22);" type="submit" class="btn btn-default prihvati-lijevo" value="Promjeni &raquo;" /> <br />
+                                                        <input onclick="addterminmodel(22);" type="submit" class="btn btn-default" style="font-weight:bold; margin-left:700px;" value="Promjeni &raquo;" /> <br />
                                                     </div>
                                                 </form>
                                             </fieldset>
@@ -547,21 +604,31 @@
 
                     //seen - skoro isto ko i odustani
                     function seen(id){
-                        if($('#hiddenodustani' +id).val() == 'true'){
-                            $('#hiddenodustani' +id).val(false)
+                        var bal = $('#seenidstore' +id).val();
+                        if($('#seenid' + id).siblings('label').html() !=  "Potvrdi"){
+                            if($('#seenidstore' +id).val() == 'False'){
+                                $('#seenid' + id).siblings('label').html('Viđeno');
+                            }
+                            else{
+                                $('#seenidstore' + id).siblings('label').html('OK');
+                            }
+                        }
+                        if($('#seenidstore' +id).val() == 'False'){
+                            $('#seenidstore' +id).val("True");
                         }
                         else{
-                            $('#hiddenodustani' +id).val(true)
+                            $('#seenidstore' +id).val("False");
                         }
                     }
 
                     //odustani od dogovorenog termina
                     function odustani(id){
-                        if($('#hiddenodustani' +id).val() == 'true'){
-                            $('#hiddenodustani' +id).val(false)
+                        var b = $('#hiddenodustani' +id).val();
+                        if($('#hiddenodustani' +id).val() == 'True'){
+                            $('#hiddenodustani' +id).val("False");
                         }
                         else{
-                            $('#hiddenodustani' +id).val(true)
+                            $('#hiddenodustani' +id).val("True");
                         }
                     }
 
@@ -599,11 +666,37 @@
                             rows = rows + '</tr>';
                         }
                         document.getElementById("tableT").innerHTML = rows;
-                        dodanitermini = @Html.Raw(Json.Encode(Model.mojeInstrukcije.mojiTermini));
+                        dodanitermini = @Html.Raw(Json.Encode(Model.mojeVlastiteInstrukcije.mojiTermini));
                         //document.getElementById("test123").innerHTML = dodanitermini;
                         oznaciTermine();
                     });
 
+                    //pocetni tab
+                    function activaTab(tab) {
+                        $('#myTab a[href="#' + tab + '"]').tab('show');
+                    };
+                    function activaSubTab1(tab) {
+                        $('#myTabDogovoreno a[href="#' + tab + '"]').tab('show');
+                    };
+                    function activaSubTab2(tab) {
+                        $('#myTabTermini a[href="#' + tab + '"]').tab('show');
+                    };
+
+                    $(document).ready(function () {
+                        var id=@Html.Raw(Model.trenutniTab);
+                        if(id == "11" || id == "12"){
+                            activaTab('tab' + 1);
+                            activaSubTab1('tab' + id);
+                        }
+                        else if(id == "21" || id == "22"){
+                            activaTab('tab' + 2);
+                            activaSubTab2('tab' + id);
+                        }
+                        else{
+                            activaTab('tab' + id);
+                        }
+                    });
+                    
 
                     //interakcija sa tablicom termina
                     function changeText(id) {
@@ -639,30 +732,7 @@
                     }
 
 
-                    //pocetni tab
-                    $(document).ready(function () {
-                        var id=@Html.Raw(Model.trenutniTab);
-                        if(id == "11" || id == "12"){
-                            activaTab('tab' + 1);
-                            activaSubTab1('tab' + "id");
-                        }
-                        else if(id == "21" || id == "22"){
-                            activaTab('tab' + 2);
-                            activaSubTab2('tab' + id);
-                        }
-                        else{
-                            activaTab('tab' + id);
-                        }
-                    });
-                    function activaTab(tab) {
-                        $('#myTab a[href="#' + tab + '"]').tab('show');
-                    };
-                    function activaSubTab1(tab) {
-                        $('#myTabDogovoreno a[href="#' + tab + '"]').tab('show');
-                    };
-                    function activaSubTab2(tab) {
-                        $('#myTabTermini a[href="#' + tab + '"]').tab('show');
-                    };
+
 
                 </script>
 

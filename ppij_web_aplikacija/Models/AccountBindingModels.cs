@@ -17,7 +17,7 @@ namespace ppij_web_aplikacija.Models
 
     public class PostavkeModel
     {
-        public MojeInstrukcije mojeInstrukcije { get; set; }
+        public MojeInstrukcije mojeVlastiteInstrukcije { get; set; }
         public ChangePasswordBindingModel changePassword { get; set; }
         public OstalePostavke ostalePostavke { get; set; }
         public String trenutniTab { get; set; }
@@ -55,6 +55,7 @@ namespace ppij_web_aplikacija.Models
         public String prezime { get; set; }
         public dogovor_termin termin { get; set; }
         public Boolean odustani { get; set; }
+        public Boolean seen { get; set; }
         public String predmet { get; set; }
     }
 

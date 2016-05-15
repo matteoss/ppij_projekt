@@ -360,11 +360,11 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Login\Registracija.cshtml" />
     <Content Include="Views\Profil\Index.cshtml" />
-    <Content Include="Views\Profil\Postavke.cshtml" />
     <Content Include="Views\Instrukcije\Ustanova.cshtml" />
     <Content Include="Views\Instrukcije\Predmet.cshtml" />
     <Content Include="Views\Instrukcije\Kategorija.cshtml" />
     <Content Include="Views\Instrukcije\Instrukcija.cshtml" />
+    <Content Include="Views\Profil\SelectKategorija.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

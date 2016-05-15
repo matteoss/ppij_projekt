@@ -26,7 +26,7 @@ namespace ppij_web_aplikacija.Controllers
                 PostavkeModel model = new PostavkeModel();
                 model.changePassword = new ChangePasswordBindingModel();
                 model.ostalePostavke = new OstalePostavke();
-                model.mojeInstrukcije = new MojeInstrukcije();
+                model.mojeVlastiteInstrukcije = new MojeInstrukcije();
 
                 var queryPredmeti = from predmet in data.Predmet
                                       join osobaPredmet in data.osoba_predmet on predmet.ID_predmet equals osobaPredmet.ID_predmet
@@ -34,33 +34,38 @@ namespace ppij_web_aplikacija.Controllers
                                       select predmet;
                 ViewBag.predmeti = queryPredmeti.ToList<Predmet>();
 
-                model.mojeInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
-                model.mojeInstrukcije.dogovoreni_termini_kao_instruktor = new List<dogovor_term_osoba>();
-                model.mojeInstrukcije.dogovoreni_termini_kao_klijent = new List<dogovor_term_osoba>();
+                model.mojeVlastiteInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
+                model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor = new List<dogovor_term_osoba>();
+                model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent = new List<dogovor_term_osoba>();
 
                 foreach(dogovor_termin dogovor in osoba.dogovor_termin.ToList()){
-                    model.mojeInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
+                    if (dogovor.dogovor_status != 20)
                     {
-                        termin = dogovor,
-                        ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
-                        prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
-                        predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
-                        odustani = false
-                    });
+                        model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
+                        {
+                            termin = dogovor,
+                            ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
+                            prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
+                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
+                            odustani = false,
+                            seen = false
+                        });
+                    }
                 }
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList())
                 {
-                    model.mojeInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
+                    model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
                     {
                         termin = dogovor,
                         ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
                         prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
                         predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
-                        odustani = false
+                        odustani = false,
+                        seen = false
                     });
                 }
 
-                model.mojeInstrukcije.popis_kategorija = new List<odabranaKategorija>();
+                model.mojeVlastiteInstrukcije.popis_kategorija = new List<odabranaKategorija>();
                 foreach (Kategorija kateg in data.Kategorija)
                 {
                     odabranaKategorija odabrananadkat = new odabranaKategorija();
@@ -80,7 +85,7 @@ namespace ppij_web_aplikacija.Controllers
                         odabrananadkat.mojiPredmeti.Add(item);
                     }
                     odabrananadkat.kategorija_ime = kateg.naziv_kategorija;
-                    model.mojeInstrukcije.popis_kategorija.Add(odabrananadkat);
+                    model.mojeVlastiteInstrukcije.popis_kategorija.Add(odabrananadkat);
                 }
 
                 model.trenutniTab = "11";
@@ -92,7 +97,7 @@ namespace ppij_web_aplikacija.Controllers
                 {
                     model.ostalePostavke.instruktor = false;
                 }
-                foreach (String t in model.mojeInstrukcije.mojiTermini)
+                foreach (String t in model.mojeVlastiteInstrukcije.mojiTermini)
                 {
                     Debug.WriteLine("get: " + t);
                 }
@@ -119,40 +124,59 @@ namespace ppij_web_aplikacija.Controllers
 
                     if (trenutniTab.Equals("11") || trenutniTab.Equals("12"))
                     {
-                        if (model.mojeInstrukcije != null &&  model.mojeInstrukcije.dogovoreni_termini_kao_klijent != null)
+                        if (model.mojeVlastiteInstrukcije != null && model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent != null)
                         {
-                            foreach (dogovor_term_osoba dto in model.mojeInstrukcije.dogovoreni_termini_kao_klijent)
+                            foreach (dogovor_term_osoba dto in model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent)
                             {
-                                if (dto.odustani == true)
+                                dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();
+
+                                if (dto.seen == true)
                                 {
-                                    dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();
-                                    if (dogovor.dogovor_status == 1)
-                                    {
-                                        dogovor.dogovor_status = 2;
-                                    }
-                                    else if (dogovor.dogovor_status == 3)
+                                    if (dogovor.dogovor_status == 3)
                                     {
                                         dogovor.dogovor_status = 0;
+                                    }
+                                    else if (dogovor.dogovor_status == 11)
+                                    {
+                                        dogovor.dogovor_status = 1;
+                                    }
+                                }
+                                if (dto.odustani == true)
+                                {
+                                    if (dogovor.dogovor_status == 10)
+                                    {
+                                       dogovor.dogovor_status = 20;
+                                    }
+                                    else if (dogovor.dogovor_status == 11 || dogovor.dogovor_status == 1)
+                                    {
+                                       dogovor.dogovor_status = 2;
                                     }
                                     Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
                                 }
                             }
                         }
 
-                        if (model.mojeInstrukcije != null &&  model.mojeInstrukcije.dogovoreni_termini_kao_instruktor != null)
+                        if (model.mojeVlastiteInstrukcije != null && model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor != null)
                         {
-                            foreach (dogovor_term_osoba dto in model.mojeInstrukcije.dogovoreni_termini_kao_instruktor)
+                            foreach (dogovor_term_osoba dto in model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor)
                             {
-                                if (dto.odustani == true)
+                                dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();
+                                if (dto.seen == true)
                                 {
-                                    dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();
-                                    if (dogovor.dogovor_status == 1)
-                                    {
-                                        dogovor.dogovor_status = 3;
-                                    }
-                                    else if (dogovor.dogovor_status == 2)
+                                    if (dogovor.dogovor_status == 2)
                                     {
                                         dogovor.dogovor_status = 0;
+                                    }
+                                    else if (dogovor.dogovor_status == 10)
+                                    {
+                                        dogovor.dogovor_status = 11;
+                                    }
+                                }
+                                if (dto.odustani == true)
+                                {
+                                    if (dogovor.dogovor_status == 1 || dogovor.dogovor_status == 11)
+                                    {
+                                        dogovor.dogovor_status = 3;
                                     }
                                     Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
                                 }
@@ -163,16 +187,16 @@ namespace ppij_web_aplikacija.Controllers
 
                     else if (trenutniTab.Equals("21") || trenutniTab.Equals("22"))
                     {
-                        foreach (String t in model.mojeInstrukcije.mojiTermini)
+                        foreach (String t in model.mojeVlastiteInstrukcije.mojiTermini)
                         {
                             Debug.WriteLine("post: " + t);
                         }
-                        model.mojeInstrukcije.mojiTermini = model.mojeInstrukcije.mojiTermini.FirstOrDefault().Split(',').ToList();
+                        model.mojeVlastiteInstrukcije.mojiTermini = model.mojeVlastiteInstrukcije.mojiTermini.FirstOrDefault().Split(',').ToList();
                         List<Termin> toBeDel = new List<Termin>();
                         foreach (Termin s in osoba.Termin) //provjera starih termina - da li su još aktualni
                         {
                             Debug.WriteLine("check to be deleted: " + s.ID_termin);
-                            if (model.mojeInstrukcije.mojiTermini.Contains(s.ID_termin.ToString()) == false)
+                            if (model.mojeVlastiteInstrukcije.mojiTermini.Contains(s.ID_termin.ToString()) == false)
                             {
                                 Debug.WriteLine("to be deleted: " + s.ID_termin);
                                 toBeDel.Add(s);
@@ -183,7 +207,7 @@ namespace ppij_web_aplikacija.Controllers
                             osoba.Termin.Remove(t);
                         }
                         data.SaveChanges();
-                        foreach (String s in model.mojeInstrukcije.mojiTermini) //provjera novih termina - koje treba dodati u bazu
+                        foreach (String s in model.mojeVlastiteInstrukcije.mojiTermini) //provjera novih termina - koje treba dodati u bazu
                         {
                             Debug.WriteLine("check to be added: " + s);
                             if (s.Length > 0)
@@ -233,7 +257,7 @@ namespace ppij_web_aplikacija.Controllers
                 }
 
                 model.ostalePostavke = new OstalePostavke();
-                model.mojeInstrukcije = new MojeInstrukcije();
+                model.mojeVlastiteInstrukcije = new MojeInstrukcije();
                 ViewBag.razinaPrava = osoba.razina_prava;
                 var queryPredmeti = from predmet in data.Predmet
                                       join osobaPredmet in data.osoba_predmet on predmet.ID_predmet equals osobaPredmet.ID_predmet
@@ -241,32 +265,34 @@ namespace ppij_web_aplikacija.Controllers
                                       select predmet;
                 ViewBag.predmet = queryPredmeti.ToList<Predmet>();
 
-                model.mojeInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
-                model.mojeInstrukcije.dogovoreni_termini_kao_instruktor = new List<dogovor_term_osoba>();
-                model.mojeInstrukcije.dogovoreni_termini_kao_klijent = new List<dogovor_term_osoba>();
+                model.mojeVlastiteInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
+                model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor = new List<dogovor_term_osoba>();
+                model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent = new List<dogovor_term_osoba>();
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin.ToList())
                 {
-                    model.mojeInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
+                    model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
                     {
                         termin = dogovor,
                         ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
                         prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
                         predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
-                        odustani = false
+                        odustani = false,
+                        seen = false
                     });
                 }
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList())
                 {
-                    model.mojeInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
+                    model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
                     {
                         termin = dogovor,
                         ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
                         prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
                         predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
-                        odustani = false
+                        odustani = false,
+                        seen = false
                     });
-                } 
-                model.mojeInstrukcije.popis_kategorija = new List<odabranaKategorija>();
+                }
+                model.mojeVlastiteInstrukcije.popis_kategorija = new List<odabranaKategorija>();
                 foreach (Kategorija kateg in data.Kategorija)
                 {
                     odabranaKategorija odabrananadkat = new odabranaKategorija();
@@ -286,7 +312,7 @@ namespace ppij_web_aplikacija.Controllers
                         odabrananadkat.mojiPredmeti.Add(item);
                     }
                     odabrananadkat.kategorija_ime = kateg.naziv_kategorija;
-                    model.mojeInstrukcije.popis_kategorija.Add(odabrananadkat);
+                    model.mojeVlastiteInstrukcije.popis_kategorija.Add(odabrananadkat);
                 }
                 if (osoba.razina_prava == 1)
                 {
@@ -296,12 +322,15 @@ namespace ppij_web_aplikacija.Controllers
                 {
                     model.ostalePostavke.instruktor = false;
                 }
-                foreach (String t in model.mojeInstrukcije.mojiTermini)
+                foreach (String t in model.mojeVlastiteInstrukcije.mojiTermini)
                 {
                     Debug.WriteLine("get: " + t);
                 }
                 return View(model);
             }
         }
+
+
+        
     }
 }

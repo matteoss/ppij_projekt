@@ -175,39 +175,37 @@ button {
 }
 
 .prihvati-lijevo{
-    margin-left:647px;
+    margin-left:747px;
 }
 
 
-.mydroplabel {
+.myacceptlabel {
 display:block;
-border:solid 1px gray;
+border:solid 1px green;
 line-height:25px;
-height:30px;
-width: 350px;
+height:25px;
+width:80px;
 border-radius:5px;
 -webkit-font-smoothing: antialiased; 
 margin-top:2px;
 font-family:Arial,Helvetica,sans-serif;
-color:gray;
+color:green;
 text-align:center;
 }
 
 
-input:checked + .mydroplabel {
-border: solid 1px green;
-background-color:#ffff99;
-color:green;
+input:checked + .myacceptlabel {
+border: solid 2px forestgreen;
+background-color:forestgreen;
+color:white;
 }
 
-input:checked + .mydroplabel:before {
+input:checked + .myacceptlabel:before {
 content: "\2713";
 }
 
 
-
-
-.myseenlabel {
+.myodustanilabel {
 display:block;
 border: solid 1px red;
 line-height:25px;
@@ -217,13 +215,37 @@ border-radius:7px;
 -webkit-font-smoothing: antialiased; 
 margin-top:2px;
 font-family:Arial,Helvetica,sans-serif;
-color: #F00;
+color: red;
+text-align:center;
+}
+
+input:checked + .myodustanilabel {
+border:solid 1px red;
+color:white;
+background-color:red
+}
+
+input:checked + .myodustanilabel::before {
+content: "\2713";
+}
+
+.myseenlabel {
+display:block;
+border: solid 2px forestgreen;
+line-height:25px;
+height:25px;
+width: 80px;
+border-radius:7px;
+-webkit-font-smoothing: antialiased; 
+margin-top:2px;
+font-family:Arial,Helvetica,sans-serif;
+color: forestgreen;
 text-align:center;
 }
 
 input:checked + .myseenlabel {
-border:solid 1px gray;
-color:gray;
+border:solid 1px lightgray;
+color:lightgray;
 }
 
 input:checked + .myseenlabel::before {
