@@ -83,7 +83,7 @@ namespace ppij_web_aplikacija.Controllers
                     model.mojeInstrukcije.popis_kategorija.Add(odabrananadkat);
                 }
 
-                model.trenutniTab = "1";
+                model.trenutniTab = "11";
                 if (osoba.razina_prava == 1)
                 {
                     model.ostalePostavke.instruktor = true;
@@ -117,7 +117,7 @@ namespace ppij_web_aplikacija.Controllers
                     String trenutniTab = model.trenutniTab;
 
 
-                    if (trenutniTab.Equals("1"))
+                    if (trenutniTab.Equals("11") || trenutniTab.Equals("12"))
                     {
                         if (model.mojeInstrukcije != null &&  model.mojeInstrukcije.dogovoreni_termini_kao_klijent != null)
                         {
@@ -161,7 +161,7 @@ namespace ppij_web_aplikacija.Controllers
                     }
 
 
-                    else if (trenutniTab.Equals("2"))
+                    else if (trenutniTab.Equals("21") || trenutniTab.Equals("22"))
                     {
                         foreach (String t in model.mojeInstrukcije.mojiTermini)
                         {
