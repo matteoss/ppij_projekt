@@ -41,6 +41,8 @@ namespace ppij_web_aplikacija.Controllers
                 foreach(dogovor_termin dogovor in osoba.dogovor_termin.ToList()){
                     if (dogovor.dogovor_status != 20)
                     {
+                        dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
+                        Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
                         model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
                         {
                             termin = dogovor,
@@ -54,6 +56,8 @@ namespace ppij_web_aplikacija.Controllers
                 }
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList())
                 {
+                    dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
+                    Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
                     model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
                     {
                         termin = dogovor,
@@ -111,6 +115,7 @@ namespace ppij_web_aplikacija.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public ActionResult Index(Models.PostavkeModel model)
         {
             using (ppij_databaseEntities data = new ppij_databaseEntities())
@@ -270,6 +275,8 @@ namespace ppij_web_aplikacija.Controllers
                 model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent = new List<dogovor_term_osoba>();
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin.ToList())
                 {
+                    dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
+                    Debug.WriteLine(dogovor.datum_dogovor.Value);
                     model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
                     {
                         termin = dogovor,
@@ -282,6 +289,8 @@ namespace ppij_web_aplikacija.Controllers
                 }
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList())
                 {
+                    dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.OrderBy(o => o.period_termin).FirstOrDefault().period_termin);
+                    Debug.WriteLine(dogovor.datum_dogovor.Value);
                     model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
                     {
                         termin = dogovor,
@@ -331,6 +340,24 @@ namespace ppij_web_aplikacija.Controllers
         }
 
 
-        
+
+
+        [Authorize]
+        [HttpGet]
+        public String notification()
+        {
+            using (ppij_databaseEntities data = new ppij_databaseEntities())
+            {
+                Osoba trenutna = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
+                int notificationsIns = 0;
+                if (trenutna.razina_prava != 2)
+                {
+                    notificationsIns = trenutna.dogovor_termin.Where(d => d.dogovor_status == 2 || d.dogovor_status == 10).Count();
+                }
+                int notificationsKlij = trenutna.dogovor_termin1.Where(d => d.dogovor_status == 3 || d.dogovor_status == 11).Count();
+                return "{\"klijent\":" + notificationsKlij + ",\"instruktor\":"+notificationsIns + "}";
+            }
+        }
+
     }
 }

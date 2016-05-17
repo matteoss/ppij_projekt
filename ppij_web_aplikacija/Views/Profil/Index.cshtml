@@ -13,13 +13,48 @@
 
                 <ul class="nav nav-tabs" id="myTab">
                     <!--Popis tabova-->
-                    <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Moje dogovorene instrukcije</a></li>
+                    <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab" id="dogovoreneinstrukcije">Moje dogovorene instrukcije</a></li>
                     <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Nudim instrukcije</a></li>
                     <li role="presentation"><a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">Postavke profila</a></li>
                     <li role="presentation"><a href="#tab4" aria-controls="tab4" role="tab" data-toggle="tab">Promjena lozinke</a></li>
                 </ul>
 
-
+                <script>
+                    function nots() {
+                        $.ajax({
+                            url: '/Profil/notification',
+                            type: 'GET',
+                            dataType: 'text',
+                            async: false,
+                            success: function (data) {
+                                //document.getElementById("test123").innerHTML = data;
+                                var jsonz = JSON.parse(data);
+                                var zbroj = jsonz.klijent + jsonz.instruktor;
+                                if (zbroj == '0') {
+                                    $('#dogovoreneinstrukcije').html('Moje dogovorene instrukcije');
+                                }
+                                else {
+                                    $('#dogovoreneinstrukcije').html('Moje dogovorene instrukcije <b style="color:red;">(' + zbroj + ')</b>');
+                                    if(jsonz.klijent == 0){
+                                        $('#instrukcijeklijent').html('Moje dogovorene instrukcije kao klijent');
+                                    }
+                                    else{
+                                        $('#instrukcijeklijent').html('Moje dogovorene instrukcije kao klijent <b style="color:red;">(' + jsonz.klijent+ ')</b>');
+                                    }
+                                    if(jsonz.instruktor == 0){
+                                        $('#instrukcijeinstruktor').html('Moje dogovorene instrukcije kao instruktor');
+                                    }
+                                    else{
+                                        $('#instrukcijeinstruktor').html('Moje dogovorene instrukcije kao instruktor <b style="color:red;">(' + jsonz.instruktor+ ')</b>');
+                                    }
+                                }
+                            },
+                            complete: function () {
+                                setTimeout(worker, 5000);
+                            }
+                        });
+                    }
+                </script>
 
                 <div class="tab-content">
 
@@ -30,8 +65,8 @@
                         <div class=" tabbable " style="margin-top:-40px" role="tablist">
                             <ul class="nav nav-tabs subtabs" id="myTabDogovoreno">
                                 <!--Popis subtabova-->
-                                <li role="presentation" class="active"><a href="#tab11" aria-controls="tab11" role="tab" data-toggle="tab">Moje dogovorene instrukcije kao klijent</a></li>
-                                <li role="presentation"><a href="#tab12" aria-controls="tab12" role="tab" data-toggle="tab">Moje dogovorene instrukcije kao instruktor</a></li>
+                                <li role="presentation" class="active"><a href="#tab11" aria-controls="tab11" role="tab" data-toggle="tab" id="instrukcijeklijent">Moje dogovorene instrukcije kao klijent</a></li>
+                                <li role="presentation"><a href="#tab12" aria-controls="tab12" role="tab" data-toggle="tab" id="instrukcijeinstruktor">Moje dogovorene instrukcije kao instruktor</a></li>
                             </ul>
 
 
@@ -45,7 +80,7 @@
                                     {
                                         <fieldset>
                                             <form class="form-horizontal " method="post">
-                                                <div style="width:900px;">
+                                                <div style="width:950px;">
                                                     <div>
                                                         <div class="col-md-2 prihvati-lijevo">
                                                             <input onclick="dodajindex(11);" type="submit" class="btn btn-default " style="font-weight: bold;" value="Prihvati izmjene &raquo;"  /> <br />
@@ -55,7 +90,8 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th style="width:150px;">Datum</th>
-                                                                    <th style="width:100px;">Predmet</th>
+                                                                    <th style="width:75px;">Trajanje</th>
+                                                                    <th style="width:75px;">Predmet</th>
                                                                     <th style="width:100px;">Ime</th>
                                                                     <th style="width:130px;">Prezime</th>
                                                                     <th style="width:200px;">Status</th>
@@ -72,7 +108,10 @@
                                                                         @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.ID_dogovor_termin)
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor)
                                                                     </td>
-                                                                    <td style="width:100px;">
+                                                                    <td style="width:75px;">
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.Termin.Count)h
+                                                                    </td>
+                                                                    <td style="width:75px;">
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].predmet)
                                                                     </td>
                                                                     <td style="width:100px;">
@@ -206,7 +245,7 @@
                                     {
                                         <fieldset>
                                             <form class="form-horizontal " method="post">
-                                                <div style="width:900px;">
+                                                <div style="width:950px;">
                                                     <div>
                                                         <div class="col-md-2 prihvati-lijevo">
                                                             <input onclick="dodajindex(12);" type="submit" class="btn btn-default" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
@@ -215,8 +254,9 @@
                                                         <table class="table-bordered table table-striped header-fixed">
                                                             <thead>
                                                                 <tr>
-                                                                    <th style="width:150px;">Datum</th>
-                                                                    <th style="width:100px;">Predmet</th>
+                                                                    <th style="width:150px;">Datum i vrijeme</th>
+                                                                    <th style="width:75px;">Trajanje</th>
+                                                                    <th style="width:75px;">Predmet</th>
                                                                     <th style="width:100px;">Ime</th>
                                                                     <th style="width:130px;">Prezime</th>
                                                                     <th style="width:200px;">Status</th>
@@ -233,7 +273,10 @@
                                                                         @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.ID_dogovor_termin)
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor)
                                                                     </td>
-                                                                    <td style="width:100px;">
+                                                                    <td style="width:75px;">
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.Termin.Count)h
+                                                                    </td>
+                                                                    <td style="width:75px;">
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].predmet)
                                                                     </td>
                                                                     <td style="width:100px;">
@@ -669,6 +712,7 @@
                         dodanitermini = @Html.Raw(Json.Encode(Model.mojeVlastiteInstrukcije.mojiTermini));
                         //document.getElementById("test123").innerHTML = dodanitermini;
                         oznaciTermine();
+                        nots();
                     });
 
                     //pocetni tab
