@@ -7,8 +7,10 @@ namespace ppij_web_aplikacija.Models.Instrukcije.Opisnici
 {
 	public class OpisInstrukcije
 	{
-		public Osoba Osoba { get; set; }
-		public int Ocjena { get; set; }
+		public Osoba Instruktor { get; set; }
+		public double Ocjena { get; set; }
 		public int BrojInstrukcija { get; set; }
+		public decimal Cijena { get; set; }
+		public string Status { get; set; }
 	}
 }

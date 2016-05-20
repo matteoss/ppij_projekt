@@ -2,6 +2,7 @@
 using ppij_web_aplikacija.Models.Instrukcije.Opisnici;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -76,8 +77,104 @@ namespace ppij_web_aplikacija.Controllers
 
 		public ActionResult Instrukcija(InstrukcijaModel model)
 		{
+			List<OpisInstrukcije> opisi = new List<OpisInstrukcije>();
+			using (var db = new ppij_databaseEntities())
+			{
+				// datetime pocetka i zavrsetka
+				DateTime pocetak = new DateTime(model.Datum.Year, model.Datum.Month, model.Datum.Day, model.OdabraniSatID, 0, 0);
+				DateTime zavrsetak = pocetak.AddHours(model.OdabranoTrajanjeID);
+
+				// lista svih termina koji obuhvaćaju interval [pocetak, zavrsetak]
+				List<int> termini = new List<int>();
+				for (int i = 0; i < model.OdabranoTrajanjeID; i++)
+				{
+					DateTime termin = pocetak.AddHours(i);
+					int dan = (int)termin.DayOfWeek;
+					if (dan == 0)
+						dan += 7; // pretvori nedjelju iz 0 u 7
+					int sat = termin.Hour;
+					int blok = (dan * 100 + sat);
+					termini.Add(blok);
+					Debug.WriteLine("Termin: " + blok);
+				}
+
+				// uzmi sve instruktore koji predaju navedeni predmet
+				int ID_predmet = Int32.Parse((string)RouteData.Values["predmet_id"]);
+				List<osoba_predmet> instrukcije = db.osoba_predmet.Where(i => i.ID_predmet == ID_predmet).ToList();
+
+				// uzmi sve instruktore koji imaju slobodne SVE odabrane termine
+				List<osoba_predmet> slobodne_instrukcije = new List<osoba_predmet>();
+				foreach (osoba_predmet instrukcija in instrukcije)
+				{
+					Osoba instruktor = instrukcija.Osoba;
+					List<int> slobodni_termini = instruktor.Termin.Select(t => t.ID_termin).ToList();
+					if (TerminiSlobodni(slobodni_termini, termini))
+						slobodne_instrukcije.Add(instrukcija);
+				}
+
+				// uzmi one instruktore koji nemaju preklapanja sa vec postojecim dogovorenim terminima
+				List<osoba_predmet> potpuno_slobodne_instrukcije = new List<osoba_predmet>();
+				foreach (osoba_predmet instrukcija in slobodne_instrukcije)
+				{
+					bool preklapanje = false;
+					Osoba instruktor = instrukcija.Osoba;
+					List<dogovor_termin> dogovoreni_termini = instruktor.dogovor_termin
+						.Where(d => d.dogovor_status == 1 || d.dogovor_status == 11).ToList();
+					foreach (dogovor_termin dogovoren_termin in dogovoreni_termini)
+					{
+						DateTime pocetak_termina = (DateTime)dogovoren_termin.datum_dogovor;
+						DateTime zavrsetak_termina = pocetak_termina.AddHours((int)dogovoren_termin.trajanje);
+						if (pocetak_termina > pocetak && pocetak_termina < zavrsetak
+						 || zavrsetak_termina > pocetak && zavrsetak_termina < zavrsetak)
+						{
+							preklapanje = true;
+							break;
+						}
+					}
+					if (!preklapanje)
+					{
+						potpuno_slobodne_instrukcije.Add(instrukcija);
+					}
+				}
+
+				// provjeri da li si već poslao isti zahtjev tom instruktoru
+				// ako da, oznaci status kao "POSLAN"
+				// TODO
+
+				foreach (osoba_predmet instrukcija in potpuno_slobodne_instrukcije)
+				{
+					OpisInstrukcije opis = new OpisInstrukcije();
+					opis.Instruktor = instrukcija.Osoba;
+
+					// izracunaj prosjecnu ocjenu iz predmeta
+					List<int> ocjene = db.dogovor_termin.Where(i => i.ID_instruktor == opis.Instruktor.ID_osoba
+															      && i.ID_predmet == ID_predmet
+															      && i.dogovor_ocijena != null)
+										  .Select(i => (int)i.dogovor_ocijena).ToList();
+					opis.Ocjena = 1.0 * ocjene.Sum(x => Convert.ToInt32(x)) / ocjene.Count;
+					// nadji broj instrukcija iz predmeta
+					opis.BrojInstrukcija = db.dogovor_termin.Where(i => i.ID_instruktor == opis.Instruktor.ID_osoba
+																	 && i.ID_predmet == ID_predmet
+																	 && i.dogovor_ocijena != null).Count();
+					// izracunaj cijenu (trajanje * cijena)
+					opis.Cijena = (decimal)instrukcija.cijena * model.OdabranoTrajanjeID;
+
+					opisi.Add(opis);
+				}
+			}
+			// filtriraj po imenu i prezimenu
+			if (model.Ime != null)
+				opisi = opisi.Where(i => i.Instruktor.ime_osoba.Contains(model.Ime.Trim())).ToList();
+			if (model.Prezime != null)
+				opisi = opisi.Where(i => i.Instruktor.prezime_osoba.Contains(model.Prezime.Trim())).ToList();
+
+			model.Opisi = opisi;
 			return View(model);
 		}
-	}
 
+		public static bool TerminiSlobodni(List<int> a, List<int> b)
+		{
+			return !b.Except(a).Any();
+		}
+	}
 }

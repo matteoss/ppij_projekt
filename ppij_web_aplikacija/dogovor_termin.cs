@@ -14,12 +14,6 @@ namespace ppij_web_aplikacija
     
     public partial class dogovor_termin
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public dogovor_termin()
-        {
-            this.Termin = new HashSet<Termin>();
-        }
-    
         public int ID_dogovor_termin { get; set; }
         public Nullable<double> lokacija_x { get; set; }
         public Nullable<double> lokacija_y { get; set; }
@@ -29,10 +23,9 @@ namespace ppij_web_aplikacija
         public Nullable<int> ID_klijent { get; set; }
         public Nullable<System.DateTime> datum_dogovor { get; set; }
         public Nullable<int> ID_predmet { get; set; }
+        public Nullable<int> trajanje { get; set; }
     
         public virtual Osoba Osoba { get; set; }
         public virtual Osoba Osoba1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Termin> Termin { get; set; }
     }
 }

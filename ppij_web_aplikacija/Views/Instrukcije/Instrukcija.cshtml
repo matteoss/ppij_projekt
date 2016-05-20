@@ -8,20 +8,21 @@
 <body>
     <h3>Biranje instrukcije</h3>
     <hr />
-    @using (Html.BeginForm("Index"))
+    @using (Html.BeginForm())
     {
         <div class="form-group">
             @Html.LabelFor(model => model.Datum)
             @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { id = "date" } })
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.OdabraniTerminID)
-            @Html.DropDownListFor(m => Model.OdabraniTerminID, Model.Termini)
+            @Html.LabelFor(m => m.OdabraniSatID)
+            @Html.DropDownListFor(m => Model.OdabraniSatID, Model.Sati)
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.OdabranoTrajanjeID)
             @Html.DropDownListFor(m => Model.OdabranoTrajanjeID, Model.Trajanja)
         </div>
+        <input type="submit" value="Traži" />
         <hr />
         <p>Ovo su samo test podaci</p>
         <table id="instrukcije" class="tablesorter">
@@ -37,38 +38,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Ilija</td>
-                    <td>Hromski</td>
-                    <td>3.47</td>
-                    <td>200</td>
-                    <td>7</td>
-                    <td>Zagreb</td>
-                </tr>
-                <tr>
-                    <td>Habib</td>
-                    <td>Seljdžić</td>
-                    <td>1.31</td>
-                    <td>100</td>
-                    <td>3</td>
-                    <td>Turkmenistan</td>
-                </tr>
-                <tr>
-                    <td>Miroslav</td>
-                    <td>Glavić</td>
-                    <td>4.26</td>
-                    <td>200</td>
-                    <td>144</td>
-                    <td>Krapina</td>
-                </tr>
-                <tr>
-                    <td>Maroje</td>
-                    <td>Zgorov</td>
-                    <td>4.12</td>
-                    <td>300</td>
-                    <td>352</td>
-                    <td>Šibenik</td>
-                </tr>
+                @foreach (var opis in Model.Opisi)
+                {
+                    <tr>
+                        <td>opis.Instruktor.Ime</td>
+                        <td>opis.Instruktor.Prezime</td>
+                        <td>opis.Ocjena</td>
+                        <td>opis.Cijena</td>
+                        <td>opis.BrojInstrukcija</td>
+                        <td>Ovdje ide combo box lokacija</td>
+                    </tr>}
+
             </tbody>
         </table>
         <hr />
