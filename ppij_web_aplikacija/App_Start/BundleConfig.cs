@@ -29,6 +29,12 @@ namespace ppij_web_aplikacija
  
 			bundles.Add(new StyleBundle("~/Content/cssjqryUi").Include(
 					  "~/Content/themes/base/all.css"));
+
+			bundles.Add(new ScriptBundle("~/bundles/jquery_tablesorter").Include(
+					  "~/Scripts/jquery.tablesorter.js"));
+
+			bundles.Add(new StyleBundle("~/Content/css_jquery_tablesorter").Include(
+					  "~/Content/tablesorter/style.css"));
 		}
     }
 }

@@ -10,6 +10,11 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 {
 	public class InstrukcijaModel
 	{
+		public InstrukcijaModel()
+		{
+			Datum = DateTime.Now;
+		}
+
 		[DataType(DataType.Date)]
 		public DateTime Datum { get; set; }
 

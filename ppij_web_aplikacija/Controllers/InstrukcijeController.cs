@@ -76,7 +76,6 @@ namespace ppij_web_aplikacija.Controllers
 
 		public ActionResult Instrukcija(InstrukcijaModel model)
 		{
-			model.Datum = DateTime.Now;
 			return View(model);
 		}
 	}
