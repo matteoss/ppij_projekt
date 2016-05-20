@@ -102,7 +102,7 @@ namespace ppij_web_aplikacija.Controllers
 				int ID_predmet = Int32.Parse((string)RouteData.Values["predmet_id"]);
 				List<osoba_predmet> instrukcije = db.osoba_predmet.Where(i => i.ID_predmet == ID_predmet).ToList();
 
-				// uzmi sve instruktore koji imaju slobodne SVE termine
+				// uzmi sve instruktore koji imaju slobodne SVE odabrane termine
 				List<osoba_predmet> slobodne_instrukcije = new List<osoba_predmet>();
 				foreach (osoba_predmet instrukcija in instrukcije)
 				{
@@ -116,18 +116,59 @@ namespace ppij_web_aplikacija.Controllers
 				List<osoba_predmet> potpuno_slobodne_instrukcije = new List<osoba_predmet>();
 				foreach (osoba_predmet instrukcija in slobodne_instrukcije)
 				{
+					bool preklapanje = false;
 					Osoba instruktor = instrukcija.Osoba;
-					// uzmi sve dogovorene instrukcije
 					List<dogovor_termin> dogovoreni_termini = instruktor.dogovor_termin
 						.Where(d => d.dogovor_status == 1 || d.dogovor_status == 11).ToList();
 					foreach (dogovor_termin dogovoren_termin in dogovoreni_termini)
 					{
-						DateTime pocetak_termina = (DateTime)dogovoren_termin.datum_dogovor; // ne bi trebao biti null, ikada
-						// DateTime zavrsetak_termina = pocetak_termina.AddHours(dogovoren_termin.)
+						DateTime pocetak_termina = (DateTime)dogovoren_termin.datum_dogovor;
+						DateTime zavrsetak_termina = pocetak_termina.AddHours((int)dogovoren_termin.trajanje);
+						if (pocetak_termina > pocetak && pocetak_termina < zavrsetak
+						 || zavrsetak_termina > pocetak && zavrsetak_termina < zavrsetak)
+						{
+							preklapanje = true;
+							break;
+						}
+					}
+					if (!preklapanje)
+					{
+						potpuno_slobodne_instrukcije.Add(instrukcija);
 					}
 				}
 
+				// provjeri da li si već poslao isti zahtjev tom instruktoru
+				// ako da, oznaci status kao "POSLAN"
+				// TODO
+
+				foreach (osoba_predmet instrukcija in potpuno_slobodne_instrukcije)
+				{
+					OpisInstrukcije opis = new OpisInstrukcije();
+					opis.Instruktor = instrukcija.Osoba;
+
+					// izracunaj prosjecnu ocjenu iz predmeta
+					List<int> ocjene = db.dogovor_termin.Where(i => i.ID_instruktor == opis.Instruktor.ID_osoba
+															      && i.ID_predmet == ID_predmet
+															      && i.dogovor_ocijena != null)
+										  .Select(i => (int)i.dogovor_ocijena).ToList();
+					opis.Ocjena = 1.0 * ocjene.Sum(x => Convert.ToInt32(x)) / ocjene.Count;
+					// nadji broj instrukcija iz predmeta
+					opis.BrojInstrukcija = db.dogovor_termin.Where(i => i.ID_instruktor == opis.Instruktor.ID_osoba
+																	 && i.ID_predmet == ID_predmet
+																	 && i.dogovor_ocijena != null).Count();
+					// izracunaj cijenu (trajanje * cijena)
+					opis.Cijena = (decimal)instrukcija.cijena * model.OdabranoTrajanjeID;
+
+					opisi.Add(opis);
+				}
 			}
+			// filtriraj po imenu i prezimenu
+			if (model.Ime != null)
+				opisi = opisi.Where(i => i.Instruktor.ime_osoba.Contains(model.Ime.Trim())).ToList();
+			if (model.Prezime != null)
+				opisi = opisi.Where(i => i.Instruktor.prezime_osoba.Contains(model.Prezime.Trim())).ToList();
+
+			model.Opisi = opisi;
 			return View(model);
 		}
 

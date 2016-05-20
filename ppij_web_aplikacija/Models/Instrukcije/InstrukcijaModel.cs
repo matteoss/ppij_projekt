@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ppij_web_aplikacija.Models.Instrukcije.Konstante;
+using ppij_web_aplikacija.Models.Instrukcije.Opisnici;
 
 namespace ppij_web_aplikacija.Models.Instrukcije
 {
@@ -31,7 +32,7 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 		{
 			get { return new SelectList(Konstante.Trajanje.TRAJANJA, "ID", "Naziv");  }
 		}
-
+		public ICollection<OpisInstrukcije> Opisi { get; set; }
 		public string Ime { get; set; }
 		public string Prezime { get; set; }
 	}
