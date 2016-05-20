@@ -20,7 +20,6 @@
         <AssociationConnector Association="ppij_database_model.FK__osoba_kat__ID_ka__1B0907CE1" />
         <AssociationConnector Association="ppij_database_model.FK__osoba_pre__ID_pr__4D94879B" />
         <AssociationConnector Association="ppij_database_model.FK__Predmet__ID_usta__5AEE82B9" />
-        <AssociationConnector Association="ppij_database_model.dogovor_popis_termina" />
         <EntityTypeShape EntityType="ppij_database_model.Lokacija" Width="1.5" PointX="3" PointY="4.875" />
         <AssociationConnector Association="ppij_database_model.FK_Table_ToTable" />
       </Diagram>

@@ -41,7 +41,7 @@ namespace ppij_web_aplikacija.Controllers
                 foreach(dogovor_termin dogovor in osoba.dogovor_termin.ToList()){
                     if (dogovor.dogovor_status != 20)
                     {
-                        dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
+                        //dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
                         //Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
                         model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
                         {
@@ -56,7 +56,7 @@ namespace ppij_web_aplikacija.Controllers
                 }
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList())
                 {
-                    dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
+                    //dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
                     //Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
                     model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
                     {
@@ -313,7 +313,7 @@ namespace ppij_web_aplikacija.Controllers
                 model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent = new List<dogovor_term_osoba>();
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin.ToList())
                 {
-                    dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
+                    //dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
                     //Debug.WriteLine(dogovor.datum_dogovor.Value);
                     model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
                     {
@@ -327,7 +327,7 @@ namespace ppij_web_aplikacija.Controllers
                 }
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList())
                 {
-                    dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.OrderBy(o => o.period_termin).FirstOrDefault().period_termin);
+                    //dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.OrderBy(o => o.period_termin).FirstOrDefault().period_termin);
                     //Debug.WriteLine(dogovor.datum_dogovor.Value);
                     model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
                     {
