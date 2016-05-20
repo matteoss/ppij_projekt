@@ -10,15 +10,8 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 {
 	public class InstrukcijaModel
 	{
-		public string Ime { get; set; }
-		public string Prezime { get; set; }
-
-		[Display(Name = "Dan")]
-		public int OdabraniDanID { get; set; }
-		public IEnumerable<SelectListItem> Dani
-		{
-			get { return new SelectList(Konstante.Dan.DANI, "ID", "Naziv"); }
-		}
+		[DataType(DataType.Date)]
+		public DateTime Datum { get; set; }
 
 		[Display(Name = "Termin")]
 		public int OdabraniTerminID { get; set; }
@@ -33,5 +26,9 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 		{
 			get { return new SelectList(Konstante.Trajanje.TRAJANJA, "ID", "Naziv");  }
 		}
+
+		public string Ime { get; set; }
+		public string Prezime { get; set; }
+		public double OcjenaOd { get; set; }
 	}
 }
