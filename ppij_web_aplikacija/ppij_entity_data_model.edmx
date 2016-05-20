@@ -34,6 +34,16 @@
           <Property Name="naziv_kategorija" Type="varchar" MaxLength="50" />
           <Property Name="ID_kategorija" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Lokacija">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ID_instruktor" Type="int" Nullable="false" />
+          <Property Name="Geo_sirina" Type="float" />
+          <Property Name="Geo_duzina" Type="float" />
+          <Property Name="opis" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Osoba">
           <Key>
             <PropertyRef Name="ID_osoba" />
@@ -212,10 +222,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Table_ToTable">
+          <End Role="Osoba" Type="Self.Osoba" Multiplicity="1" />
+          <End Role="Lokacija" Type="Self.Lokacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osoba">
+              <PropertyRef Name="ID_osoba" />
+            </Principal>
+            <Dependent Role="Lokacija">
+              <PropertyRef Name="ID_instruktor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ppij_database_modelStoreContainer">
           <EntitySet Name="dogovor_popis_termina" EntityType="Self.dogovor_popis_termina" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="dogovor_termin" EntityType="Self.dogovor_termin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Kategorija" EntityType="Self.Kategorija" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lokacija" EntityType="Self.Lokacija" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Osoba" EntityType="Self.Osoba" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="osoba_predmet" EntityType="Self.osoba_predmet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="osoba_termin" EntityType="Self.osoba_termin" Schema="dbo" store:Type="Tables" />
@@ -261,6 +284,10 @@
           <AssociationSet Name="FK__Predmet__ID_usta__5AEE82B9" Association="Self.FK__Predmet__ID_usta__5AEE82B9">
             <End Role="Ustanova" EntitySet="Ustanova" />
             <End Role="Predmet" EntitySet="Predmet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable" Association="Self.FK_Table_ToTable">
+            <End Role="Osoba" EntitySet="Osoba" />
+            <End Role="Lokacija" EntitySet="Lokacija" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -310,6 +337,7 @@
           <Property Name="lozinka" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="salt" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="osoba_predmet" Relationship="ppij_database_model.FK__osoba_pre__ID_os__4CA06362" FromRole="Osoba" ToRole="osoba_predmet" />
+          <NavigationProperty Name="Lokacija" Relationship="ppij_database_model.FK_Table_ToTable" FromRole="Osoba" ToRole="Lokacija" />
         </EntityType>
         <EntityType Name="Termin">
           <Key>
@@ -388,6 +416,11 @@
           <AssociationSet Name="dogovor_popis_termina" Association="ppij_database_model.dogovor_popis_termina">
             <End Role="dogovor_termin" EntitySet="dogovor_termin" />
             <End Role="Termin" EntitySet="Termin" />
+          </AssociationSet>
+          <EntitySet Name="Lokacija" EntityType="ppij_database_model.Lokacija" />
+          <AssociationSet Name="FK_Table_ToTable" Association="ppij_database_model.FK_Table_ToTable">
+            <End Role="Osoba" EntitySet="Osoba" />
+            <End Role="Lokacija" EntitySet="Lokacija" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="osoba_predmet">
@@ -474,6 +507,29 @@
         <Association Name="dogovor_popis_termina">
           <End Type="ppij_database_model.dogovor_termin" Role="dogovor_termin" Multiplicity="*" />
           <End Type="ppij_database_model.Termin" Role="Termin" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Lokacija">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ID_instruktor" Type="Int32" Nullable="false" />
+          <Property Name="Geo_sirina" Type="Double" />
+          <Property Name="Geo_duzina" Type="Double" />
+          <Property Name="opis" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Osoba" Relationship="ppij_database_model.FK_Table_ToTable" FromRole="Lokacija" ToRole="Osoba" />
+        </EntityType>
+        <Association Name="FK_Table_ToTable">
+          <End Type="ppij_database_model.Osoba" Role="Osoba" Multiplicity="1" />
+          <End Type="ppij_database_model.Lokacija" Role="Lokacija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Osoba">
+              <PropertyRef Name="ID_osoba" />
+            </Principal>
+            <Dependent Role="Lokacija">
+              <PropertyRef Name="ID_instruktor" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -574,6 +630,17 @@
               <ScalarProperty Name="ID_dogovor_termin" ColumnName="ID_dogovor_termin" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Lokacija">
+            <EntityTypeMapping TypeName="ppij_database_model.Lokacija">
+              <MappingFragment StoreEntitySet="Lokacija">
+                <ScalarProperty Name="opis" ColumnName="opis" />
+                <ScalarProperty Name="Geo_duzina" ColumnName="Geo_duzina" />
+                <ScalarProperty Name="Geo_sirina" ColumnName="Geo_sirina" />
+                <ScalarProperty Name="ID_instruktor" ColumnName="ID_instruktor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

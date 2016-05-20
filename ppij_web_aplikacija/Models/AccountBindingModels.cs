@@ -33,8 +33,17 @@ namespace ppij_web_aplikacija.Models
     {
         public List<odabranaKategorija> popis_kategorija { get; set; }
         public List<String> mojiTermini { get; set; }
+        public String MojeLokacijeJson { get; set; }
         public List<dogovor_term_osoba> dogovoreni_termini_kao_instruktor { get; set; }
         public List<dogovor_term_osoba> dogovoreni_termini_kao_klijent { get; set; }
+    }
+
+    public class lokacijeJsonObject
+    {
+        public double lat { get; set; }
+        public double lon { get; set; }
+        public String opis { get; set; }
+        public int id { get; set; }
     }
 
     public class odabranaKategorija

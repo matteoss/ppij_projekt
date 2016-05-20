@@ -219,6 +219,9 @@
     <Compile Include="Kategorija.cs">
       <DependentUpon>ppij_entity_data_model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Lokacija.cs">
+      <DependentUpon>ppij_entity_data_model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -320,6 +323,14 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Leaflet\images\layers-2x.png" />
+    <Content Include="Leaflet\images\layers.png" />
+    <Content Include="Leaflet\images\marker-icon-2x.png" />
+    <Content Include="Leaflet\images\marker-icon.png" />
+    <Content Include="Leaflet\images\marker-shadow.png" />
+    <Content Include="Leaflet\leaflet-src.js" />
+    <Content Include="Leaflet\leaflet.css" />
+    <Content Include="Leaflet\leaflet.js" />
     <Content Include="ppij_entity_data_model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ppij_entity_data_model.edmx</DependentUpon>

@@ -11,3 +11,5 @@
 /// <reference path="modernizr-2.6.2.js" />
 /// <reference path="parallax-scroll.js" />
 /// <reference path="respond.js" />
+/// <reference path="../leaflet/leaflet.js" />
+/// <reference path="../leaflet/leaflet-src.js" />

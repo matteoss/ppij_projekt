@@ -22,7 +22,7 @@ namespace ppij_web_aplikacija.Controllers
                 ViewBag.Title = User.Identity.Name;
                 Osoba osoba = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
                 ViewBag.razinaPrava = osoba.razina_prava;
-                Debug.WriteLine("razina prava" + osoba.razina_prava);
+                //Debug.WriteLine("razina prava" + osoba.razina_prava);
                 PostavkeModel model = new PostavkeModel();
                 model.changePassword = new ChangePasswordBindingModel();
                 model.ostalePostavke = new OstalePostavke();
@@ -42,7 +42,7 @@ namespace ppij_web_aplikacija.Controllers
                     if (dogovor.dogovor_status != 20)
                     {
                         dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
-                        Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
+                        //Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
                         model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
                         {
                             termin = dogovor,
@@ -57,7 +57,7 @@ namespace ppij_web_aplikacija.Controllers
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList())
                 {
                     dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
-                    Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
+                    //Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
                     model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
                     {
                         termin = dogovor,
@@ -91,7 +91,7 @@ namespace ppij_web_aplikacija.Controllers
                     odabrananadkat.kategorija_ime = kateg.naziv_kategorija;
                     model.mojeVlastiteInstrukcije.popis_kategorija.Add(odabrananadkat);
                 }
-
+                model.mojeVlastiteInstrukcije.MojeLokacijeJson = convertLokacije(data.Lokacija.Where(l => l.Osoba.ID_osoba == osoba.ID_osoba).ToList());
                 model.trenutniTab = "11";
                 if (osoba.razina_prava == 1)
                 {
@@ -100,10 +100,6 @@ namespace ppij_web_aplikacija.Controllers
                 else
                 {
                     model.ostalePostavke.instruktor = false;
-                }
-                foreach (String t in model.mojeVlastiteInstrukcije.mojiTermini)
-                {
-                    Debug.WriteLine("get: " + t);
                 }
                 return View(model);
             }
@@ -156,7 +152,7 @@ namespace ppij_web_aplikacija.Controllers
                                     {
                                        dogovor.dogovor_status = 2;
                                     }
-                                    Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
+                                    //Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
                                 }
                             }
                         }
@@ -192,18 +188,18 @@ namespace ppij_web_aplikacija.Controllers
 
                     else if (trenutniTab.Equals("21") || trenutniTab.Equals("22"))
                     {
-                        foreach (String t in model.mojeVlastiteInstrukcije.mojiTermini)
+                        /*foreach (String t in model.mojeVlastiteInstrukcije.mojiTermini)
                         {
                             Debug.WriteLine("post: " + t);
-                        }
+                        }*/
                         model.mojeVlastiteInstrukcije.mojiTermini = model.mojeVlastiteInstrukcije.mojiTermini.FirstOrDefault().Split(',').ToList();
                         List<Termin> toBeDel = new List<Termin>();
                         foreach (Termin s in osoba.Termin) //provjera starih termina - da li su još aktualni
                         {
-                            Debug.WriteLine("check to be deleted: " + s.ID_termin);
+                            //Debug.WriteLine("check to be deleted: " + s.ID_termin);
                             if (model.mojeVlastiteInstrukcije.mojiTermini.Contains(s.ID_termin.ToString()) == false)
                             {
-                                Debug.WriteLine("to be deleted: " + s.ID_termin);
+                                //Debug.WriteLine("to be deleted: " + s.ID_termin);
                                 toBeDel.Add(s);
                             }
                         }
@@ -214,13 +210,13 @@ namespace ppij_web_aplikacija.Controllers
                         data.SaveChanges();
                         foreach (String s in model.mojeVlastiteInstrukcije.mojiTermini) //provjera novih termina - koje treba dodati u bazu
                         {
-                            Debug.WriteLine("check to be added: " + s);
+                            //Debug.WriteLine("check to be added: " + s);
                             if (s.Length > 0)
                             {
                                 int id = Int32.Parse(s);
                                 if (osoba.Termin.Where(st => st.ID_termin == id).Count() == 0)
                                 {
-                                    Debug.WriteLine("to be added: " + s);
+                                    //Debug.WriteLine("to be added: " + s);
                                     Termin ter = data.Termin.Where(t => t.ID_termin == id).FirstOrDefault();
                                     osoba.Termin.Add(ter);
                                 }
@@ -257,6 +253,48 @@ namespace ppij_web_aplikacija.Controllers
                                 osoba.razina_prava = 2;
                             }
                         }
+                        if (model.mojeVlastiteInstrukcije.MojeLokacijeJson != null)
+                        {
+                            List<lokacijeJsonObject> lokacijeObj = JsonConvert.DeserializeObject<List<lokacijeJsonObject>>(model.mojeVlastiteInstrukcije.MojeLokacijeJson);
+                            if (lokacijeObj != null)
+                            {
+                                List<Lokacija> lokacije = new List<Lokacija>();
+                                foreach (lokacijeJsonObject objekt in lokacijeObj)
+                                {
+                                    Lokacija lok = new Lokacija()
+                                    {
+                                        Geo_sirina = objekt.lat,
+                                        Geo_duzina = objekt.lon,
+                                        Id = data.Lokacija.Max(l => l.Id) + 1,
+                                        opis = objekt.opis,
+                                        ID_instruktor = osoba.ID_osoba,
+                                        Osoba = osoba
+                                    };
+                                    lokacije.Add(lok);
+                                }
+
+                                List<Lokacija> toBeDel = new List<Lokacija>();
+                                foreach (Lokacija lok in osoba.Lokacija)
+                                {
+                                    if (lokacije.Where(l => l.Geo_duzina == lok.Geo_duzina && l.Geo_sirina == lok.Geo_sirina).Count() < 1)
+                                    {
+                                        toBeDel.Add(lok);
+                                    }
+                                }
+                                foreach (Lokacija t in toBeDel)
+                                {
+                                    osoba.Lokacija.Remove(t);
+                                }
+                                data.SaveChanges();
+                                foreach (Lokacija nova in lokacije)
+                                {
+                                    if (osoba.Lokacija.Where(l => l.Geo_duzina == nova.Geo_duzina && l.Geo_sirina == nova.Geo_sirina).Count() == 0)
+                                    {
+                                        osoba.Lokacija.Add(nova);
+                                    }
+                                }
+                            }
+                        }
                     }
                     data.SaveChanges();
                 }
@@ -276,7 +314,7 @@ namespace ppij_web_aplikacija.Controllers
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin.ToList())
                 {
                     dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
-                    Debug.WriteLine(dogovor.datum_dogovor.Value);
+                    //Debug.WriteLine(dogovor.datum_dogovor.Value);
                     model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
                     {
                         termin = dogovor,
@@ -290,7 +328,7 @@ namespace ppij_web_aplikacija.Controllers
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList())
                 {
                     dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.OrderBy(o => o.period_termin).FirstOrDefault().period_termin);
-                    Debug.WriteLine(dogovor.datum_dogovor.Value);
+                    //Debug.WriteLine(dogovor.datum_dogovor.Value);
                     model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
                     {
                         termin = dogovor,
@@ -323,6 +361,7 @@ namespace ppij_web_aplikacija.Controllers
                     odabrananadkat.kategorija_ime = kateg.naziv_kategorija;
                     model.mojeVlastiteInstrukcije.popis_kategorija.Add(odabrananadkat);
                 }
+                model.mojeVlastiteInstrukcije.MojeLokacijeJson = convertLokacije(data.Lokacija.Where(l => l.Osoba.ID_osoba == osoba.ID_osoba).ToList());
                 if (osoba.razina_prava == 1)
                 {
                     model.ostalePostavke.instruktor = true;
@@ -330,10 +369,6 @@ namespace ppij_web_aplikacija.Controllers
                 else
                 {
                     model.ostalePostavke.instruktor = false;
-                }
-                foreach (String t in model.mojeVlastiteInstrukcije.mojiTermini)
-                {
-                    Debug.WriteLine("get: " + t);
                 }
                 return View(model);
             }
@@ -357,6 +392,32 @@ namespace ppij_web_aplikacija.Controllers
                 int notificationsKlij = trenutna.dogovor_termin1.Where(d => d.dogovor_status == 3 || d.dogovor_status == 11).Count();
                 return "{\"klijent\":" + notificationsKlij + ",\"instruktor\":"+notificationsIns + "}";
             }
+        }
+
+
+
+        public String convertLokacije(List<Lokacija> lokacije)
+        {
+            Boolean prvi = true;
+            String json = "{\"lokacije\":[";
+            foreach (Lokacija lok in lokacije){
+                if (prvi == true)
+                {
+                    prvi = false;
+                }
+                else
+                {
+                    json += ",";
+                }
+                json += "{";
+                json += "\"lat\":"+lok.Geo_sirina +",";
+                json += "\"lon\":" + lok.Geo_duzina +",";
+                json += "\"opis\":\"" + lok.opis + "\",";
+                json += "\"id\":" + lok.Id;
+                json += "}";
+            }
+            json += "]}";
+            return json;
         }
 
     }

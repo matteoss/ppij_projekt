@@ -32,5 +32,6 @@ namespace ppij_web_aplikacija
         public virtual DbSet<osoba_predmet> osoba_predmet { get; set; }
         public virtual DbSet<Predmet> Predmet { get; set; }
         public virtual DbSet<Ustanova> Ustanova { get; set; }
+        public virtual DbSet<Lokacija> Lokacija { get; set; }
     }
 }

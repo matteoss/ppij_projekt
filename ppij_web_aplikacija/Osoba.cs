@@ -21,6 +21,7 @@ namespace ppij_web_aplikacija
             this.dogovor_termin1 = new HashSet<dogovor_termin>();
             this.Termin = new HashSet<Termin>();
             this.osoba_predmet = new HashSet<osoba_predmet>();
+            this.Lokacija = new HashSet<Lokacija>();
         }
     
         public int ID_osoba { get; set; }
@@ -42,5 +43,7 @@ namespace ppij_web_aplikacija
         public virtual ICollection<Termin> Termin { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<osoba_predmet> osoba_predmet { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Lokacija> Lokacija { get; set; }
     }
 }
