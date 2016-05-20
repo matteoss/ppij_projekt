@@ -123,7 +123,7 @@ namespace ppij_web_aplikacija.Controllers
 					foreach (dogovor_termin dogovoren_termin in dogovoreni_termini)
 					{
 						DateTime pocetak_termina = (DateTime)dogovoren_termin.datum_dogovor; // ne bi trebao biti null, ikada
-						// CONTINUE HERE ---> DateTime zavrsetak_termina = pocetak_termina.AddHours(dogovoren_termin.Termin.Count)
+						// DateTime zavrsetak_termina = pocetak_termina.AddHours(dogovoren_termin.)
 					}
 				}
 
