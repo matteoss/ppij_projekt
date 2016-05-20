@@ -10,26 +10,108 @@
     <hr />
     @using (Html.BeginForm("Index"))
     {
-        <div>
-            @Html.LabelFor(m => Model.Ime)
-            @Html.TextBoxFor(m => Model.Ime)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Datum)
+            @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { id = "date" } })
         </div>
-        <div>
-            @Html.LabelFor(m => Model.Prezime)
-            @Html.TextBoxFor(m => Model.Prezime)
-        </div>
-        <div>
-            @Html.LabelFor(m => Model.OdabraniDanID)
-            @Html.DropDownListFor(m => Model.OdabraniDanID, Model.Dani)
-        </div>
-        <div>
+        <div class="form-group">
             @Html.LabelFor(m => m.OdabraniTerminID)
             @Html.DropDownListFor(m => Model.OdabraniTerminID, Model.Termini)
         </div>
-        <div>
+        <div class="form-group">
             @Html.LabelFor(m => m.OdabranoTrajanjeID)
             @Html.DropDownListFor(m => Model.OdabranoTrajanjeID, Model.Trajanja)
+        </div>
+        <hr />
+        <p>Ovo su samo test podaci</p>
+        <table id="instrukcije" class="tablesorter">
+            <thead>
+                <tr>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Ocjena</th>
+                    <th>Cijena (KN)</th>
+                    <th>Broj instrukcija</th>
+                    <th>Lokacija</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ilija</td>
+                    <td>Hromski</td>
+                    <td>3.47</td>
+                    <td>200</td>
+                    <td>7</td>
+                    <td>Zagreb</td>
+                </tr>
+                <tr>
+                    <td>Habib</td>
+                    <td>Seljdžić</td>
+                    <td>1.31</td>
+                    <td>100</td>
+                    <td>3</td>
+                    <td>Turkmenistan</td>
+                </tr>
+                <tr>
+                    <td>Miroslav</td>
+                    <td>Glavić</td>
+                    <td>4.26</td>
+                    <td>200</td>
+                    <td>144</td>
+                    <td>Krapina</td>
+                </tr>
+                <tr>
+                    <td>Maroje</td>
+                    <td>Zgorov</td>
+                    <td>4.12</td>
+                    <td>300</td>
+                    <td>352</td>
+                    <td>Šibenik</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+        <div class="form-group">
+            Tražilica:
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Ime)
+                @Html.TextBoxFor(m => Model.Ime)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => Model.Prezime)
+                @Html.TextBoxFor(m => Model.Prezime)
+            </div>
         </div>
     }
 </body>
 </html>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#date').datepicker({
+                dateFormat: "dd/MM/yy",
+                changeMonth: true,
+                changeYear: true,
+                minDate: "dateToday",
+                yearRange: "-0:+1"
+            });
+
+        });
+    </script>
+
+    @Scripts.Render("~/bundles/jquery_tablesorter")
+    @Styles.Render("~/Content/css_jquery_tablesorter")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#instrukcije").tablesorter();
+        }
+    );
+    </script>
+}
