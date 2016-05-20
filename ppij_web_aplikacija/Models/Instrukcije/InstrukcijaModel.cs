@@ -18,11 +18,11 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 		[DataType(DataType.Date)]
 		public DateTime Datum { get; set; }
 
-		[Display(Name = "Termin")]
-		public int OdabraniTerminID { get; set; }
-		public IEnumerable<SelectListItem> Termini
+		[Display(Name = "Sat")]
+		public int OdabraniSatID { get; set; }
+		public IEnumerable<SelectListItem> Sati
 		{
-			get { return new SelectList(Konstante.Termin.TERMINI, "ID", "Naziv"); }
+			get { return new SelectList(Konstante.Sat.SATI, "ID", "Naziv"); }
 		}
 
 		[Display(Name = "Trajanje")]
@@ -34,6 +34,5 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 
 		public string Ime { get; set; }
 		public string Prezime { get; set; }
-		public double OcjenaOd { get; set; }
 	}
 }

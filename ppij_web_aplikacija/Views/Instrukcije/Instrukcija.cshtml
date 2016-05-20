@@ -8,20 +8,21 @@
 <body>
     <h3>Biranje instrukcije</h3>
     <hr />
-    @using (Html.BeginForm("Index"))
+    @using (Html.BeginForm())
     {
         <div class="form-group">
             @Html.LabelFor(model => model.Datum)
             @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { id = "date" } })
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.OdabraniTerminID)
-            @Html.DropDownListFor(m => Model.OdabraniTerminID, Model.Termini)
+            @Html.LabelFor(m => m.OdabraniSatID)
+            @Html.DropDownListFor(m => Model.OdabraniSatID, Model.Sati)
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.OdabranoTrajanjeID)
             @Html.DropDownListFor(m => Model.OdabranoTrajanjeID, Model.Trajanja)
         </div>
+        <input type="submit" value="Traži" />
         <hr />
         <p>Ovo su samo test podaci</p>
         <table id="instrukcije" class="tablesorter">

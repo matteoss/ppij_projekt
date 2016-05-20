@@ -224,13 +224,14 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Instrukcije\Konstante\Dan.cs" />
     <Compile Include="Models\Instrukcije\InstrukcijaModel.cs" />
+    <Compile Include="Models\Instrukcije\Konstante\Minute.cs" />
     <Compile Include="Models\Instrukcije\Konstante\Trajanje.cs" />
     <Compile Include="Models\Instrukcije\Opisnici\OpisInstrukcije.cs" />
     <Compile Include="Models\Instrukcije\Opisnici\OpisKategorije.cs" />
     <Compile Include="Models\Instrukcije\KategorijaModel.cs" />
     <Compile Include="Models\Instrukcije\Opisnici\OpisPredmeta.cs" />
     <Compile Include="Models\Instrukcije\PredmetModel.cs" />
-    <Compile Include="Models\Instrukcije\Konstante\Termin.cs" />
+    <Compile Include="Models\Instrukcije\Konstante\Sat.cs" />
     <Compile Include="Models\Instrukcije\UstanovaModel.cs" />
     <Compile Include="Models\OsobaLogin.cs" />
     <Compile Include="Osoba.cs">
