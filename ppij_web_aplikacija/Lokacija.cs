@@ -14,6 +14,12 @@ namespace ppij_web_aplikacija
     
     public partial class Lokacija
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Lokacija()
+        {
+            this.dogovor_termin = new HashSet<dogovor_termin>();
+        }
+    
         public int Id { get; set; }
         public int ID_instruktor { get; set; }
         public Nullable<double> Geo_sirina { get; set; }
@@ -21,5 +27,7 @@ namespace ppij_web_aplikacija
         public string opis { get; set; }
     
         public virtual Osoba Osoba { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<dogovor_termin> dogovor_termin { get; set; }
     }
 }
