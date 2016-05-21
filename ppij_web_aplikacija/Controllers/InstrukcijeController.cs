@@ -76,23 +76,37 @@ namespace ppij_web_aplikacija.Controllers
 			return View(model);
 		}
 
-		public ActionResult Instrukcija(InstrukcijaModel model)
+		public ActionResult Instrukcija(InstrukcijaModel model, string naredba)
 		{
-			/*
-			using (var db = new ppij_databaseEntities())
+			// pohrani novi zahtjev
+			if (naredba != null && naredba != "Traži")
 			{
-				dogovor_termin zahtjev = new dogovor_termin();
-				zahtjev.ID_dogovor_termin = db.dogovor_termin.Select(d => d.ID_dogovor_termin).Max() + 1;
-				zahtjev.dogovor_status = 10;
-				zahtjev.dogovor_ocijena = null;
-				zahtjev.ID_instruktor = Int32.Parse(Request["ID_instruktor"]);
-				zahtjev.ID_klijent = db.Osoba.First(o => o.korisnicko_ime_osoba == User.Identity.Name).ID_osoba;
+				using (var db = new ppij_databaseEntities())
+				{
+					dogovor_termin zahtjev = new dogovor_termin();
+					int ID_instruktor = Int32.Parse(naredba);
+					string id = "lokacija:" + ID_instruktor;
+					int ID_lokacija = Int32.Parse(Request.Form[id].ToString());
+					Debug.WriteLine("ID_lokacija: " + ID_lokacija);
+
+					zahtjev.ID_dogovor_termin = db.dogovor_termin.Select(d => d.ID_dogovor_termin).Max() + 1;
+					zahtjev.dogovor_status = 10;
+					zahtjev.dogovor_ocijena = null;
+					zahtjev.ID_instruktor = ID_instruktor;
+					zahtjev.ID_klijent = db.Osoba.First(o => o.korisnicko_ime_osoba == User.Identity.Name).ID_osoba;
+					zahtjev.datum_dogovor = model.Datum.AddHours(model.OdabraniSatID);
+					zahtjev.ID_predmet = Int32.Parse((string)RouteData.Values["predmet_id"]);
+					zahtjev.trajanje = model.OdabranoTrajanjeID;
+					zahtjev.ID_lokacija = ID_lokacija;
+					db.dogovor_termin.Add(zahtjev);
+					db.SaveChanges();
+				}
 			}
-			*/
 
 			List<OpisInstrukcije> opisi = new List<OpisInstrukcije>();
 			using (var db = new ppij_databaseEntities())
 			{
+
 				// datetime pocetka i zavrsetka
 				DateTime pocetak = new DateTime(model.Datum.Year, model.Datum.Month, model.Datum.Day, model.OdabraniSatID, 0, 0);
 				DateTime zavrsetak = pocetak.AddHours(model.OdabranoTrajanjeID);
@@ -160,7 +174,8 @@ namespace ppij_web_aplikacija.Controllers
 							.Where(d => d.Osoba1.korisnicko_ime_osoba == User.Identity.Name)
 							.Where(d => d.ID_instruktor == instrukcija.Osoba.ID_osoba)
 							.Where(d => d.datum_dogovor == termin)
-							.Where(d => d.trajanje == model.OdabranoTrajanjeID).Count();
+							.Where(d => d.trajanje == model.OdabranoTrajanjeID)
+							.Where(d => d.dogovor_status == 10).Count(); // TODO još dodaj one druge statuse
 						if (vec_poslan != 0)
 							opis.Status = "POSLAN";
 						else
@@ -193,6 +208,7 @@ namespace ppij_web_aplikacija.Controllers
 				opisi = opisi.Where(i => i.Instruktor.prezime_osoba.Contains(model.Prezime.Trim())).ToList();
 
 			model.Opisi = opisi;
+
 			return View(model);
 		}
 
