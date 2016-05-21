@@ -11,13 +11,6 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 {
 	public class InstrukcijaModel
 	{
-		public InstrukcijaModel()
-		{
-			Datum = DateTime.Now;
-			OdabraniSatID = 0;
-			OdabranoTrajanjeID = 1;
-		}
-
 		[DataType(DataType.Date)]
 		public DateTime Datum { get; set; }
 
@@ -36,12 +29,16 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 		}
 		public ICollection<OpisInstrukcije> Opisi { get; set; }
 
+		// odabrana instrukcija
+		public int LokacijaID { get; set; }
+		public int InstruktorID { get; set; }
+
 		// filtriranje
 		public string Ime { get; set; }
 		public string Prezime { get; set; }
-		public int MinOcjena { get; set; }
+		public double MinOcjena { get; set; }
 		public int MinBrojInstrukcija { get; set; }
-		public int CijenaOd { get; set; }
-		public int CijenaDo { get; set; }
+		public decimal CijenaOd { get; set; }
+		public decimal CijenaDo { get; set; }
 	}
 }

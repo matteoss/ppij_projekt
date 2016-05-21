@@ -78,6 +78,18 @@ namespace ppij_web_aplikacija.Controllers
 
 		public ActionResult Instrukcija(InstrukcijaModel model)
 		{
+			/*
+			using (var db = new ppij_databaseEntities())
+			{
+				dogovor_termin zahtjev = new dogovor_termin();
+				zahtjev.ID_dogovor_termin = db.dogovor_termin.Select(d => d.ID_dogovor_termin).Max() + 1;
+				zahtjev.dogovor_status = 10;
+				zahtjev.dogovor_ocijena = null;
+				zahtjev.ID_instruktor = Int32.Parse(Request["ID_instruktor"]);
+				zahtjev.ID_klijent = db.Osoba.First(o => o.korisnicko_ime_osoba == User.Identity.Name).ID_osoba;
+			}
+			*/
+
 			List<OpisInstrukcije> opisi = new List<OpisInstrukcije>();
 			using (var db = new ppij_databaseEntities())
 			{
@@ -96,7 +108,6 @@ namespace ppij_web_aplikacija.Controllers
 					int sat = termin.Hour;
 					int blok = (dan * 100 + sat);
 					termini.Add(blok);
-					//Debug.WriteLine("Termin: " + blok);
 				}
 
 				// uzmi sve instruktore koji predaju navedeni predmet
@@ -107,51 +118,59 @@ namespace ppij_web_aplikacija.Controllers
 				Osoba korisnik = db.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
 				instrukcije = instrukcije.Where(i => i.Osoba.ID_osoba != korisnik.ID_osoba).ToList();
 
-				// uzmi sve instruktore koji imaju slobodne SVE odabrane termine
-				List<osoba_predmet> slobodne_instrukcije = new List<osoba_predmet>();
+				// izracunaj opise instruktora
 				foreach (osoba_predmet instrukcija in instrukcije)
-				{
-					Osoba instruktor = instrukcija.Osoba;
-					List<int> slobodni_termini = instruktor.Termin.Select(t => t.ID_termin).ToList();
-					if (TerminiSlobodni(slobodni_termini, termini))
-						slobodne_instrukcije.Add(instrukcija);
-				}
-
-				// uzmi one instruktore koji nemaju preklapanja sa vec postojecim dogovorenim terminima
-				List<osoba_predmet> potpuno_slobodne_instrukcije = new List<osoba_predmet>();
-				foreach (osoba_predmet instrukcija in slobodne_instrukcije)
-				{
-					bool preklapanje = false;
-					Osoba instruktor = instrukcija.Osoba;
-					List<dogovor_termin> dogovoreni_termini = instruktor.dogovor_termin
-						.Where(d => d.dogovor_status == 1 || d.dogovor_status == 11).ToList();
-
-					foreach (dogovor_termin dogovoren_termin in dogovoreni_termini)
-					{
-						DateTime pocetak_termina = (DateTime)dogovoren_termin.datum_dogovor;
-						DateTime zavrsetak_termina = pocetak_termina.AddHours((int)dogovoren_termin.trajanje);
-						if ((pocetak >= pocetak_termina && pocetak < zavrsetak_termina)
-						  || (zavrsetak > pocetak_termina && zavrsetak <= zavrsetak_termina)
-						  || (pocetak <= pocetak_termina && zavrsetak >= zavrsetak_termina))
-						{
-							preklapanje = true;
-							break;
-						}
-					}
-					if (!preklapanje)
-						potpuno_slobodne_instrukcije.Add(instrukcija);
-				}
-
-				// izracunaj statistiku instruktora
-				foreach (osoba_predmet instrukcija in potpuno_slobodne_instrukcije)
 				{
 					OpisInstrukcije opis = new OpisInstrukcije();
 					opis.Instruktor = instrukcija.Osoba;
 
+					// pogledaj koji instruktori imaju barem jedan termin postavljen kao ne slobodan
+					Osoba instruktor = instrukcija.Osoba;
+					List<int> slobodni_termini = instruktor.Termin.Select(t => t.ID_termin).ToList();
+					if (!TerminiSlobodni(slobodni_termini, termini))
+						opis.Status = "NEDOSTUPAN";
+
+					if (opis.Status == null)
+					{
+						// pogledaj koji instruktori imaju preklapanja sa vec postojecim dogovorenim terminima
+						bool preklapanje = false;
+						List<dogovor_termin> dogovoreni_termini = instruktor.dogovor_termin
+							.Where(d => d.dogovor_status == 1 || d.dogovor_status == 11).ToList();
+						foreach (dogovor_termin dogovoren_termin in dogovoreni_termini)
+						{
+							DateTime pocetak_termina = (DateTime)dogovoren_termin.datum_dogovor;
+							DateTime zavrsetak_termina = pocetak_termina.AddHours((int)dogovoren_termin.trajanje);
+							if ((pocetak >= pocetak_termina && pocetak < zavrsetak_termina)
+							  || (zavrsetak > pocetak_termina && zavrsetak <= zavrsetak_termina)
+							  || (pocetak <= pocetak_termina && zavrsetak >= zavrsetak_termina))
+							{
+								preklapanje = true;
+								break;
+							}
+						}
+						if (preklapanje)
+							opis.Status = "REZERVIRAN";
+					}
+
+					if (opis.Status == null)
+					{
+						// provjeri da li je već isti zahtjev tom instruktoru
+						DateTime termin = model.Datum.AddHours(model.OdabraniSatID);
+						int vec_poslan = db.dogovor_termin
+							.Where(d => d.Osoba1.korisnicko_ime_osoba == User.Identity.Name)
+							.Where(d => d.ID_instruktor == instrukcija.Osoba.ID_osoba)
+							.Where(d => d.datum_dogovor == termin)
+							.Where(d => d.trajanje == model.OdabranoTrajanjeID).Count();
+						if (vec_poslan != 0)
+							opis.Status = "POSLAN";
+						else
+							opis.Status = "SLOBODAN";
+					}
+
 					// izracunaj prosjecnu ocjenu iz predmeta
 					List<int> ocjene = db.dogovor_termin.Where(i => i.ID_instruktor == opis.Instruktor.ID_osoba
-															      && i.ID_predmet == ID_predmet
-															      && i.dogovor_ocijena != null)
+																  && i.ID_predmet == ID_predmet
+																  && i.dogovor_ocijena != null)
 										  .Select(i => (int)i.dogovor_ocijena).ToList();
 					opis.Ocjena = 1.0 * ocjene.Sum(x => Convert.ToInt32(x)) / ocjene.Count;
 					// nadji broj instrukcija iz predmeta
@@ -160,20 +179,10 @@ namespace ppij_web_aplikacija.Controllers
 																	 && i.dogovor_ocijena != null).Count();
 					// izracunaj cijenu (trajanje * cijena)
 					opis.Cijena = (decimal)instrukcija.cijena * model.OdabranoTrajanjeID;
-	
+
 					// stavi listu lokacija u combo box opisa
 					opis.Lokacije = instrukcija.Osoba.Lokacija.ToList();
 
-					// provjeri da li si već poslao isti zahtjev tom instruktoru
-					int vec_poslan = db.dogovor_termin
-						.Where(d => d.Osoba1.korisnicko_ime_osoba == User.Identity.Name)
-						.Where(d => d.ID_instruktor == instrukcija.Osoba.ID_osoba)
-						.Where(d => d.datum_dogovor == model.Datum)
-						.Where(d => d.trajanje == model.OdabranoTrajanjeID).Count();
-					if (vec_poslan != 0)
-						opis.Status = "POSLAN";
-					else
-						opis.Status = "POŠALJI";
 					opisi.Add(opis);
 				}
 			}

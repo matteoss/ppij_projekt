@@ -38,6 +38,12 @@ namespace ppij_web_aplikacija
 				);
 
 			routes.MapRoute(
+				name: "PosaljiZahtjev",
+				url: "instrukcije/{kategorija_id}/{ustanova_id}/{predmet_id}/posalji_zahtjev",
+				defaults: new { controller = "Instrukcije", action = "PosaljiZahtjev" }
+				);
+
+			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",
 				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

@@ -8,7 +8,7 @@
 <body>
     <h3>Biranje instrukcije</h3>
     <hr />
-    @using (Html.BeginForm())
+    @using (Html.BeginRouteForm("Instrukcije"))
     {
         <div class="form-group">
             @Html.LabelFor(model => model.Datum)
@@ -23,62 +23,65 @@
             @Html.DropDownListFor(m => Model.OdabranoTrajanjeID, Model.Trajanja)
         </div>
         <input type="submit" value="Traži" />
-        <hr />
-        <table id="instrukcije" class="tablesorter">
-            <thead>
-                <tr>
-                    <th>Ime</th>
-                    <th>Prezime</th>
-                    <th>Ocjena</th>
-                    <th>Cijena (KN)</th>
-                    <th>Broj instrukcija</th>
-                    <th>Lokacija</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var opis in Model.Opisi)
-                {
-                    <tr>
-                        <td>@opis.Instruktor.ime_osoba</td>
-                        <td>@opis.Instruktor.prezime_osoba</td>
-                        <td>@opis.Ocjena</td>
-                        <td>@opis.Cijena</td>
-                        <td>@opis.BrojInstrukcija</td>
-                        <td>@Html.DropDownListFor(m => opis.OdabranaLokacijaID, opis.SelectListLokacija)</td>
-                        @if (opis.Status == "POSLANO")
-                        {
-                            <td>Zahtjev poslan</td>
-                        }
-                        else if (opis.Status == "SLOBODAN")
-                        {
-                            <td>@Html.ActionLink("Pošalji zahtjev", "PosaljiZahtjev")</td>
-                        }
-                        else if (opis.Status == "NEDOSTUPAN")
-                        {
-                            <td>Termin nedostupan</td>
-                        }
-                        else if (opis.Status == "REZERVIRAN")
-                        {
-                            <td>Termin rezerviran</td>
-                        }
-                    </tr>}
-
-            </tbody>
-        </table>
-        <hr />
-        <div class="form-group">
-            Tražilica:
-            <div class="form-group">
-                @Html.LabelFor(m => Model.Ime)
-                @Html.TextBoxFor(m => Model.Ime)
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => Model.Prezime)
-                @Html.TextBoxFor(m => Model.Prezime)
-            </div>
-        </div>
     }
+    <hr />
+    <table id="instrukcije" class="tablesorter">
+        <thead>
+            <tr>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Ocjena</th>
+                <th>Cijena (KN)</th>
+                <th>Broj instrukcija</th>
+                <th>Lokacija</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var opis in Model.Opisi)
+            {
+                <tr>
+                    <td>@opis.Instruktor.ime_osoba</td>
+                    <td>@opis.Instruktor.prezime_osoba</td>
+                    <td>@opis.Ocjena</td>
+                    <td>@opis.Cijena</td>
+                    <td>@opis.BrojInstrukcija</td>
+                    <td>@Html.DropDownList("lokacija:" + opis.Instruktor.ID_osoba, opis.SelectListLokacija)</td>
+                    @if (opis.Status == "POSLAN")
+                    {
+                        <td>Zahtjev poslan</td>
+                    }
+                    else if (opis.Status == "SLOBODAN")
+                    {
+                        <td>
+                            @Html.Hidden("ID_instruktor", opis.Instruktor.ID_osoba)
+                            <input type="submit" value="Pošalji zahtjev" />  
+                        </td>
+                    }
+                    else if (opis.Status == "NEDOSTUPAN")
+                    {
+                        <td>Termin nedostupan</td>
+                    }
+                    else if (opis.Status == "REZERVIRAN")
+                    {
+                        <td>Termin rezerviran</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
+    <div class="form-group">
+        Tražilica:
+        <div class="form-group">
+            @Html.LabelFor(m => Model.Ime)
+            @Html.TextBoxFor(m => Model.Ime)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => Model.Prezime)
+            @Html.TextBoxFor(m => Model.Prezime)
+        </div>
+    </div>
 </body>
 </html>
 
