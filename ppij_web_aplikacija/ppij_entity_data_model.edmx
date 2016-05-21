@@ -23,7 +23,7 @@
           <Key>
             <PropertyRef Name="ID_kategorija" />
           </Key>
-          <Property Name="naziv_kategorija" Type="varchar" MaxLength="50" />
+          <Property Name="naziv_kategorija" Type="nvarchar" MaxLength="50" />
           <Property Name="ID_kategorija" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Lokacija">
@@ -34,15 +34,15 @@
           <Property Name="ID_instruktor" Type="int" Nullable="false" />
           <Property Name="Geo_sirina" Type="float" />
           <Property Name="Geo_duzina" Type="float" />
-          <Property Name="opis" Type="varchar" MaxLength="50" />
+          <Property Name="opis" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Osoba">
           <Key>
             <PropertyRef Name="ID_osoba" />
           </Key>
           <Property Name="ID_osoba" Type="int" Nullable="false" />
-          <Property Name="ime_osoba" Type="varchar" MaxLength="40" Nullable="false" />
-          <Property Name="prezime_osoba" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="ime_osoba" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="prezime_osoba" Type="nvarchar" MaxLength="40" Nullable="false" />
           <Property Name="email_osoba" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="korisnicko_ime_osoba" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="razina_prava" Type="int" Nullable="false" />
@@ -73,11 +73,11 @@
             <PropertyRef Name="ID_predmet" />
           </Key>
           <Property Name="ID_predmet" Type="int" Nullable="false" />
-          <Property Name="naziv_predmet" Type="varchar" MaxLength="50" />
-          <Property Name="kratica_predmet" Type="varchar" MaxLength="10" />
+          <Property Name="naziv_predmet" Type="nvarchar" MaxLength="50" />
+          <Property Name="kratica_predmet" Type="nvarchar" MaxLength="10" />
           <Property Name="ID_kategorija" Type="int" />
           <Property Name="ID_ustanova" Type="int" />
-          <Property Name="opis_predmet" Type="varchar" MaxLength="100" />
+          <Property Name="opis_predmet" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Termin">
           <Key>
@@ -92,7 +92,7 @@
             <PropertyRef Name="ID_ustanova" />
           </Key>
           <Property Name="ID_ustanova" Type="int" Nullable="false" />
-          <Property Name="Naziv_ustanova" Type="varchar" MaxLength="50" />
+          <Property Name="Naziv_ustanova" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK__dogovor_t__ID_in__1ED998B2">
           <End Role="Osoba" Type="Self.Osoba" Multiplicity="0..1" />
@@ -291,7 +291,7 @@
             <PropertyRef Name="ID_kategorija" />
           </Key>
           <Property Name="ID_kategorija" Type="Int32" Nullable="false" />
-          <Property Name="naziv_kategorija" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="naziv_kategorija" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Predmet" Relationship="ppij_database_model.FK__Kategorij__ID_na__36B122431" FromRole="Kategorija" ToRole="Predmet" />
         </EntityType>
         <EntityType Name="Osoba">
@@ -299,8 +299,8 @@
             <PropertyRef Name="ID_osoba" />
           </Key>
           <Property Name="ID_osoba" Type="Int32" Nullable="false" />
-          <Property Name="ime_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="prezime_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ime_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="prezime_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="email_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="korisnicko_ime_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="razina_prava" Type="Int32" Nullable="false" />
@@ -413,11 +413,11 @@
             <PropertyRef Name="ID_predmet" />
           </Key>
           <Property Name="ID_predmet" Type="Int32" Nullable="false" />
-          <Property Name="naziv_predmet" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="kratica_predmet" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="naziv_predmet" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="kratica_predmet" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="ID_kategorija" Type="Int32" />
           <Property Name="ID_ustanova" Type="Int32" />
-          <Property Name="opis_predmet" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="opis_predmet" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Kategorija" Relationship="ppij_database_model.FK__Kategorij__ID_na__36B122431" FromRole="Predmet" ToRole="Kategorija" />
           <NavigationProperty Name="osoba_predmet" Relationship="ppij_database_model.FK__osoba_pre__ID_pr__4D94879B" FromRole="Predmet" ToRole="osoba_predmet" />
           <NavigationProperty Name="Ustanova" Relationship="ppij_database_model.FK__Predmet__ID_usta__5AEE82B9" FromRole="Predmet" ToRole="Ustanova" />
@@ -427,7 +427,7 @@
             <PropertyRef Name="ID_ustanova" />
           </Key>
           <Property Name="ID_ustanova" Type="Int32" Nullable="false" />
-          <Property Name="Naziv_ustanova" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Naziv_ustanova" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Predmet" Relationship="ppij_database_model.FK__Predmet__ID_usta__5AEE82B9" FromRole="Ustanova" ToRole="Predmet" />
         </EntityType>
         <Association Name="FK__Kategorij__ID_na__36B122431">
@@ -486,7 +486,7 @@
           <Property Name="ID_instruktor" Type="Int32" Nullable="false" />
           <Property Name="Geo_sirina" Type="Double" />
           <Property Name="Geo_duzina" Type="Double" />
-          <Property Name="opis" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="opis" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Osoba" Relationship="ppij_database_model.FK_Table_ToTable" FromRole="Lokacija" ToRole="Osoba" />
           <NavigationProperty Name="dogovor_termin" Relationship="ppij_database_model.FK__dogovor_t__ID_lo__2739D489" FromRole="Lokacija" ToRole="dogovor_termin" />
         </EntityType>
