@@ -24,7 +24,6 @@
         </div>
         <input type="submit" value="Traži" />
         <hr />
-        <p>Ovo su samo test podaci</p>
         <table id="instrukcije" class="tablesorter">
             <thead>
                 <tr>
@@ -41,11 +40,11 @@
                 @foreach (var opis in Model.Opisi)
                 {
                     <tr>
-                        <td>opis.Instruktor.Ime</td>
-                        <td>opis.Instruktor.Prezime</td>
-                        <td>opis.Ocjena</td>
-                        <td>opis.Cijena</td>
-                        <td>opis.BrojInstrukcija</td>
+                        <td>@opis.Instruktor.ime_osoba</td>
+                        <td>@opis.Instruktor.prezime_osoba</td>
+                        <td>@opis.Ocjena</td>
+                        <td>@opis.Cijena</td>
+                        <td>@opis.BrojInstrukcija</td>
                         <td>Ovdje ide combo box lokacija</td>
                     </tr>}
 

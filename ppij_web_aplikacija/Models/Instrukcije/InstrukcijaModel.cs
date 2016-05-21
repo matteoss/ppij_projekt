@@ -14,6 +14,8 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 		public InstrukcijaModel()
 		{
 			Datum = DateTime.Now;
+			OdabraniSatID = 0;
+			OdabranoTrajanjeID = 1;
 		}
 
 		[DataType(DataType.Date)]

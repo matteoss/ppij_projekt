@@ -95,7 +95,7 @@ namespace ppij_web_aplikacija.Controllers
 					int sat = termin.Hour;
 					int blok = (dan * 100 + sat);
 					termini.Add(blok);
-					Debug.WriteLine("Termin: " + blok);
+					//Debug.WriteLine("Termin: " + blok);
 				}
 
 				// uzmi sve instruktore koji predaju navedeni predmet
@@ -141,6 +141,7 @@ namespace ppij_web_aplikacija.Controllers
 				// ako da, oznaci status kao "POSLAN"
 				// TODO
 
+				// izracunaj statistiku instruktora
 				foreach (osoba_predmet instrukcija in potpuno_slobodne_instrukcije)
 				{
 					OpisInstrukcije opis = new OpisInstrukcije();
