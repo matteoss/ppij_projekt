@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace ppij_web_aplikacija.Controllers
 {
+	[Authorize]
 	public class InstrukcijeController : Controller
 	{
 
@@ -102,6 +103,10 @@ namespace ppij_web_aplikacija.Controllers
 				int ID_predmet = Int32.Parse((string)RouteData.Values["predmet_id"]);
 				List<osoba_predmet> instrukcije = db.osoba_predmet.Where(i => i.ID_predmet == ID_predmet).ToList();
 
+				// makni sebe iz liste instruktora (LOL)
+				Osoba korisnik = db.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
+				instrukcije = instrukcije.Where(i => i.Osoba.ID_osoba != korisnik.ID_osoba).ToList();
+
 				// uzmi sve instruktore koji imaju slobodne SVE odabrane termine
 				List<osoba_predmet> slobodne_instrukcije = new List<osoba_predmet>();
 				foreach (osoba_predmet instrukcija in instrukcije)
@@ -120,26 +125,22 @@ namespace ppij_web_aplikacija.Controllers
 					Osoba instruktor = instrukcija.Osoba;
 					List<dogovor_termin> dogovoreni_termini = instruktor.dogovor_termin
 						.Where(d => d.dogovor_status == 1 || d.dogovor_status == 11).ToList();
+
 					foreach (dogovor_termin dogovoren_termin in dogovoreni_termini)
 					{
 						DateTime pocetak_termina = (DateTime)dogovoren_termin.datum_dogovor;
 						DateTime zavrsetak_termina = pocetak_termina.AddHours((int)dogovoren_termin.trajanje);
-						if (pocetak_termina > pocetak && pocetak_termina < zavrsetak
-						 || zavrsetak_termina > pocetak && zavrsetak_termina < zavrsetak)
+						if ((pocetak >= pocetak_termina && pocetak < zavrsetak_termina)
+						  || (zavrsetak > pocetak_termina && zavrsetak <= zavrsetak_termina)
+						  || (pocetak <= pocetak_termina && zavrsetak >= zavrsetak_termina))
 						{
 							preklapanje = true;
 							break;
 						}
 					}
 					if (!preklapanje)
-					{
 						potpuno_slobodne_instrukcije.Add(instrukcija);
-					}
 				}
-
-				// provjeri da li si već poslao isti zahtjev tom instruktoru
-				// ako da, oznaci status kao "POSLAN"
-				// TODO
 
 				// izracunaj statistiku instruktora
 				foreach (osoba_predmet instrukcija in potpuno_slobodne_instrukcije)
@@ -159,11 +160,24 @@ namespace ppij_web_aplikacija.Controllers
 																	 && i.dogovor_ocijena != null).Count();
 					// izracunaj cijenu (trajanje * cijena)
 					opis.Cijena = (decimal)instrukcija.cijena * model.OdabranoTrajanjeID;
+	
+					// stavi listu lokacija u combo box opisa
+					opis.Lokacije = instrukcija.Osoba.Lokacija.ToList();
 
+					// provjeri da li si već poslao isti zahtjev tom instruktoru
+					int vec_poslan = db.dogovor_termin
+						.Where(d => d.Osoba1.korisnicko_ime_osoba == User.Identity.Name)
+						.Where(d => d.ID_instruktor == instrukcija.Osoba.ID_osoba)
+						.Where(d => d.datum_dogovor == model.Datum)
+						.Where(d => d.trajanje == model.OdabranoTrajanjeID).Count();
+					if (vec_poslan != 0)
+						opis.Status = "POSLAN";
+					else
+						opis.Status = "POŠALJI";
 					opisi.Add(opis);
 				}
 			}
-			// filtriraj po imenu i prezimenu
+			// TODO : filtriraj po minimalnoj ocjeni, minimalnom broju instrukcija, rasponu cijene, 
 			if (model.Ime != null)
 				opisi = opisi.Where(i => i.Instruktor.ime_osoba.Contains(model.Ime.Trim())).ToList();
 			if (model.Prezime != null)

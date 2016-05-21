@@ -134,8 +134,6 @@ namespace ppij_web_aplikacija.Controllers
                         osoba.razina_prava = 2;
                     }
                     osoba.email_osoba = model.Email;
-                    osoba.lokacija_x = null;
-                    osoba.lokacija_y = null;
                     osoba.ID_osoba = data.Osoba.OrderByDescending(o => o.ID_osoba).FirstOrDefault().ID_osoba + 1;
                     osoba.dogovor_termin = null;
                     osoba.dogovor_termin1 = null;

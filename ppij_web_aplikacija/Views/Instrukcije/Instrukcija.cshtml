@@ -45,7 +45,23 @@
                         <td>@opis.Ocjena</td>
                         <td>@opis.Cijena</td>
                         <td>@opis.BrojInstrukcija</td>
-                        <td>Ovdje ide combo box lokacija</td>
+                        <td>@Html.DropDownListFor(m => opis.OdabranaLokacijaID, opis.SelectListLokacija)</td>
+                        @if (opis.Status == "POSLANO")
+                        {
+                            <td>Zahtjev poslan</td>
+                        }
+                        else if (opis.Status == "SLOBODAN")
+                        {
+                            <td>@Html.ActionLink("Pošalji zahtjev", "PosaljiZahtjev")</td>
+                        }
+                        else if (opis.Status == "NEDOSTUPAN")
+                        {
+                            <td>Termin nedostupan</td>
+                        }
+                        else if (opis.Status == "REZERVIRAN")
+                        {
+                            <td>Termin rezerviran</td>
+                        }
                     </tr>}
 
             </tbody>

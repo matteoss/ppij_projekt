@@ -46,8 +46,6 @@
           <Property Name="email_osoba" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="korisnicko_ime_osoba" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="razina_prava" Type="int" Nullable="false" />
-          <Property Name="lokacija_x" Type="float" />
-          <Property Name="lokacija_y" Type="float" />
           <Property Name="lozinka" Type="varchar" MaxLength="100" />
           <Property Name="salt" Type="varchar" MaxLength="16" />
         </EntityType>
@@ -304,8 +302,6 @@
           <Property Name="email_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="korisnicko_ime_osoba" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="razina_prava" Type="Int32" Nullable="false" />
-          <Property Name="lokacija_x" Type="Double" />
-          <Property Name="lokacija_y" Type="Double" />
           <NavigationProperty Name="dogovor_termin" Relationship="Self.FK__dogovor_t__ID_in__1ED998B2" FromRole="Osoba" ToRole="dogovor_termin" />
           <NavigationProperty Name="dogovor_termin1" Relationship="Self.FK__dogovor_t__ID_kl__1FCDBCEB" FromRole="Osoba" ToRole="dogovor_termin" />
           <NavigationProperty Name="Termin" Relationship="Self.osoba_termin" FromRole="Osoba" ToRole="Termin" />
@@ -554,9 +550,7 @@
                 <ScalarProperty Name="email_osoba" ColumnName="email_osoba" />
                 <ScalarProperty Name="korisnicko_ime_osoba" ColumnName="korisnicko_ime_osoba" />
                 <ScalarProperty Name="razina_prava" ColumnName="razina_prava" />
-                <ScalarProperty Name="lokacija_x" ColumnName="lokacija_x" />
-                <ScalarProperty Name="lokacija_y" ColumnName="lokacija_y" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Termin">

@@ -35,7 +35,13 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 			get { return new SelectList(Konstante.Trajanje.TRAJANJA, "ID", "Naziv");  }
 		}
 		public ICollection<OpisInstrukcije> Opisi { get; set; }
+
+		// filtriranje
 		public string Ime { get; set; }
 		public string Prezime { get; set; }
+		public int MinOcjena { get; set; }
+		public int MinBrojInstrukcija { get; set; }
+		public int CijenaOd { get; set; }
+		public int CijenaDo { get; set; }
 	}
 }

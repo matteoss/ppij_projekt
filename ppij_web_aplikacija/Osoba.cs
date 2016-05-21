@@ -30,8 +30,6 @@ namespace ppij_web_aplikacija
         public string email_osoba { get; set; }
         public string korisnicko_ime_osoba { get; set; }
         public int razina_prava { get; set; }
-        public Nullable<double> lokacija_x { get; set; }
-        public Nullable<double> lokacija_y { get; set; }
         public string lozinka { get; set; }
         public string salt { get; set; }
     
