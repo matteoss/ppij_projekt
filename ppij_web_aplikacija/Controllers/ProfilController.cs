@@ -8,6 +8,7 @@ using System.Web.Helpers;
 using ppij_web_aplikacija.Models;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace ppij_web_aplikacija.Controllers
 {
@@ -362,6 +363,53 @@ namespace ppij_web_aplikacija.Controllers
                 model.mojeVlastiteInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
                 model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor = new List<dogovor_term_osoba>();
                 model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent = new List<dogovor_term_osoba>();
+                model.mojeVlastiteInstrukcije.mojiPredmeti = new List<OpisanPredmet>();
+                model.mojeVlastiteInstrukcije.sveKategorije = new List<Kategorija>();
+                model.mojeVlastiteInstrukcije.sveUstanove = new List<Ustanova>();
+                model.mojeVlastiteInstrukcije.sviPredmeti = new List<Predmet>();
+
+                #region populate OpisanPredmet
+                var detaljiPredmetOsoba = from p in data.Predmet
+                                          join op in data.osoba_predmet on p.ID_predmet equals op.ID_predmet
+                                          join u in data.Ustanova on p.ID_ustanova equals u.ID_ustanova
+                                          join k in data.Kategorija on p.ID_kategorija equals k.ID_kategorija
+                                          where osoba.ID_osoba == op.ID_osoba
+                                          select new { p.ID_predmet, p.naziv_predmet, p.kratica_predmet, op.cijena, u.ID_ustanova, k.ID_kategorija };
+
+                foreach (var row in detaljiPredmetOsoba) {
+                    Ustanova ust = data.Ustanova.Find(row.ID_ustanova);
+                    Kategorija kat = data.Kategorija.Find(row.ID_kategorija);
+                    model.mojeVlastiteInstrukcije.mojiPredmeti.Add(new OpisanPredmet() {
+                        IDpredmet = row.ID_predmet,
+                        nazivPredmet = row.naziv_predmet,
+                        kraticaPredmet = row.kratica_predmet,
+                        cijenaPredmet = row.cijena,
+                        IDkategorija = row.ID_kategorija,
+                        IDustanova = row.ID_ustanova,
+                        ustanova = ust,
+                        kategorija = kat
+                    });
+                }
+                #endregion
+
+                #region populate Ustanova Kategorija
+
+                var ustanovaQuery = from u in data.Ustanova
+                                    select u;
+                var kategorijaQuery = from k in data.Kategorija
+                                      select k;
+                model.mojeVlastiteInstrukcije.sveUstanove.AddRange(ustanovaQuery.ToList());
+                model.mojeVlastiteInstrukcije.sveKategorije.AddRange(kategorijaQuery.ToList());
+                #endregion
+
+                #region populate Predmeti
+                var predmetiQuery = from p in data.Predmet
+                                    select p;
+
+                model.mojeVlastiteInstrukcije.sviPredmeti.AddRange(predmetiQuery.ToList());
+                #endregion
+
+
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin.ToList())
                 {
                     //dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
