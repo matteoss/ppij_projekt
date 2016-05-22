@@ -1,0 +1,8 @@
+﻿.Delete{
+    max-width: 65px;
+    float:right;
+    margin-right: calc(1100px - 20vw);
+}
+#predmeti > li {
+    min-height: 34px;
+}
