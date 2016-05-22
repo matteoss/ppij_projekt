@@ -13,7 +13,7 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 	{
 		public InstrukcijaModel()
 		{
-			Datum = DateTime.Now;
+			Datum = DateTime.Now.AddDays(1);
 			OdabraniSatID = 12;
 			OdabranoTrajanjeID = 1;
 		}
