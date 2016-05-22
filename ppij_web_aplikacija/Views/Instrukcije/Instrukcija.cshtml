@@ -68,7 +68,7 @@
                                     @if (opis.Status == "POSLAN")
                                     {
                                         <td>
-                                            <button class="btn btn-success" disabled="disabled">
+                                            <button style="max-width:120px" class="btn btn-success" disabled="disabled">
                                                 Poslan
                                             </button>
                                         </td>
@@ -76,7 +76,7 @@
                                     else if (opis.Status == "SLOBODAN")
                                     {
                                         <td>
-                                            <button class="btn btn-info" type="submit" name="naredba" value=@(opis.Instruktor.ID_osoba)>
+                                            <button style="max-width:120px" class="btn btn-info" type="submit" name="naredba" value=@(opis.Instruktor.ID_osoba)>
                                                 Slobodan
                                             </button>
                                         </td>
@@ -84,7 +84,7 @@
                                     else if (opis.Status == "NEDOSTUPAN")
                                     {
                                         <td>
-                                            <button class="btn btn-warning" disabled="disabled">
+                                            <button style="max-width:120px" class="btn btn-warning" disabled="disabled">
                                                 Nedostupan
                                             </button>
                                         </td>
@@ -92,7 +92,7 @@
                                     else if (opis.Status == "REZERVIRAN")
                                     {
                                         <td>
-                                            <button class="btn btn-danger" disabled="disabled">
+                                            <button style="max-width:120px" class="btn btn-danger" disabled="disabled">
                                                 Rezerviran
                                             </button>
                                         </td>
