@@ -258,6 +258,7 @@ namespace ppij_web_aplikacija.Controllers
                             List<lokacijeJsonObject> lokacijeObj = JsonConvert.DeserializeObject<List<lokacijeJsonObject>>(model.mojeVlastiteInstrukcije.MojeLokacijeJson);
                             if (lokacijeObj != null)
                             {
+
                                 List<Lokacija> lokacije = new List<Lokacija>();
                                 foreach (lokacijeJsonObject objekt in lokacijeObj)
                                 {
@@ -265,7 +266,6 @@ namespace ppij_web_aplikacija.Controllers
                                     {
                                         Geo_sirina = objekt.lat,
                                         Geo_duzina = objekt.lon,
-                                        Id = data.Lokacija.Max(l => l.Id) + 1,
                                         opis = objekt.opis,
                                         ID_instruktor = osoba.ID_osoba,
                                         Osoba = osoba
@@ -290,7 +290,9 @@ namespace ppij_web_aplikacija.Controllers
                                 {
                                     if (osoba.Lokacija.Where(l => l.Geo_duzina == nova.Geo_duzina && l.Geo_sirina == nova.Geo_sirina).Count() == 0)
                                     {
+                                        nova.Id = data.Lokacija.Max(l => l.Id) + 1;
                                         osoba.Lokacija.Add(nova);
+                                        data.SaveChanges();
                                     }
                                 }
                             }
