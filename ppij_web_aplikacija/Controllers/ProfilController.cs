@@ -37,8 +37,12 @@ namespace ppij_web_aplikacija.Controllers
                 model.mojeVlastiteInstrukcije.mojiTermini = osoba.Termin.Select(t => t.ID_termin).ToList().ConvertAll<string>(x => x.ToString());
                 model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor = new List<dogovor_term_osoba>();
                 model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent = new List<dogovor_term_osoba>();
+                model.mojeVlastiteInstrukcije.mojiPredmeti = new List<OpisanPredmet>();
+                model.mojeVlastiteInstrukcije.sveKategorije = new List<Kategorija>();
+                model.mojeVlastiteInstrukcije.sveUstanove = new List<Ustanova>();
+                model.mojeVlastiteInstrukcije.sviPredmeti = new List<Predmet>();
 
-                foreach(dogovor_termin dogovor in osoba.dogovor_termin.ToList()){
+                foreach (dogovor_termin dogovor in osoba.dogovor_termin.ToList()){
                     if (dogovor.dogovor_status != 20)
                     {
                         //dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
@@ -68,6 +72,51 @@ namespace ppij_web_aplikacija.Controllers
                         seen = false
                     });
                 }
+
+
+                #region populate OpisanPredmet
+                var detaljiPredmetOsoba = from p in data.Predmet
+                                          join op in data.osoba_predmet on p.ID_predmet equals op.ID_predmet
+                                          join u in data.Ustanova on p.ID_ustanova equals u.ID_ustanova
+                                          join k in data.Kategorija on p.ID_kategorija equals k.ID_kategorija
+                                          where osoba.ID_osoba == op.ID_osoba
+                                          select new { p.ID_predmet, p.naziv_predmet, p.kratica_predmet, op.cijena, u.ID_ustanova, k.ID_kategorija };
+
+                foreach (var row in detaljiPredmetOsoba) {
+                    Ustanova ust = data.Ustanova.Find(row.ID_ustanova);
+                    Kategorija kat = data.Kategorija.Find(row.ID_kategorija);
+                    model.mojeVlastiteInstrukcije.mojiPredmeti.Add(new OpisanPredmet() {
+                        IDpredmet = row.ID_predmet,
+                        nazivPredmet = row.naziv_predmet,
+                        kraticaPredmet = row.kratica_predmet,
+                        cijenaPredmet = row.cijena,
+                        IDkategorija = row.ID_kategorija,
+                        IDustanova = row.ID_ustanova,
+                        ustanova = ust,
+                        kategorija = kat
+                    });
+                }
+                #endregion
+
+                #region populate Ustanova Kategorija
+
+                var ustanovaQuery = from u in data.Ustanova
+                                    select u;
+                var kategorijaQuery = from k in data.Kategorija
+                                      select k;
+                model.mojeVlastiteInstrukcije.sveUstanove.AddRange(ustanovaQuery.ToList());
+                model.mojeVlastiteInstrukcije.sveKategorije.AddRange(kategorijaQuery.ToList());
+                #endregion
+
+                #region populate Predmeti
+                var predmetiQuery = from p in data.Predmet
+                                    select p;
+
+                model.mojeVlastiteInstrukcije.sviPredmeti.AddRange(predmetiQuery.ToList());
+                #endregion
+
+
+
 
                 model.mojeVlastiteInstrukcije.popis_kategorija = new List<odabranaKategorija>();
                 foreach (Kategorija kateg in data.Kategorija)
@@ -395,7 +444,79 @@ namespace ppij_web_aplikacija.Controllers
                 return "{\"klijent\":" + notificationsKlij + ",\"instruktor\":"+notificationsIns + "}";
             }
         }
+        public ActionResult Delete(int? id) {
+            ppij_databaseEntities data = new ppij_databaseEntities();
+            Osoba osoba = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
+            if (id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            osoba_predmet relacija = data.osoba_predmet.Find(osoba.ID_osoba, id);
+            if (relacija == null) {
+                return HttpNotFound();
+            }
+            return View(relacija);
+        }
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id) {
+            ppij_databaseEntities data = new ppij_databaseEntities();
+            Osoba osoba = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
+            osoba_predmet relacija = data.osoba_predmet.Find(osoba.ID_osoba, id);
+            data.osoba_predmet.Remove(relacija);
+            data.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
+
+        public int? Insert(string nazivPredmet, string kraticaPredmet, string opisPredmet, string IDUstanova, string IDKategorija, string cijenaPredmet) {
+            int? idPredmet = null;
+            Debug.Write(nazivPredmet);
+            using (ppij_databaseEntities data = new ppij_databaseEntities()) {
+                try {
+                    Osoba osoba = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
+                    Predmet predmet = new Predmet() {
+                        ID_kategorija = int.Parse(IDKategorija),
+                        kratica_predmet = kraticaPredmet,
+                        naziv_predmet = nazivPredmet,
+                        ID_ustanova = int.Parse(IDUstanova)
+                    };
+                    data.Predmet.Add(predmet);
+                    osoba_predmet op = new osoba_predmet() {
+                        cijena = decimal.Parse(cijenaPredmet),
+                        ID_osoba = osoba.ID_osoba,
+                        ID_predmet = predmet.ID_predmet
+                    };
+                    data.osoba_predmet.Add(op);
+                    data.SaveChanges();
+                    idPredmet = op.ID_predmet;
+                    Debug.Write(idPredmet);
+                } catch (Exception) {
+                    return null;
+                }
+            }
+            return idPredmet;
+        }
+
+        public string InsertExisting(string IDPredmet, string cijenaPredmet) {
+            Predmet p;
+            using (ppij_databaseEntities data = new ppij_databaseEntities()) {
+                try {
+                    p = data.Predmet.Find(int.Parse(IDPredmet));
+                    Osoba osoba = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
+                    osoba_predmet op = new osoba_predmet() {
+                        cijena = decimal.Parse(cijenaPredmet),
+                        ID_osoba = osoba.ID_osoba,
+                        ID_predmet = int.Parse(IDPredmet)
+                    };
+                    data.osoba_predmet.Add(op);
+                    data.SaveChanges();
+                } catch (System.Data.Entity.Infrastructure.DbUpdateException) {
+                    return "-1"; //duplicate status code
+                } catch (Exception) {
+                    return null;
+                }
+            }
+            return p.naziv_predmet;
+        }
 
 
         public String convertLokacije(List<Lokacija> lokacije)

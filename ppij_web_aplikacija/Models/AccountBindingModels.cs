@@ -36,6 +36,10 @@ namespace ppij_web_aplikacija.Models
         public String MojeLokacijeJson { get; set; }
         public List<dogovor_term_osoba> dogovoreni_termini_kao_instruktor { get; set; }
         public List<dogovor_term_osoba> dogovoreni_termini_kao_klijent { get; set; }
+        public List<OpisanPredmet> mojiPredmeti { get; set; }
+        public List<Kategorija> sveKategorije { get; set; }
+        public List<Ustanova> sveUstanove { get; set; }
+        public List<Predmet> sviPredmeti { get; set; }
     }
 
     public class lokacijeJsonObject
@@ -45,7 +49,16 @@ namespace ppij_web_aplikacija.Models
         public String opis { get; set; }
         public int id { get; set; }
     }
-
+    public class OpisanPredmet {
+        public int IDpredmet { get; set; }
+        public string nazivPredmet { get; set; }
+        public string kraticaPredmet { get; set; }
+        public decimal? cijenaPredmet { get; set; }
+        public int IDkategorija { get; set; }
+        public int IDustanova { get; set; }
+        public virtual Kategorija kategorija { get; set; }
+        public virtual Ustanova ustanova { get; set; }
+    }
     public class odabranaKategorija
     {
         public string kategorija_ime { get; set; }

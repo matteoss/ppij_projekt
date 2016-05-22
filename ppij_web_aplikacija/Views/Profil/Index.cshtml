@@ -426,29 +426,24 @@
                                 <div class="tab-content">
 
                                     <div class="tab-pane active top-buffer" role="tabpanel" id="tab21">
-                                        @using (Html.BeginForm("SelectKategorija", "Profil", FormMethod.Post))
-                                        {
-                                            <fieldset>
-                                                <form class="form-horizontal " method="post">
-                                                    <ul>
-                                                        @for (var k = 0; k < Model.mojeVlastiteInstrukcije.popis_kategorija.Count; k++)
-                                                        {
-                                                            @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.popis_kategorija[k].kategorija_ime)
-                                                            for (var j = 0; j < Model.mojeVlastiteInstrukcije.popis_kategorija[k].mojiPredmeti.Count; j++)
-                                                            {
-                                                                <li>
-                                                                    @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.popis_kategorija[k].mojiPredmeti[j])
+                                        <fieldset>
+                                            <form class="form-horizontal " method="post">
+                                                <ul id="predmeti">
+                                                    @foreach (var predmet in Model.mojeVlastiteInstrukcije.mojiPredmeti) {
+                                                        <li><b>@Html.Raw(predmet.nazivPredmet).ToHtmlString()</b> Cijena: @Html.Raw(predmet.cijenaPredmet.ToString()) HRK<button class="btn btn-danger Delete" value="@Html.DisplayName(predmet.IDpredmet.ToString())">Ukloni</button></li>
 
-                                                                </li>
-                                                            }
-                                                        }
-                                                    </ul>
-                                                    <div class="col-md-2 mali-razmak-gore">
-                                                        <input type="submit" class="btn btn-default" value="Promjeni &raquo;" /> <br />
-                                                    </div>
-                                                </form>
-                                            </fieldset>
-                                        }
+                                                    }
+
+
+
+
+                                                </ul>
+                                                <div class="col-md-2 mali-razmak-gore">
+                                                    <button class="btn btn-success dodajNovi">Stvori novi predmet</button> <br />
+                                                    <button class="btn btn-primary dodajPostojeci">Dodaj postojeći predmet</button>
+                                                </div>
+                                            </form>
+                                        </fieldset>
                                     </div>
 
 
@@ -605,7 +600,46 @@
 
                 </div>
 
+                <div id="postojeci-predmet-li" style="visibility: hidden;">
+                    <li>
+                        <select class='predmet'>
+                            @foreach (var predmet in Model.mojeVlastiteInstrukcije.sviPredmeti) {
+                                <option value='@Html.Raw(predmet.ID_predmet.ToString())'>@Html.Raw(predmet.naziv_predmet)</option>
+                            }
+                        </select>
+                        <br />
+                        <input class='predmetCijena' type='number' min='0' step='0.01' placeholder='Cijena' required />
+                        <br />
+                        <button class='postojeciPohrani'>Pohrani</button>
 
+                    </li>
+
+
+                </div>
+                <div id="novi-predmet-li" style="visibility: hidden;">
+                    <li>
+
+                        <input class='predmetIme' type='text' maxlength='50' placeholder='Naziv predmeta' required /><br />
+                        <input class='predmetKratica' type='text' maxlength='10' placeholder='Kratica' required /><br />
+                        <input class='predmetOpis' type='text' maxlength='100' placeholder='Opis predmeta' required /><br />
+                        <select class='predmetKategorija'>
+                            @foreach (var kategorija in Model.mojeVlastiteInstrukcije.sveKategorije) {
+                                <option value='@Html.Raw(kategorija.ID_kategorija.ToString())'>@Html.Raw(kategorija.naziv_kategorija)</option>
+                            }
+                        </select>
+                        <br />
+                        <select class='predmetUstanova'>
+                            @foreach (var ustanova in Model.mojeVlastiteInstrukcije.sveUstanove) {
+                                <option value='@Html.Raw(ustanova.ID_ustanova.ToString())'>@Html.Raw(ustanova.Naziv_ustanova)</option>
+                            }
+                        </select>
+                        <br />
+                        <input class='predmetCijena' type='number' min='0' step='0.01' placeholder='Cijena' required />
+                        <br />
+                        <button class='predmetPohrani'>Pohrani</button>
+
+                    </li>
+                </div>
 
                 <script type="text/javascript">
                     var droppedID;
@@ -899,7 +933,139 @@
 
 
                 </script>
+                <script>
+        $(document).on('click', '.Delete', function(e){
+            e.preventDefault();
+            if(confirm("Jeste li sigurni da želite obrisati predmet?")){
+                var $el = $(this);
+                $(this).prop("disabled", true);
+                $.ajax({
+                    url: '/Profil/Delete',
+                    type: 'POST',
+                    async: true,
+                    data: {id: $(this).attr("value") },
+                    error: function(){
+                        $el.prop("disabled", false);
+                        alert("Greška pri brisanju predmeta!");
+                    },
+                    success: function () {
+                        $el.parent().fadeOut(200);
+                    }
+                });
+            }
+        });
+                </script>
+                <script>
+            $(".dodajNovi").click(function(e){
+                e.preventDefault();
+                $noviPredmet = $("#novi-predmet-li > li");
+                $("#predmeti").append($noviPredmet.clone(true));
 
+            });
+                </script>
+
+
+                <script>
+            $(".dodajPostojeci").click(function(e){
+                e.preventDefault();
+                $postojeciPredmet = $("#postojeci-predmet-li > li");
+                $("#predmeti").append($postojeciPredmet.clone(true));
+
+            });
+                </script>
+
+                <script>
+            $(document).on('click', '.predmetPohrani', function(e){
+                e.preventDefault();
+                var li = $(this).parent();
+                nazivPredmeta = li.find(".predmetIme").val();
+                cijenaPredmet = li.find(".predmetCijena").val();
+                if(nazivPredmeta.length <= 0 || cijenaPredmet.length <= 0){
+                    alert("Unesite ime predmeta i cijenu!");
+                    return;
+                }
+                $(this).prop("disabled", true);
+                $button = $(this);
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "/Profil/Insert",
+                    //    string nazivPredmet, string kraticaPredmet, string opisPredmet, string IDUstanova, string IDKategorija, string cijenaPredmet
+
+                    data: JSON.stringify({
+                        nazivPredmet: li.find(".predmetIme").val(),
+                        kraticaPredmet: li.find(".predmetKratica").val(),
+                        opisPredmet: li.find(".predmetOpis").val(),
+                        IDUstanova: li.find(".predmetUstanova").val(),
+                        IDKategorija: li.find(".predmetKategorija").val(),
+                        cijenaPredmet: li.find(".predmetCijena").val()
+                    }),
+                    success: function(res){
+                        if(res == null){
+                            //internal error
+                            alert("Greška pri stvaranju novog predmeta.")
+                            $button.prop("disabled", false);
+                        }
+                        else{
+                            li.empty();
+                            li.append("<b>" +nazivPredmeta +"</b>" + " Cijena: " +cijenaPredmet + " HRK");
+                            li.append("<button class='btn btn-danger Delete' value='" + res + "' > Ukloni </button>" );
+
+                        }
+}
+            });
+            });
+                </script>
+
+                <script>
+            $(document).on('click', '.postojeciPohrani', function(e){
+                e.preventDefault();
+                var li = $(this).parent();
+                if(li.find(".predmetCijena").val().length <= 0){
+                    alert("Unesite cijenu!");
+                    return;
+                }
+                $button = $(this);
+                $(this).prop("disabled", true);
+                combobox = li.find(".predmet");
+                idPredmeta = combobox.val();
+                nazivPredmeta = combobox.html();
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "/Profil/InsertExisting",
+
+                    data: JSON.stringify({
+                        IDPredmet: li.find(".predmet").val(),
+                        cijenaPredmet: li.find(".predmetCijena").val()
+                    }),
+
+
+                    success: function(res){
+                        if(parseInt(res) == -1){
+                            alert("Već držite instrukcije za odobrani predmet.");
+                            $button.prop("disabled", false);
+
+                        }
+                        else if(!res){
+                            //internal error
+                            alert("Greška pri dodavanju predmeta.");
+                            $button.prop("disabled", false);
+                        }
+                        else{
+                            li.empty();
+                            li.text(res)
+                            li.append("<button class='btn btn-danger Delete' value='" + idPredmeta + "' > Ukloni </button>" );
+
+
+                        }
+}
+            });
+
+            });
+                </script>
 
 
 
