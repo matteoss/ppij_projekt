@@ -42,9 +42,13 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 		// filtriranje
 		public string Ime { get; set; }
 		public string Prezime { get; set; }
-		public double MinOcjena { get; set; }
-		public int MinBrojInstrukcija { get; set; }
+		[Display(Name = "Minimalna ocjena")]
+		public double Ocjena { get; set; }
+		[Display(Name = "Minimalni broj instrukcija")]
+		public int BrojInstrukcija { get; set; }
+		[Display(Name = "Od")]
 		public decimal CijenaOd { get; set; }
+		[Display(Name = "Do")]
 		public decimal CijenaDo { get; set; }
 	}
 }

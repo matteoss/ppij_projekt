@@ -8,93 +8,99 @@
 <body>
     @using (Html.BeginForm())
     {
-        <div class="col-md-12 row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div class="col-md-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
                     <hr />
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Datum)
-                        @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { id = "date", } })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.OdabraniSatID)
-                        @Html.DropDownListFor(m => Model.OdabraniSatID, Model.Sati)
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.OdabranoTrajanjeID)
-                        @Html.DropDownListFor(m => Model.OdabranoTrajanjeID, Model.Trajanja)
-                    </div>
-                    <input type="submit" name="naredba" value="Traži">
-                    <hr />
-                    <div class="form-group">
-                        Tražilica:
-                        <div class="form-group">
-                            @Html.LabelFor(m => Model.Ime)
-                            @Html.TextBoxFor(m => Model.Ime)
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(m => Model.Prezime)
-                            @Html.TextBoxFor(m => Model.Prezime)
-                        </div>
-                    </div>
+                    @Html.LabelFor(model => model.Datum)
+                    @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { id = "date", @class = "form-control" } })
+                    @Html.LabelFor(m => m.OdabraniSatID)
+                    @Html.DropDownListFor(m => Model.OdabraniSatID, Model.Sati, new { @class = "form-control" })
+                    @Html.LabelFor(m => m.OdabranoTrajanjeID)
+                    @Html.DropDownListFor(m => Model.OdabranoTrajanjeID, Model.Trajanja, new { @class = "form-control" })
                 </div>
-                <div class="col-md-6">
-                    <table id="instrukcije" class="tablesorter table table-hover table-bordered" style="width:10%">
+                <div class="col-xs-6">
+                    <hr />
+                    @Html.LabelFor(m => Model.Ime)
+                    @Html.EditorFor(m => Model.Ime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.LabelFor(m => Model.Prezime)
+                    @Html.EditorFor(m => Model.Prezime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.LabelFor(m => Model.Ocjena) (još ne radi)
+                    @Html.EditorFor(m => Model.Ocjena, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.LabelFor(m => Model.BrojInstrukcija) (još ne radi)
+                    @Html.EditorFor(m => Model.BrojInstrukcija, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="row">
+                <hr />
+                <button type="submit" style="max-width:15em" class="btn btn-lg btn-info" name="naredba" value="Traži">Traži</button>
+            </div>
+            <div class="row">
+                <hr />
+                <div class="col-xs-12">
+                    <table id="instrukcije" class="tablesorter table table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th>Ime</th>
-                                <th>Prezime</th>
-                                <th>Ocjena</th>
-                                <th>Cijena (KN)</th>
-                                <th>Broj instrukcija</th>
-                                <th>Lokacija</th>
-                                <th>Status</th>
+                                <th style="text-align:center; vertical-align:middle">Ime</th>
+                                <th style="text-align:center; vertical-align:middle">Prezime</th>
+                                <th style="text-align:center; vertical-align:middle">Ocjena</th>
+                                <th style="text-align:center; vertical-align:middle">Cijena (KN)</th>
+                                <th style="text-align:center; vertical-align:middle">Broj instrukcija</th>
+                                <th style="text-align:center; vertical-align:middle">Lokacija</th>
+                                <th style="text-align:center; vertical-align:middle">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var opis in Model.Opisi)
                             {
-                                <tr class=@if(opis.Status == "SLOBODAN") { <text>info</text> }
-                                    @if (opis.Status == "POSLAN") { <text>success</text> }
+                                <tr class=@if(opis.Status == "SLOBODAN") { <text> info</text> }
+                                    @if (opis.Status == "POSLAN") { <text> success</text> }
                                     @if (opis.Status == "NEDOSTUPAN") { <text> warning</text> }
                                     @if (opis.Status == "REZERVIRAN") { <text> danger</text> }>
-                                    <td>@opis.Instruktor.ime_osoba</td>
-                                    <td>@opis.Instruktor.prezime_osoba</td>
-                                    <td>@opis.Ocjena</td>
-                                    <td>@opis.Cijena</td>
-                                    <td>@opis.BrojInstrukcija</td>
-                                    <td>@Html.DropDownList("lokacija:" + opis.Instruktor.ID_osoba, opis.SelectListLokacija)</td>
+                                    <td style="text-align:center; vertical-align:middle">@opis.Instruktor.ime_osoba</td>
+                                    <td style="text-align:center; vertical-align:middle">@opis.Instruktor.prezime_osoba</td>
+                                    <td style="text-align:center; vertical-align:middle">@opis.Ocjena</td>
+                                    <td style="text-align:center; vertical-align:middle">@opis.Cijena</td>
+                                    <td style="text-align:center; vertical-align:middle">@opis.BrojInstrukcija</td>
+                                    <td style="text-align:center; vertical-align:middle">@Html.DropDownList("lokacija:" + opis.Instruktor.ID_osoba, opis.SelectListLokacija, new { @class = "form-control" })</td>
                                     @if (opis.Status == "POSLAN")
                                     {
                                         <td>
-                                            <button style="max-width:120px" class="btn btn-success" disabled="disabled">
-                                                Poslan
-                                            </button>
+                                            <div style="text-align:center;">
+                                                <button style="max-width:15em;" class="btn btn-success" disabled="disabled">
+                                                    Poslan
+                                                </button>
+                                            </div>
                                         </td>
 }
                                     else if (opis.Status == "SLOBODAN")
                                     {
                                         <td>
-                                            <button style="max-width:120px" class="btn btn-info" type="submit" name="naredba" value=@(opis.Instruktor.ID_osoba)>
-                                                Slobodan
-                                            </button>
+                                            <div style="text-align:center;">
+                                                <button style="max-width:15em;" class="btn btn-info" type="submit" name="naredba" value=@(opis.Instruktor.ID_osoba)>
+                                                    Slobodan
+                                                </button>
+                                            </div>
                                         </td>
 }
                                     else if (opis.Status == "NEDOSTUPAN")
                                     {
                                         <td>
-                                            <button style="max-width:120px" class="btn btn-warning" disabled="disabled">
-                                                Nedostupan
-                                            </button>
+                                            <div style="text-align:center;">
+                                                <button style="max-width:15em;" class="btn btn-warning" disabled="disabled">
+                                                    Nedostupan
+                                                </button>
+                                            </div>
                                         </td>
 }
                                     else if (opis.Status == "REZERVIRAN")
                                     {
                                         <td>
-                                            <button style="max-width:120px" class="btn btn-danger" disabled="disabled">
-                                                Rezerviran
-                                            </button>
+                                            <div style="text-align:center;">
+                                                <button style="max-width:15em;" class="btn btn-danger" disabled="disabled">
+                                                    Rezerviran
+                                                </button>
+                                            </div>
                                         </td>
 }
                                 </tr>
@@ -102,9 +108,10 @@
                         </tbody>
                     </table>
                 </div>
+
             </div>
-            <div class="col-md-2"></div>
         </div>
+
     }
 </body>
 </html>

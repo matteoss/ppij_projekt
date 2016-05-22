@@ -288,7 +288,6 @@
     <Content Include="Content\Images\instrukcije5.jpg" />
     <Content Include="Content\Images\instrukcije6.jpg" />
     <Content Include="Content\Images\instrukcije7.jpg" />
-    <Content Include="Content\predmeti.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />

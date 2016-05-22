@@ -31,7 +31,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="ID_instruktor" Type="int" Nullable="false" />
+          <Property Name="ID_instruktor" Type="int" />
           <Property Name="Geo_sirina" Type="float" />
           <Property Name="Geo_duzina" Type="float" />
           <Property Name="opis" Type="nvarchar" MaxLength="50" />
@@ -201,7 +201,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Table_ToTable">
-          <End Role="Osoba" Type="Self.Osoba" Multiplicity="1" />
+          <End Role="Osoba" Type="Self.Osoba" Multiplicity="0..1" />
           <End Role="Lokacija" Type="Self.Lokacija" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Osoba">
@@ -479,7 +479,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="ID_instruktor" Type="Int32" Nullable="false" />
+          <Property Name="ID_instruktor" Type="Int32" />
           <Property Name="Geo_sirina" Type="Double" />
           <Property Name="Geo_duzina" Type="Double" />
           <Property Name="opis" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -487,7 +487,7 @@
           <NavigationProperty Name="dogovor_termin" Relationship="ppij_database_model.FK__dogovor_t__ID_lo__2739D489" FromRole="Lokacija" ToRole="dogovor_termin" />
         </EntityType>
         <Association Name="FK_Table_ToTable">
-          <End Type="ppij_database_model.Osoba" Role="Osoba" Multiplicity="1" />
+          <End Type="ppij_database_model.Osoba" Role="Osoba" Multiplicity="0..1" />
           <End Type="ppij_database_model.Lokacija" Role="Lokacija" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Osoba">

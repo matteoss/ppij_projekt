@@ -21,7 +21,7 @@ namespace ppij_web_aplikacija
         }
     
         public int Id { get; set; }
-        public int ID_instruktor { get; set; }
+        public Nullable<int> ID_instruktor { get; set; }
         public Nullable<double> Geo_sirina { get; set; }
         public Nullable<double> Geo_duzina { get; set; }
         public string opis { get; set; }
