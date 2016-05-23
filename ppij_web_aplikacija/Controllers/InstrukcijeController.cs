@@ -188,6 +188,8 @@ namespace ppij_web_aplikacija.Controllers
 																  && i.dogovor_ocijena != null)
 										  .Select(i => (int)i.dogovor_ocijena).ToList();
 					opis.Ocjena = 1.0 * ocjene.Sum(x => Convert.ToInt32(x)) / ocjene.Count;
+					if (double.IsNaN(opis.Ocjena))
+						opis.Ocjena = 0;
 					// nadji broj instrukcija iz predmeta
 					opis.BrojInstrukcija = db.dogovor_termin.Where(i => i.ID_instruktor == opis.Instruktor.ID_osoba
 																	 && i.ID_predmet == ID_predmet
@@ -206,7 +208,7 @@ namespace ppij_web_aplikacija.Controllers
 				opisi = opisi.Where(i => i.Instruktor.ime_osoba.Contains(model.Ime.Trim())).ToList();
 			if (model.Prezime != null)
 				opisi = opisi.Where(i => i.Instruktor.prezime_osoba.Contains(model.Prezime.Trim())).ToList();
-
+			opisi = opisi.Where(i => i.BrojInstrukcija >= model.BrojInstrukcija && i.Ocjena >= model.Ocjena).ToList();
 			model.Opisi = opisi;
 
 			return View(model);

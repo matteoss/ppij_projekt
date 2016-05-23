@@ -25,10 +25,10 @@
                     @Html.EditorFor(m => Model.Ime, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.LabelFor(m => Model.Prezime)
                     @Html.EditorFor(m => Model.Prezime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.LabelFor(m => Model.Ocjena) (još ne radi)
-                    @Html.EditorFor(m => Model.Ocjena, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.LabelFor(m => Model.BrojInstrukcija) (još ne radi)
-                    @Html.EditorFor(m => Model.BrojInstrukcija, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.LabelFor(m => Model.Ocjena)
+                    @Html.EditorFor(m => Model.Ocjena, new { htmlAttributes = new { @class = "form-control", min="0", max="5" } })
+                    @Html.LabelFor(m => Model.BrojInstrukcija)
+                    @Html.EditorFor(m => Model.BrojInstrukcija, new { htmlAttributes = new { @class = "form-control", min="0" } })
                 </div>
             </div>
             <div class="row">

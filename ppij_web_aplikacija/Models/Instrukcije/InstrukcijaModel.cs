@@ -46,9 +46,5 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 		public double Ocjena { get; set; }
 		[Display(Name = "Minimalni broj instrukcija")]
 		public int BrojInstrukcija { get; set; }
-		[Display(Name = "Od")]
-		public decimal CijenaOd { get; set; }
-		[Display(Name = "Do")]
-		public decimal CijenaDo { get; set; }
 	}
 }
