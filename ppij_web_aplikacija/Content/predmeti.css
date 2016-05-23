@@ -5,3 +5,12 @@
 .dodajNovi, .dodajPostojeci{
     max-width: 250px;
 }
+
+.ajax-load, .ajax-load-add, .ajax-load-edit{
+    display: none;
+    padding-left: 20px;
+}
+
+.ajax-load-td{
+    display: flex;
+}

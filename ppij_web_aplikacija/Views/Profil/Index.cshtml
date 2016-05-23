@@ -362,15 +362,21 @@
                                         </thead>
                                         <tbody id="predmeti">
                                                 @foreach (var predmet in Model.mojeVlastiteInstrukcije.mojiPredmeti) {
-                                                    <tr><td>@Html.Raw(predmet.nazivPredmet)</td><td>@Html.Raw(predmet.cijenaPredmet.ToString()) HRK</td><td><button class="btn btn-sm btn-danger Delete" value="@Html.DisplayName(predmet.IDpredmet.ToString())">Ukloni</button></td><td><button class="btn btn-sm btn-warning Edit" value="@Html.DisplayName(predmet.IDpredmet.ToString())">Uredi</button></td></tr>
-
+                                                    <tr>
+                                                        <td>@Html.Raw(predmet.nazivPredmet)</td>
+                                                        <td>@Html.Raw(predmet.cijenaPredmet.ToString()) HRK</td>
+                                                        <td><button class="btn btn-sm btn-danger Delete" value="@Html.DisplayName(predmet.IDpredmet.ToString())">Ukloni</button></td>
+                                                        <td class="ajax-load-td">
+                                                            <button class="btn btn-sm btn-warning Edit" value="@Html.DisplayName(predmet.IDpredmet.ToString())">Uredi</button><div class="ajax-load"><img class="img-responsive" src="~/Content/Images/ajax_load.gif" /></div>
+                                                        </td>
+                                                    </tr>
                                                 }
                                         </tbody>
                                     </table>
 
                                             <div class="col-md-2 mali-razmak-gore">
-                                                <button class="btn btn-success dodajNovi">Stvori novi predmet</button> <br />
-                                                <button class="btn btn-primary dodajPostojeci">Dodaj postojeći predmet</button>
+                                                <button class="btn btn-primary dodajPostojeci">Dodaj postojeći predmet</button><br />
+                                                <button class="btn btn-success dodajNovi">Stvori novi predmet</button>
                                             </div>
 
                                 </div>
@@ -535,8 +541,8 @@
 
                             <input class='predmetCijena' type='number' min='0' step='0.01' placeholder='Cijena' required />
                         </td>
-                        <td>
-                            <button class='btn btn-success btn-sm postojeciPohrani'>Pohrani</button>
+                        <td class="ajax-load-td">
+                            <button class='btn btn-success btn-sm postojeciPohrani'>Pohrani</button><div class="ajax-load-add"><img class="img-responsive" src="~/Content/Images/ajax_load.gif" /></div>
                         </td>
                         <td></td>
                     </tr>
@@ -566,8 +572,8 @@
                         <td>
                             <input class='predmetCijena' type='number' min='0' step='0.01' placeholder='Cijena' required />
                         </td>
-                        <td>
-                            <button class='btn btn-success btn-sm predmetPohrani'>Pohrani</button>
+                        <td class="ajax-load-td">
+                            <button class='btn btn-success btn-sm predmetPohrani'>Pohrani</button><div class="ajax-load-add"><img class="img-responsive" src="~/Content/Images/ajax_load.gif" /></div>
                         </td>
                     </tr>
                 </tbody>
@@ -872,6 +878,8 @@
                         $edit = $el.closest("tr").find(".Edit");
                         $(this).prop("disabled", true);
                         $edit.prop("disabled", true);
+                        $ajaxLoad = $el.closest("tr").find(".ajax-load");
+                        $ajaxLoad.fadeIn(300);
                         $.ajax({
                             url: '/Profil/Delete',
                             type: 'POST',
@@ -881,6 +889,7 @@
                                 $el.prop("disabled", false);
                                 $edit.prop("disabled", false);
                                 alert("Greška pri brisanju predmeta!");
+                                $ajaxLoad.fadeOut(300);
                             },
                             success: function () {
                                 $el.closest("tr").fadeOut(200);
@@ -920,9 +929,11 @@
                         return;
                     }
                     $button = $(this);
+                    ajaxLoad = tr.find(".ajax-load-add");
                     $edit = $button.closest("tr").find(".Edit");
                     $button.prop("disabled", true);
                     $edit.prop("disabled", true);
+                    ajaxLoad.fadeIn(300);
 
                     $.ajax({
                         type: "POST",
@@ -944,11 +955,12 @@
                                 alert("Greška pri stvaranju novog predmeta.")
                                 $button.prop("disabled", false);
                                 $edit.prop("disabled", false);
+                                ajaxLoad.fadeOut(300);
+
                             }
                             else{
                                 tr.empty();
-                                tr.append("<td>" +nazivPredmeta +"</td><td>" + cijenaPredmeta.replace(/\./g, ',') + " HRK</td>" + "<td><button class='btn btn-sm btn-danger Delete' value='" + res + "' > Ukloni </button></td><td><button class='btn btn-sm btn-warning Edit' value='" + res + "' > Uredi </button></td>");
-                               
+                                tr.append("<td>" +nazivPredmeta +"</td><td>" + cijenaPredmeta.replace(/\./g, ',') + " HRK</td>" + "<td><button class='btn btn-sm btn-danger Delete' value='" + res + "' > Ukloni </button></td><td class='ajax-load-td'><button class='btn btn-sm btn-warning Edit' value='" + res + "' > Uredi </button><div class='ajax-load'><img class='img-responsive' src='/Content/Images/ajax_load.gif' /></div></td>");
                             }
                         }
                     });
@@ -963,6 +975,8 @@
                         alert("Unesite cijenu!");
                         return;
                     }
+                    ajaxLoad = tr.find(".ajax-load-add");
+                    ajaxLoad.fadeIn(300);
                     $button = $(this);
                     $(this).prop("disabled", true);
                     combobox = tr.find(".predmet");
@@ -985,19 +999,19 @@
                             if(parseInt(res) == -1){
                                 alert("Već držite instrukcije za odobrani predmet.");
                                 $button.prop("disabled", false);
+                                ajaxLoad.fadeOut(300);
 
                             }
                             else if(!res){
                                 //internal error
                                 alert("Greška pri dodavanju predmeta.");
                                 $button.prop("disabled", false);
+                                ajaxLoad.fadeOut(300);
                             }
                             else{
                                 tr.empty();
                                 tr.append("<td>" +res +"</td>" + "<td>" +cijenaPredmet.replace(/\./g, ',') + " HRK</td>");
-                                tr.append("<td><button class='btn btn-sm btn-danger Delete' value='" + idPredmeta + "' > Ukloni </button></td><td><button class='btn btn-sm btn-warning Edit' value='" + idPredmeta + "' > Uredi </button></td>" );
-
-
+                                tr.append("<td><button class='btn btn-sm btn-danger Delete' value='" + idPredmeta + "' > Ukloni </button></td><td class='ajax-load-td'><button class='btn btn-sm btn-warning Edit' value='" + res + "' > Uredi </button><div class='ajax-load'><img class='img-responsive' src='/Content/Images/ajax_load.gif' /></div></td>" );
                             }
                         }
                     });
@@ -1011,8 +1025,7 @@
                     $(this).prop("disabled", true);
                     var tr = $(this).closest("tr");
                     var tdCijena = tr.children().eq(1);
-
-                    tdCijena.append("&nbsp;<input class='novaCijena' type='number' min='0' step='0.01' placeholder='Nova cijena'/>&nbsp;<button class='btn btn-sm btn-success PohraniCijenu' value='" + idPredmet + "'>Pohrani</button>");
+                    tdCijena.append("&nbsp;<input class='novaCijena' type='number' min='0' step='0.01' placeholder='Nova cijena'/>&nbsp;<button class='btn btn-sm btn-success PohraniCijenu' value='" + idPredmet + "'>Pohrani</button><div class='ajax-load-edit'><img class='img-responsive' src='/Content/Images/ajax_load.gif' /></div>");
 
                 });
             </script>
@@ -1024,7 +1037,7 @@
                     var td = $(this).parent();
                     var tr = $(this).closest("tr");
                     var $delButton = tr.find(".Delete");
-                    $delButton.prop("disabled", true);
+                    var ajaxLoad = tr.find(".ajax-load-edit");
                     novaCijena = tr.find(".novaCijena").val();
                     idPredmet = $(this).attr("value");
                     var $savechangeButton = $(this);
@@ -1035,7 +1048,10 @@
                         alert("Unesite novu cijenu prije pohrane.");
                         return;
                     }
-
+                    td.css("display", "-webkit-box");
+                    ajaxLoad.fadeIn(300);
+                    $delButton.prop("disabled", true);
+                    $savechangeButton.prop("disabled", true);
                     
                     $.ajax({
                         type: "POST",
@@ -1050,14 +1066,17 @@
                             if(!res){
                                 //internal error
                                 alert("Greška pri promjeni cijene.");
+                                ajaxLoad.fadeOut(300);
+                                $savechangeButton.prop("disabled", false);
                             }
                             else{
                                 td.empty();
                                 td.append(novaCijena.replace(/\./g, ',') + " HRK");
                                 $editButton.prop("disabled", false);
-                                $delButton.prop("disabled", false);
 
                             }
+                            td.css("display", "table-cell");
+                            $delButton.prop("disabled", false);
                         }
                     });
 
