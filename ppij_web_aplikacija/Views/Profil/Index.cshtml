@@ -1031,6 +1031,10 @@
                     var $editButton = tr.find(".Edit");
 
                 
+                    if(novaCijena.length <= 0){
+                        alert("Unesite novu cijenu prije pohrane.");
+                        return;
+                    }
 
                     
                     $.ajax({
