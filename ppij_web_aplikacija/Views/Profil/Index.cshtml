@@ -1010,8 +1010,7 @@
                             }
                             else{
                                 tr.empty();
-                                tr.append("<td>" +res +"</td>" + "<td>" +cijenaPredmet.replace(/\./g, ',') + " HRK</td>");
-                                tr.append("<td><button class='btn btn-sm btn-danger Delete' value='" + idPredmeta + "' > Ukloni </button></td><td class='ajax-load-td'><button class='btn btn-sm btn-warning Edit' value='" + res + "' > Uredi </button><div class='ajax-load'><img class='img-responsive' src='/Content/Images/ajax_load.gif' /></div></td>" );
+                                tr.append("<td>" +res +"</td><td>" + cijenaPredmet.replace(/\./g, ',') + " HRK</td>" + "<td><button class='btn btn-sm btn-danger Delete' value='" + idPredmeta + "' > Ukloni </button></td><td class='ajax-load-td'><button class='btn btn-sm btn-warning Edit' value='" + idPredmeta + "' > Uredi </button><div class='ajax-load'><img class='img-responsive' src='/Content/Images/ajax_load.gif' /></div></td>");
                             }
                         }
                     });
@@ -1025,11 +1024,10 @@
                     $(this).prop("disabled", true);
                     var tr = $(this).closest("tr");
                     var tdCijena = tr.children().eq(1);
-                    tdCijena.append("&nbsp;<input class='novaCijena' type='number' min='0' step='0.01' placeholder='Nova cijena'/>&nbsp;<button class='btn btn-sm btn-success PohraniCijenu' value='" + idPredmet + "'>Pohrani</button><div class='ajax-load-edit'><img class='img-responsive' src='/Content/Images/ajax_load.gif' /></div>");
+                    tdCijena.append("&nbsp;<input class='novaCijena' type='number' lang='nb' min='0' step='0.01' placeholder='Nova cijena'/>&nbsp;<button class='btn btn-sm btn-success PohraniCijenu' value='" + idPredmet + "'>Pohrani</button><div class='ajax-load-edit'><img class='img-responsive' src='/Content/Images/ajax_load.gif' /></div>");
 
                 });
             </script>
-
 
             <script>
                 $(document).on('click', '.PohraniCijenu', function(e){
@@ -1038,8 +1036,8 @@
                     var tr = $(this).closest("tr");
                     var $delButton = tr.find(".Delete");
                     var ajaxLoad = tr.find(".ajax-load-edit");
-                    novaCijena = tr.find(".novaCijena").val();
-                    idPredmet = $(this).attr("value");
+                    var novaCijena = tr.find(".novaCijena").val();
+                    var idPredmet = $(this).attr("value");
                     var $savechangeButton = $(this);
                     var $editButton = tr.find(".Edit");
 
@@ -1066,7 +1064,7 @@
                             if(!res){
                                 //internal error
                                 alert("Greška pri promjeni cijene.");
-                                ajaxLoad.fadeOut(300);
+                                ajaxLoad.fadeOut(50);
                                 $savechangeButton.prop("disabled", false);
                             }
                             else{

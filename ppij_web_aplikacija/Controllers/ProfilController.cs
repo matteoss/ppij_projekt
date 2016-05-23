@@ -428,11 +428,15 @@ namespace ppij_web_aplikacija.Controllers {
         }
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id) {
-            ppij_databaseEntities data = new ppij_databaseEntities();
-            Osoba osoba = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
-            osoba_predmet relacija = data.osoba_predmet.Find(osoba.ID_osoba, id);
-            data.osoba_predmet.Remove(relacija);
-            data.SaveChanges();
+            try {
+                ppij_databaseEntities data = new ppij_databaseEntities();
+                Osoba osoba = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
+                osoba_predmet relacija = data.osoba_predmet.Find(osoba.ID_osoba, id);
+                data.osoba_predmet.Remove(relacija);
+                data.SaveChanges();
+            } catch (Exception) {
+                return null;
+            }
             return RedirectToAction("Index");
         }
         #endregion
