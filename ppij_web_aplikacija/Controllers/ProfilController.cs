@@ -9,6 +9,7 @@ using ppij_web_aplikacija.Models;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using System.Net;
+using System.Globalization;
 
 namespace ppij_web_aplikacija.Controllers {
     public class ProfilController : Controller {
@@ -451,7 +452,7 @@ namespace ppij_web_aplikacija.Controllers {
                     };
                     data.Predmet.Add(predmet);
                     osoba_predmet op = new osoba_predmet() {
-                        cijena = decimal.Parse(cijenaPredmet),
+                        cijena = decimal.Parse(cijenaPredmet, CultureInfo.InvariantCulture),
                         ID_osoba = osoba.ID_osoba,
                         ID_predmet = predmet.ID_predmet
                     };
@@ -474,7 +475,7 @@ namespace ppij_web_aplikacija.Controllers {
                     p = data.Predmet.Find(int.Parse(IDPredmet));
                     Osoba osoba = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
                     osoba_predmet op = new osoba_predmet() {
-                        cijena = decimal.Parse(cijenaPredmet),
+                        cijena = decimal.Parse(cijenaPredmet, CultureInfo.InvariantCulture),
                         ID_osoba = osoba.ID_osoba,
                         ID_predmet = int.Parse(IDPredmet)
                     };
@@ -490,7 +491,21 @@ namespace ppij_web_aplikacija.Controllers {
         }
 
         #endregion
-
+        #region ajax promjena cijene
+        public bool? UpdatePrice(string IDPredmet, string cijenaPredmet) {
+            using (ppij_databaseEntities data = new ppij_databaseEntities()) {
+                try {
+                    Osoba osoba = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
+                    osoba_predmet op = data.osoba_predmet.Find(osoba.ID_osoba, int.Parse(IDPredmet));
+                    op.cijena = decimal.Parse(cijenaPredmet, CultureInfo.InvariantCulture);
+                    data.SaveChanges();
+                } catch (Exception) {
+                    return null;
+                }
+            }
+            return true;
+        }
+        #endregion
         public String convertLokacije(List<Lokacija> lokacije) {
             Boolean prvi = true;
             String json = "{\"lokacije\":[";

@@ -1,8 +1,7 @@
-﻿.Delete{
+﻿.Delete, .Edit, .postojeciPohrani, .predmetPohrani, .PohraniCijenu{
     max-width: 65px;
-    float:right;
-    margin-right: calc(1100px - 20vw);
 }
-#predmeti > li {
-    min-height: 34px;
+
+.dodajNovi, .dodajPostojeci{
+    max-width: 250px;
 }
