@@ -189,9 +189,11 @@ namespace ppij_web_aplikacija.Controllers {
                                     }
                                 }
                                 if (dto.odustani == true) {
-                                    if (dogovor.dogovor_status == 1 || dogovor.dogovor_status == 11) {
+                                    if (dogovor.dogovor_status == 1 || dogovor.dogovor_status == 11 || dogovor.dogovor_status == 10)
+                                    {
                                         dogovor.dogovor_status = 3;
                                     }
+                                    
                                     Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
                                 }
                             }
