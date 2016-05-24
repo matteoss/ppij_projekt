@@ -92,7 +92,7 @@
                                                         <input onclick="dodajindex(11);" type="submit" class="btn btn-default prihvati" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                     </div>
 
-                                                    <table id ="dogovori1" class="table-bordered tablesorter table table-striped header-fixed">
+                                                    <table id="dogovori1" class="table-bordered tablesorter table table-striped header-fixed">
                                                         <thead>
                                                             <tr>
                                                                 <th style="width:150px;">Datum</th>
@@ -223,7 +223,7 @@
                                                         <input onclick="dodajindex(12);" type="submit" class="btn btn-default prihvati" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                     </div>
 
-                                                    <table id ="dogovori2" class="table-bordered tablesorter table table-striped header-fixed" id="tabledatainstruktori">
+                                                    <table id="dogovori2" class="table-bordered tablesorter table table-striped header-fixed" id="tabledatainstruktori">
                                                         <thead>
                                                             <tr>
                                                                 <th style="width:150px;">Datum i vrijeme</th>
@@ -359,7 +359,7 @@
                             <div class="tab-content">
 
                                 <div class="tab-pane active top-buffer table-responsive" role="tabpanel" id="tab21">
-                                    <table id ="predmeti1" class="table tablesorter table-condensed">
+                                    <table id="predmeti1" class="table tablesorter table-condensed">
                                         <thead>
                                             <tr>
                                                 <th>Naziv predmeta</th>
@@ -383,8 +383,8 @@
                                     </table>
 
                                     <div class="col-md-2 mali-razmak-gore">
-                                        <button class="btn btn-primary dodajPostojeci">Dodaj postojeći predmet</button><br />
-                                        <button class="btn btn-success dodajNovi">Stvori novi predmet</button>
+                                        <button class="btn btn-primary dodajPostojeci" style="width:200px;">Dodaj postojeći predmet</button><br />
+                                        <button class="btn btn-success dodajNovi" style="width:200px;">Stvori novi predmet</button>
                                     </div>
 
                                 </div>
@@ -587,7 +587,7 @@
                     </tr>
                 </tbody>
             </table>
-           
+
 
             <div id="test123">
 
@@ -954,7 +954,7 @@
             <script>
                 $(document).on('click', '.Delete', function(e){
                     e.preventDefault();
-                    
+
                     var $el = $(this);
                     $edit = $el.closest("tr").find(".Edit");
                     $ajaxLoad = $el.closest("tr").find(".ajax-load");
@@ -999,7 +999,7 @@
                             $edit.prop("disabled", false);
                         }
                     });
-                    
+
                 });
             </script>
 
@@ -1033,10 +1033,10 @@
                         return;
                     }
                     else if(parseFloat(cijenaPredmeta).toFixed(2) < 0.00 || parseFloat(cijenaPredmeta).toFixed(2) > 9999.99){
-                
+
                         swal("Neispravni podatci", "Cijena mora biti između 0 i 9999.99 HRK", "error");
                         return;
-}
+                    }
                     $button = $(this);
                     ajaxLoad = tr.find(".ajax-load-add");
                     $edit = $button.closest("tr").find(".Edit");
@@ -1061,7 +1061,7 @@
                         success: function(res){
                             if(res == null){
                                 //internal error
-                                
+
                                 swal("Greška!", "Greška pri stvaranju novog predmeta.", "error")
                                 $button.prop("disabled", false);
                                 $edit.prop("disabled", false);
@@ -1083,12 +1083,12 @@
                     var tr = $(this).closest("tr");
                     cijenaPredmet = tr.find(".predmetCijena").val();
                     if(cijenaPredmet.length <= 0){
-                        
+
                         swal("Neispravni podatci", "Molimo unesite cijenu predmeta", "error")
                         return;
                     }else if(parseFloat(cijenaPredmet).toFixed(2) < 0.00 || parseFloat(cijenaPredmet).toFixed(2) > 9999.99){
-                
-                        
+
+
                         swal("Neispravni podatci", "Cijena mora biti između 0 i 9999.99 HRK", "error");
                         return;
                     }
@@ -1162,7 +1162,7 @@
                         swal("Neispravni podatci", "Unesite cijenu", "error");
                         return;
                     }else if(parseFloat(novaCijena).toFixed(2) < 0.00 || parseFloat(novaCijena).toFixed(2) > 9999.99){
-                
+
                         swal("Neispravni podatci", "Cijena mora biti između 0 i 9999.99 HRK", "error");
                         return;
                     }
@@ -1210,28 +1210,28 @@
 
 @section Scripts {
 
-@Scripts.Render("~/bundles/jquery_tablesorter")
-@*@Styles.Render("~/Content/css_jquery_tablesorter")*@
+    @Scripts.Render("~/bundles/jquery_tablesorter")
+    @*@Styles.Render("~/Content/css_jquery_tablesorter")*@
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             $("#dogovori1").tablesorter();
         }
     );
-</script>
+    </script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             $("#dogovori2").tablesorter();
         }
     );
-</script>
+    </script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             $("#predmeti1").tablesorter();
         }
     );
-</script>
+    </script>
 
 }
