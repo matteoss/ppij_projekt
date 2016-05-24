@@ -233,6 +233,7 @@
     <Compile Include="Models\Instrukcije\Opisnici\OpisKategorije.cs" />
     <Compile Include="Models\Instrukcije\KategorijaModel.cs" />
     <Compile Include="Models\Instrukcije\Opisnici\OpisPredmeta.cs" />
+    <Compile Include="Models\Instrukcije\Opisnici\OpisUstanove.cs" />
     <Compile Include="Models\Instrukcije\PredmetModel.cs" />
     <Compile Include="Models\Instrukcije\Konstante\Sat.cs" />
     <Compile Include="Models\Instrukcije\UstanovaModel.cs" />

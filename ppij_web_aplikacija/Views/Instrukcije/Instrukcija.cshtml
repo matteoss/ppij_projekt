@@ -11,35 +11,62 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3 col-sm-2 col-xs-0"></div>
-                <div class="col-md-3 col-sm-4 col-xs-6">
+                <div class="col-md-6 col-sm-8 col-xs-12" style="text-align:center">
                     <hr />
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Datum)
-                    </div>
-                    @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { id = "date", @class = "form-control" } })
-                    @Html.LabelFor(m => m.OdabraniSatID)
-                    @Html.DropDownListFor(m => Model.OdabraniSatID, Model.Sati, new { @class = "form-control" })
-                    @Html.LabelFor(m => m.OdabranoTrajanjeID)
-                    @Html.DropDownListFor(m => Model.OdabranoTrajanjeID, Model.Trajanja, new { @class = "form-control" })
+                    <h3><b>Odaberi instruktora:</b></h3>
                     <hr />
-                    <button type="submit" class="btn btn-lg btn-info" name="naredba" value="Traži">Traži</button>
+                    <h4>@Model.Predmet.naziv_predmet</h4>
+                    <hr />
                 </div>
-                <div class="col-md-3 col-sm-4 col-xs-6">
-                    <hr />
-                    @Html.LabelFor(m => Model.Ime)
-                    @Html.EditorFor(m => Model.Ime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.LabelFor(m => Model.Prezime)
-                    @Html.EditorFor(m => Model.Prezime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.LabelFor(m => Model.Ocjena)
-                    @Html.EditorFor(m => Model.Ocjena, new { htmlAttributes = new { @class = "form-control", min = "0", max = "5" } })
-                    @Html.LabelFor(m => Model.BrojInstrukcija)
-                    @Html.EditorFor(m => Model.BrojInstrukcija, new { htmlAttributes = new { @class = "form-control", min = "0" } })
-                </div>
-                <div class="col-md-3 col-sm-2 col-xs-0"></div>
             </div>
             <div class="row">
-                <hr />
-                <div class="col-xs-12">
+                <div class="col-md-3 col-sm-2 col-xs-0"></div>
+                <div class="col-md-3 col-sm-4 col-xs-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Datum)
+                        @Html.EditorFor(model => model.Datum, new { htmlAttributes = new { id = "date", @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.OdabraniSatID)
+                        @Html.DropDownListFor(m => Model.OdabraniSatID, Model.Sati, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.OdabranoTrajanjeID)
+                        @Html.DropDownListFor(m => Model.OdabranoTrajanjeID, Model.Trajanja, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => Model.Ime)
+                        @Html.EditorFor(m => Model.Ime, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => Model.Prezime)
+                        @Html.EditorFor(m => Model.Prezime, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => Model.Ocjena)
+                        @Html.EditorFor(m => Model.Ocjena, new { htmlAttributes = new { @class = "form-control", min = "0", max = "5", step = "0.1" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => Model.BrojInstrukcija)
+                        @Html.EditorFor(m => Model.BrojInstrukcija, new { htmlAttributes = new { @class = "form-control", min = "0" } })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-2 col-xs-0"></div>
+                <div class="col-md-6 col-sm-8 col-xs-12" style="text-align:center">
+                    <hr />
+                    <button class="btn btn-primary" value="Traži" style="width:20em">
+                        Traži
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-2"></div>
+                <div class="col-xs-8">
+                    <hr />
                     <table id="instrukcije" class="tablesorter table table-hover table-bordered">
                         <thead>
                             <tr>

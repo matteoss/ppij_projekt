@@ -10,8 +10,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-sm-offset-3" style="text-align:center">
-
-                    <h4>Odaberi kategoriju:</h4>
+                    <hr />
+                    <h3><b>Odaberi kategoriju:</b></h3>
                     <hr />
                     <div class="form-group">
                         <label>
@@ -35,10 +35,13 @@
                     <div class="list-group">
                         @foreach (var opis in Model.Opisi)
                         {
-                            <a href=@("/instrukcije/" + opis.Kategorija.ID_kategorija) class="list-group-item">
-                                @opis.Kategorija.naziv_kategorija
-                                <span class="badge">@opis.BrojInstrukcija</span>
-                            </a>}
+                            if (opis.BrojInstrukcija != 0)
+                            {
+                                <a href=@("/instrukcije/" + opis.Kategorija.ID_kategorija) class="list-group-item">
+                                    @opis.Kategorija.naziv_kategorija
+                                    <span class="badge">@opis.BrojInstrukcija</span>
+                                </a>}
+}
                     </div>
                 </div>
             </div>

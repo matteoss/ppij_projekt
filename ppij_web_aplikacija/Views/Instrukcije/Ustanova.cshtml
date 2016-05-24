@@ -5,18 +5,33 @@
 <head>
     <title>@ViewBag.Title</title>
 </head>
-<body>
-    <h3>Biranje razine</h3>
-    <hr />
-    <p>
-        @foreach (var ustanova in Model.Ustanove)
-        {
-            <div>
-                @ustanova.Naziv_ustanova -
-                @Html.RouteLink("Odaberi", "Predmeti", new { ustanova_id = ustanova.ID_ustanova })
+<body class="bootstrap-fix">
+    <form class="form-inline" action="/instrukcije" method="post">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-sm-offset-3" style="text-align:center">
+                    <hr />
+                    <h3><b>Odaberi razinu:</b></h3>
+                    <hr />
+                </div>
             </div>
-        }
-    </p>
-
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-sm-offset-3">
+                    <div class="list-group">
+                        @foreach (var opis in Model.Opisi)
+                        {
+                            if (opis.BrojInstrukcija != 0)
+                            {
+                                <a href=@("/instrukcije/" + ViewContext.RouteData.Values["kategorija_id"] + "/" + opis.Ustanova.ID_ustanova) class="list-group-item">
+                                    @opis.Ustanova.Naziv_ustanova
+                                    <span class="badge">@opis.BrojInstrukcija</span>
+                                </a>
+}
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </body>
 </html>
