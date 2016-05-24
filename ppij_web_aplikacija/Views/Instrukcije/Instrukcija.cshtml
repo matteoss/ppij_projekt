@@ -86,8 +86,8 @@
                             {
                                 <tr class=@if(opis.Status == "SLOBODAN") { <text> info</text> }
                                     @if (opis.Status == "POSLAN") { <text> success</text> }
-                                    @if (opis.Status == "NEDOSTUPAN") { <text> warning</text> }
-                                    @if (opis.Status == "REZERVIRAN") { <text> danger</text> }>
+                                    @if (opis.Status == "NEDOSTUPAN" || opis.Status == "REZERVIRAN") { <text> warning</text> }
+                                    @if (opis.Status == "OTKAZAN") { <text> danger</text> }>
                                     <td style="text-align:center; vertical-align:middle">@opis.Instruktor.ime_osoba</td>
                                     <td style="text-align:center; vertical-align:middle">@opis.Instruktor.prezime_osoba</td>
                                     <td style="text-align:center; vertical-align:middle">@opis.Ocjena</td>
@@ -131,8 +131,18 @@
                                     {
                                         <td>
                                             <div style="text-align:center;">
-                                                <button class="btn btn-danger" disabled="disabled">
+                                                <button class="btn btn-warning" disabled="disabled">
                                                     Rezerviran
+                                                </button>
+                                            </div>
+                                        </td>
+}
+                                    else if (opis.Status == "OTKAZAN")
+                                    {
+                                        <td>
+                                            <div style="text-align:center;">
+                                                <button class="btn btn-danger" disabled="disabled">
+                                                    Otkazan
                                                 </button>
                                             </div>
                                         </td>

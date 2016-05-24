@@ -102,7 +102,15 @@ namespace ppij_web_aplikacija.Controllers
 					string id = "lokacija:" + ID_instruktor;
 					int ID_lokacija = Int32.Parse(Request.Form[id].ToString());
 
-					zahtjev.ID_dogovor_termin = db.dogovor_termin.Select(d => d.ID_dogovor_termin).Max() + 1;
+					try
+					{
+						zahtjev.ID_dogovor_termin = db.dogovor_termin.Select(d => d.ID_dogovor_termin).Max() + 1;
+					}
+					catch (InvalidOperationException)
+					{
+						zahtjev.ID_dogovor_termin = 0;
+					}
+
 					zahtjev.dogovor_status = 10;
 					zahtjev.dogovor_ocijena = null;
 					zahtjev.ID_instruktor = ID_instruktor;
@@ -139,11 +147,14 @@ namespace ppij_web_aplikacija.Controllers
 				// uzmi sve instruktore koji predaju navedeni predmet
 				int ID_predmet = Int32.Parse((string)RouteData.Values["predmet_id"]);
 				List<osoba_predmet> instrukcije = db.osoba_predmet.Where(i => i.ID_predmet == ID_predmet).ToList();
+				// TODO: uzmi instruktore koji su aktivni
 				model.Predmet = db.Predmet.First(p => p.ID_predmet == ID_predmet);
 
 				// makni sebe iz liste instruktora (LOL)
 				Osoba korisnik = db.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
 				instrukcije = instrukcije.Where(i => i.Osoba.ID_osoba != korisnik.ID_osoba).ToList();
+
+				Debug.WriteLine("---------------");
 
 				// izracunaj opise instruktora
 				foreach (osoba_predmet instrukcija in instrukcije)
@@ -179,20 +190,45 @@ namespace ppij_web_aplikacija.Controllers
 							opis.Status = "REZERVIRAN";
 					}
 
-					if (opis.Status == null) // POPRAVI, nešt ne radi
+					
+
+					if (opis.Status == null)
 					{
+						
 						// provjeri da li je već isti zahtjev tom instruktoru
 						DateTime termin = model.Datum.AddHours(model.OdabraniSatID);
+						Debug.WriteLine(termin);
 						int vec_poslan = db.dogovor_termin
 							.Where(d => d.Osoba1.korisnicko_ime_osoba == User.Identity.Name)
 							.Where(d => d.ID_instruktor == instrukcija.Osoba.ID_osoba)
 							.Where(d => d.datum_dogovor == termin)
 							.Where(d => d.trajanje == model.OdabranoTrajanjeID)
-							.Where(d => d.dogovor_status == 10).Count(); // TODO još dodaj one druge statuse
+							.Where(d => d.ID_predmet == ID_predmet).Count();
 						if (vec_poslan != 0)
-							opis.Status = "POSLAN";
+						{
+							Debug.WriteLine("preklapanja:");
+							Debug.WriteLine(opis.Instruktor.prezime_osoba + ":" + opis.Status);
+							vec_poslan = db.dogovor_termin
+							.Where(d => d.Osoba1.korisnicko_ime_osoba == User.Identity.Name)
+							.Where(d => d.ID_instruktor == instrukcija.Osoba.ID_osoba)
+							.Where(d => d.datum_dogovor == termin)
+							.Where(d => d.trajanje == model.OdabranoTrajanjeID)
+							.Where(d => d.ID_predmet == ID_predmet)
+							.Where(d => d.dogovor_status == 0
+									 || d.dogovor_status == 3
+									 || d.dogovor_status == 2
+									 || d.dogovor_status == 20).Count();
+							if (vec_poslan != 0)
+								opis.Status = "OTKAZAN";
+							else
+								opis.Status = "POSLAN";
+						}
 						else
+						{
+							Debug.WriteLine("nema preklapanja:");
+							Debug.WriteLine(opis.Instruktor.prezime_osoba + ":" + opis.Status);
 							opis.Status = "SLOBODAN";
+						}
 					}
 
 					// izracunaj prosjecnu ocjenu iz predmeta

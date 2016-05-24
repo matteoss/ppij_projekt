@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     <link href="~/Content/predmeti.css" rel="stylesheet" />
+    <link href="~/Content/profil.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container">
@@ -387,7 +388,8 @@
                                     @using (Html.BeginForm()) {
                                         <fieldset>
                                             <form class="form-horizontal " method="post">
-                                                <div class="col-md-2 ">
+                                                <div class="col-md-5 ">
+                                                    <h3>Odaberite termine u kojima želite davati instrukcije</h3>
                                                     <input onclick="addterminmodel(22);" type="submit" class="btn btn-default" style="font-weight:bold; margin-left:700px;" value="Promjeni &raquo;" /> <br />
                                                 </div>
                                                 <div style="width:800px;">
@@ -694,6 +696,7 @@
                 var dogovorenitermini;
 
                 var idpocetkainstrukcija = [];
+
 
                 $(document).ready(function () {
                     $("#tabledatainstruktori tbody tr").each(function( i ) {

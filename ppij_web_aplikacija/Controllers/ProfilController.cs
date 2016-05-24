@@ -157,7 +157,7 @@ namespace ppij_web_aplikacija.Controllers {
         public ActionResult Index(Models.PostavkeModel model) {
             using (ppij_databaseEntities data = new ppij_databaseEntities()) {
                 Osoba osoba = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
-                Debug.WriteLine("tab: " + model.trenutniTab);
+                //Debug.WriteLine("tab: " + model.trenutniTab);
                 if (ModelState.IsValid) {
                     String trenutniTab = model.trenutniTab;
 
@@ -201,7 +201,7 @@ namespace ppij_web_aplikacija.Controllers {
                                         dogovor.dogovor_status = 3;
                                     }
                                     
-                                    Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
+                                    //Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
                                 }
                             }
                         }
