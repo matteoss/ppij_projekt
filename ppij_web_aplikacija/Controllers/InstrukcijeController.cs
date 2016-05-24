@@ -32,7 +32,7 @@ namespace ppij_web_aplikacija.Controllers
 				}
 			}
 			if (model.Trazilica != null)
-				opisi = opisi.Where(k => k.Kategorija.naziv_kategorija.Contains(model.Trazilica.Trim())).ToList();
+				opisi = opisi.Where(k => k.Kategorija.naziv_kategorija.ToUpper().Contains(model.Trazilica.Trim().ToUpper())).ToList();
 			opisi = opisi.OrderByDescending(o => o.BrojInstrukcija).ToList();
 			model.Opisi = opisi;
 
@@ -41,12 +41,26 @@ namespace ppij_web_aplikacija.Controllers
 
 		public ActionResult Ustanova(UstanovaModel model)
 		{
-			List<Ustanova> ustanove;
+			List<OpisUstanove> opisi = new List<OpisUstanove>();
 			using (var db = new ppij_databaseEntities())
 			{
-				ustanove = db.Ustanova.ToList();
+				List<Ustanova> ustanove = db.Ustanova.ToList();
+				foreach (Ustanova ustanova in ustanove)
+				{
+					OpisUstanove opis = new OpisUstanove();
+					opis.Ustanova = ustanova;
+					opis.BrojInstrukcija = 0;
+					int ID_kategorija = Int32.Parse((string)RouteData.Values["kategorija_id"]);
+					int ID_ustanova = ustanova.ID_ustanova;
+					ICollection<Predmet> predmeti = db.Predmet.Where(p => p.ID_kategorija == ID_kategorija
+																	   && p.ID_ustanova == ID_ustanova).ToList();
+					foreach (Predmet predmet in predmeti)
+						foreach (osoba_predmet instrukcija in predmet.osoba_predmet)
+							opis.BrojInstrukcija++;
+					opisi.Add(opis);
+				}
 			}
-			model.Ustanove = ustanove;
+			model.Opisi = opisi;
 			return View(model);
 		}
 
@@ -69,7 +83,7 @@ namespace ppij_web_aplikacija.Controllers
 				}
 			}
 			if (model.Trazilica != null)
-				opisi = opisi.Where(p => p.Predmet.naziv_predmet.Contains(model.Trazilica.Trim())).ToList();
+				opisi = opisi.Where(p => p.Predmet.naziv_predmet.ToUpper().Contains(model.Trazilica.Trim().ToUpper())).ToList();
 			opisi = opisi.OrderByDescending(o => o.BrojInstrukcija).ToList();
 			model.Opisi = opisi;
 
@@ -87,7 +101,6 @@ namespace ppij_web_aplikacija.Controllers
 					int ID_instruktor = Int32.Parse(naredba);
 					string id = "lokacija:" + ID_instruktor;
 					int ID_lokacija = Int32.Parse(Request.Form[id].ToString());
-					Debug.WriteLine("ID_lokacija: " + ID_lokacija);
 
 					zahtjev.ID_dogovor_termin = db.dogovor_termin.Select(d => d.ID_dogovor_termin).Max() + 1;
 					zahtjev.dogovor_status = 10;
@@ -106,7 +119,6 @@ namespace ppij_web_aplikacija.Controllers
 			List<OpisInstrukcije> opisi = new List<OpisInstrukcije>();
 			using (var db = new ppij_databaseEntities())
 			{
-
 				// datetime pocetka i zavrsetka
 				DateTime pocetak = new DateTime(model.Datum.Year, model.Datum.Month, model.Datum.Day, model.OdabraniSatID, 0, 0);
 				DateTime zavrsetak = pocetak.AddHours(model.OdabranoTrajanjeID);
@@ -127,6 +139,7 @@ namespace ppij_web_aplikacija.Controllers
 				// uzmi sve instruktore koji predaju navedeni predmet
 				int ID_predmet = Int32.Parse((string)RouteData.Values["predmet_id"]);
 				List<osoba_predmet> instrukcije = db.osoba_predmet.Where(i => i.ID_predmet == ID_predmet).ToList();
+				model.Predmet = db.Predmet.First(p => p.ID_predmet == ID_predmet);
 
 				// makni sebe iz liste instruktora (LOL)
 				Osoba korisnik = db.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
@@ -166,7 +179,7 @@ namespace ppij_web_aplikacija.Controllers
 							opis.Status = "REZERVIRAN";
 					}
 
-					if (opis.Status == null)
+					if (opis.Status == null) // POPRAVI, nešt ne radi
 					{
 						// provjeri da li je već isti zahtjev tom instruktoru
 						DateTime termin = model.Datum.AddHours(model.OdabraniSatID);
@@ -205,9 +218,9 @@ namespace ppij_web_aplikacija.Controllers
 			}
 			// TODO : filtriraj po minimalnoj ocjeni, minimalnom broju instrukcija, rasponu cijene, 
 			if (model.Ime != null)
-				opisi = opisi.Where(i => i.Instruktor.ime_osoba.Contains(model.Ime.Trim())).ToList();
+				opisi = opisi.Where(i => i.Instruktor.ime_osoba.ToUpper().Contains(model.Ime.Trim().ToUpper())).ToList();
 			if (model.Prezime != null)
-				opisi = opisi.Where(i => i.Instruktor.prezime_osoba.Contains(model.Prezime.Trim())).ToList();
+				opisi = opisi.Where(i => i.Instruktor.prezime_osoba.ToUpper().Contains(model.Prezime.Trim().ToUpper())).ToList();
 			opisi = opisi.Where(i => i.BrojInstrukcija >= model.BrojInstrukcija && i.Ocjena >= model.Ocjena).ToList();
 			model.Opisi = opisi;
 

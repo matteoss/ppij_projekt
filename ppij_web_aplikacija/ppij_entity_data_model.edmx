@@ -48,6 +48,7 @@
           <Property Name="razina_prava" Type="int" Nullable="false" />
           <Property Name="lozinka" Type="varchar" MaxLength="100" />
           <Property Name="salt" Type="varchar" MaxLength="16" />
+          <Property Name="brojTel" Type="varchar" MaxLength="15" />
         </EntityType>
         <EntityType Name="osoba_predmet">
           <Key>
@@ -309,6 +310,7 @@
           <Property Name="salt" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="osoba_predmet" Relationship="ppij_database_model.FK__osoba_pre__ID_os__4CA06362" FromRole="Osoba" ToRole="osoba_predmet" />
           <NavigationProperty Name="Lokacija" Relationship="ppij_database_model.FK_Table_ToTable" FromRole="Osoba" ToRole="Lokacija" />
+          <Property Name="brojTel" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Termin">
           <Key>
@@ -542,6 +544,7 @@
           <EntitySetMapping Name="Osoba">
             <EntityTypeMapping TypeName="ppij_database_model.Osoba">
               <MappingFragment StoreEntitySet="Osoba">
+                <ScalarProperty Name="brojTel" ColumnName="brojTel" />
                 <ScalarProperty Name="salt" ColumnName="salt" />
                 <ScalarProperty Name="lozinka" ColumnName="lozinka" />
                 <ScalarProperty Name="ID_osoba" ColumnName="ID_osoba" />
