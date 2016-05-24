@@ -242,7 +242,8 @@ namespace ppij_web_aplikacija.Controllers
 					// nadji broj instrukcija iz predmeta
 					opis.BrojInstrukcija = db.dogovor_termin.Where(i => i.ID_instruktor == opis.Instruktor.ID_osoba
 																	 && i.ID_predmet == ID_predmet
-																	 && i.dogovor_ocijena != null).Count();
+																	 && DateTime.Now > i.datum_dogovor
+																	 && i.dogovor_status == 1).Count();
 					// izracunaj cijenu (trajanje * cijena)
 					opis.Cijena = (decimal)instrukcija.cijena * model.OdabranoTrajanjeID;
 
@@ -267,12 +268,5 @@ namespace ppij_web_aplikacija.Controllers
 		{
 			return !b.Except(a).Any();
 		}
-
-
-
-
-
-
-
     }
 }
