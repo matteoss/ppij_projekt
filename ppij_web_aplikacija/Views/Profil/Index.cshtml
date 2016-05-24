@@ -89,7 +89,7 @@
                                                         <input onclick="dodajindex(11);" type="submit" class="btn btn-default " style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                     </div>
 
-                                                    <table class="table-bordered table table-striped header-fixed">
+                                                    <table id ="dogovori1" class="table-bordered tablesorter table table-striped header-fixed">
                                                         <thead>
                                                             <tr>
                                                                 <th style="width:150px;">Datum</th>
@@ -216,7 +216,7 @@
                                                         <input onclick="dodajindex(12);" type="submit" class="btn btn-default" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                     </div>
 
-                                                    <table class="table-bordered table table-striped header-fixed" id="tabledatainstruktori">
+                                                    <table id ="dogovori2" class="table-bordered tablesorter table table-striped header-fixed" id="tabledatainstruktori">
                                                         <thead>
                                                             <tr>
                                                                 <th style="width:150px;">Datum i vrijeme</th>
@@ -352,7 +352,7 @@
                             <div class="tab-content">
 
                                 <div class="tab-pane active top-buffer table-responsive" role="tabpanel" id="tab21">
-                                    <table class="table table-condensed">
+                                    <table id ="predmeti1" class="table tablesorter table-condensed">
                                         <thead>
                                             <tr>
                                                 <th>Naziv predmeta</th>
@@ -393,7 +393,7 @@
                                                     <input onclick="addterminmodel(22);" type="submit" class="btn btn-default" style="font-weight:bold; margin-left:700px;" value="Promjeni &raquo;" /> <br />
                                                 </div>
                                                 <div style="width:800px;">
-                                                    <table class="table-bordered table table-striped header-fixed">
+                                                    <table id="termini" class="table-bordered tablesorter table table-striped header-fixed">
                                                         <thead>
                                                             <tr>
                                                                 <th>sat  </th>
@@ -1162,3 +1162,31 @@
     </div>
 </body>
 </html>
+
+@section Scripts {
+
+@Scripts.Render("~/bundles/jquery_tablesorter")
+@*@Styles.Render("~/Content/css_jquery_tablesorter")*@
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $("#dogovori1").tablesorter();
+        }
+    );
+</script>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $("#dogovori2").tablesorter();
+        }
+    );
+</script>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $("#predmeti1").tablesorter();
+        }
+    );
+</script>
+
+}
