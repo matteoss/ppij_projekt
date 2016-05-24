@@ -215,7 +215,7 @@
                                                         <input onclick="dodajindex(12);" type="submit" class="btn btn-default" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                     </div>
 
-                                                    <table class="table-bordered table table-striped header-fixed">
+                                                    <table class="table-bordered table table-striped header-fixed" id="tabledatainstruktori">
                                                         <thead>
                                                             <tr>
                                                                 <th style="width:150px;">Datum i vrijeme</th>
@@ -230,13 +230,14 @@
                                                         </thead>
 
                                                         <tbody>
-                                                            @for (var e = 0; e < Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Count; e++) {
+                                                            @for (var e = 0; e < Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Count; e++)
+                                                            {
                                                                 <tr>
-                                                                    <td style="width:150px;">
+                                                                    <td style="width:150px;" id="pocetakinstruktor@(i)">
                                                                         @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.ID_dogovor_termin)
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor)
                                                                     </td>
-                                                                    <td style="width:75px;">
+                                                                    <td style="width:75px;" id="trajanjeinstruktor@(i)">
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.trajanje)h
                                                                     </td>
                                                                     <td style="width:75px;">
@@ -250,37 +251,58 @@
                                                                     </td>
                                                                     <!-- SVE ZA TEKSTOVE STATUSA-->
                                                                     <td style="width:200px;">
-                                                                        @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now) {
-                                                                            if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 11) {
+                                                                        @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now)
+                                                                        {
+                                                                            if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 11)
+                                                                            {
                                                                                 <p>Prisustvovano</p>
-                                                                            } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10) {
+                                                                            }
+                                                                            else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10)
+                                                                            {
                                                                                 <p><b style="color:red;">Termin je prošao</b></p>
-                                                                            } else {
+                                                                            }
+                                                                            else
+                                                                            {
                                                                                 <p>Otkazano</p>
                                                                             }
-                                                                        } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 11) {
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 11)
+                                                                        {
                                                                             <p><b style="color:green;">Termin je potvrđen</b></p>
-                                                                        } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 2) {
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 2)
+                                                                        {
                                                                             <p><b style="color:red;">Klijent je odustao</b></p>
-                                                                        } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 3) {
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 3)
+                                                                        {
                                                                             <p><b>Zatražili ste odustajanje</b></p>
-                                                                        } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10) {
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10)
+                                                                        {
                                                                             <p><b style="color:green;">Čeka se Vaša potvrda</b></p>
-                                                                        } else {
+                                                                        }
+                                                                        else
+                                                                        {
                                                                             <p>Otkazano</p>
                                                                         }
                                                                     </td>
                                                                     <!--SEEN LABEL-->
                                                                     <td>
-                                                                        @if ((@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now && @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10) || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 2) {
+                                                                        @if ((@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now && @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10) || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 2)
+                                                                        {
                                                                             <input id="seenid@(i)" type="checkbox" class="mycheck" name="seenid@(i)" onclick="seen(@(i));" />
                                                                             <label class="myseenlabel" for="seenid@(i)">OK</label>
                                                                             @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].seen, new { id = "seenidstore" + i })
-                                                                        } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10) {
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10)
+                                                                        {
                                                                             <input id="seenid@(i)" type="checkbox" class="mycheck" name="seenid@(i)" onclick="seen(@(i));" />
                                                                             <label class="myacceptlabel" for="seenid@(i)">Potvrdi</label>
                                                                             @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].seen, new { id = "seenidstore" + i })
-                                                                        } else {
+                                                                        }
+                                                                        else
+                                                                        {
                                                                             <input id="seenid@(i)" type="checkbox" class="mycheck" name="seenid@(i)" onclick="seen(@(i));" checked disabled />
                                                                             <label class="myseenlabel" for="seenid@(i)">Viđeno</label>
                                                                             @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].seen, new { id = "seenidstore" + i })
@@ -288,23 +310,37 @@
                                                                     </td>
                                                                     <!-- SVE OPCIJE ZA ODUSTAJANJE-->
                                                                     <td style="width:100px;">
-                                                                        @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now) {
+                                                                        @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now)
+                                                                        {
                                                                             <p></p>
-                                                                        } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 0) {
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 0)
+                                                                        {
                                                                             <p>Odustano</p>
-                                                                        } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 2) {
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 2)
+                                                                        {
                                                                             <p><b>Odustano</b></p>
-                                                                        } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 3) {
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 3)
+                                                                        {
                                                                             <p>Odustano</p>
-                                                                        } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 11) {
-                                                                            if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now) {
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 11)
+                                                                        {
+                                                                            if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now)
+                                                                            {
                                                                                 <p></p>
-                                                                            } else {
+                                                                            }
+                                                                            else
+                                                                            {
                                                                                 <input id="odustani@(i)" type="checkbox" class="mycheck" name="odustani@(i)" onclick="odustani(@(i));" />
                                                                                 <label class="myodustanilabel" for="odustani@(i)">Odustani</label>
                                                                                 @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].odustani, new { id = "hiddenodustani" + i })
                                                                             }
-                                                                        } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10) {
+                                                                        }
+                                                                        else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 10)
+                                                                        {
                                                                             <input id="odustani@(i)" type="checkbox" class="mycheck" name="odustani@(i)" onclick="odustani(@(i));" />
                                                                             <label class="myodustanilabel" for="odustani@(i)">Odustani</label>
                                                                             @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].odustani, new { id = "hiddenodustani" + i })
@@ -312,7 +348,7 @@
                                                                     </td>
 
                                                                 </tr>
-                                                                { i++; }
+                                                                        { i++; }
                                                             }
                                                         </tbody>
                                                     </table>
@@ -734,6 +770,59 @@
                 var dodanitermini;
                 var dogovorenitermini;
 
+                var idpocetkainstrukcija = [];
+
+                $(document).ready(function () {
+                    $("#tabledatainstruktori tbody tr").each(function( i ) {
+                        var ident = $("td:first",this).attr('id');
+                        var identbr = ident.substring(17, ident.length);
+                        if($('#seenid' + identbr).siblings('label').html() == "Potvrdi"){
+                            idpocetkainstrukcija.push(ident);
+                        }
+                    });
+                    oznacipocetke();
+                });
+
+                function oznacipocetke(){
+                    for(var i = 0; i<idpocetkainstrukcija.length;i++){
+                        var identbr = idpocetkainstrukcija[i].substring(17, idpocetkainstrukcija[i].length);
+                        trenutniVrijeme = ($("#pocetakinstruktor" + identbr).text()).trim();
+                        trenutniDatum = trenutniVrijeme.substring(0, trenutniVrijeme.indexOf(" "));
+                        trenutniVrijeme = trenutniVrijeme.substring(trenutniVrijeme.indexOf(" ")+1, trenutniVrijeme.length-6);
+                        trenutniVrijeme = parseInt(trenutniVrijeme);
+                        trenutniTrajanje = ($("#trajanjeinstruktor" + identbr).text()).trim().substr(0, ($("#trajanjeinstruktor" + identbr).text()).trim().length - 1).trim();
+                        trenutniTrajanje = parseInt(trenutniTrajanje);
+                        $("#tabledatainstruktori tbody tr").each(function( e ) {
+                            var ident2 = $("td:first",this).attr('id');
+                            var identbr2 = ident2.substring(17, ident2.length);
+                            if(idpocetkainstrukcija[i] != ident2){
+                                var test = ($("td:eq(1)",this).text()).trim();
+                                var I = 0;
+                                var t = document.getElementById("test123");
+                                if(($("td:eq(5)",this).text()).trim() == "Termin je potvrđen"){
+                                    var datumvrijeme = ($("td:first", this).text()).trim();
+                                    var datum = datumvrijeme.substring(0, datumvrijeme.indexOf(" "));
+                                    if(datum == trenutniDatum){
+                                        var trajanje = ($("td:eq(1)",this).text()).trim().substr(0, ($("td:eq(1)",this).text()).trim().length -1);
+                                        trajanje = parseInt(trajanje);
+                                        var vrijeme  = datumvrijeme.substring(datumvrijeme.indexOf(" ")+1, datumvrijeme.length-6);
+                                        vrijeme = parseInt(vrijeme);
+                                        if((vrijeme<=trenutniVrijeme && vrijeme + trajanje > trenutniVrijeme)
+                                            || (vrijeme<trenutniVrijeme+trenutniTrajanje && vrijeme + trajanje > trenutniVrijeme+trenutniTrajanje)
+                                            || (trenutniVrijeme<=vrijeme && trenutniVrijeme + trenutniTrajanje > vrijeme)){
+                                            $('#seenid' + identbr).siblings('label').css("color", "gray");
+                                            $('#seenid' + identbr).attr("disabled", true);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                }
+                    
+                            
+
                 //seen - skoro isto ko i odustani
                 function seen(id){
                     var bal = $('#seenidstore' +id).val();
@@ -742,15 +831,58 @@
                             $('#seenid' + id).siblings('label').html('Viđeno');
                         }
                         else{
-                            $('#seenidstore' + id).siblings('label').html('OK');
+                            $('#seenid' + id).siblings('label').html('OK');
                         }
                     }
+                    else{
+                        if($('#seenidstore' +id).val() == 'False'){
+                            if($('#hiddenodustani' +id).val() == 'True'){
+                                $('#odustani'+id).click();
+                            }
+                        }
+                    }
+
                     if($('#seenidstore' +id).val() == 'False'){
                         $('#seenidstore' +id).val("True");
                     }
                     else{
                         $('#seenidstore' +id).val("False");
                     }
+                    provjeriOstale(id);
+                }
+
+
+                function provjeriOstale(id){
+                    trenutniVrijeme = ($("#pocetakinstruktor" + id).text()).trim();
+                    trenutniDatum = trenutniVrijeme.substring(0, trenutniVrijeme.indexOf(" "));
+                    trenutniVrijeme = trenutniVrijeme.substring(trenutniVrijeme.indexOf(" ")+1, trenutniVrijeme.length-6);
+                    trenutniVrijeme = parseInt(trenutniVrijeme);
+                    trenutniTrajanje = ($("#trajanjeinstruktor" + id).text()).trim().substr(0, ($("#trajanjeinstruktor" + id).text()).trim().length - 1).trim();
+                    trenutniTrajanje = parseInt(trenutniTrajanje);
+                    $("#tabledatainstruktori tbody tr").each(function( i ) {
+                       
+                        var ident = $("td:first",this).attr('id');
+                        var identbr = ident.substring(17, ident.length);
+                        if(ident != "pocetakinstruktor" + id){
+                            if($('#seenid' + identbr).siblings('label').html() == "Potvrdi"){
+                                if($('#seenidstore' +identbr).val() == 'True'){
+                                    var datumvrijeme = ($("td:first", this).text()).trim();
+                                    var datum = datumvrijeme.substring(0, datumvrijeme.indexOf(" "));
+                                    if(datum == trenutniDatum){
+                                        var trajanje = ($("td:eq(1)",this).text()).trim().substr(0, ($("td:eq(1)",this).text()).trim().length -1);
+                                        trajanje = parseInt(trajanje);
+                                        var vrijeme  = datumvrijeme.substring(datumvrijeme.indexOf(" ")+1, datumvrijeme.length-6);
+                                        vrijeme = parseInt(vrijeme);
+                                        if((vrijeme<=trenutniVrijeme && vrijeme + trajanje > trenutniVrijeme)
+                                            || (vrijeme<trenutniVrijeme+trenutniTrajanje && vrijeme + trajanje > trenutniVrijeme+trenutniTrajanje)
+                                            || (trenutniVrijeme<=vrijeme && trenutniVrijeme + trenutniTrajanje > vrijeme)){
+                                            $('#seenid' + identbr).click();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
 
                 //odustani od dogovorenog termina
@@ -761,6 +893,11 @@
                     }
                     else{
                         $('#hiddenodustani' +id).val("True");
+                        if($('#seenid' + id).siblings('label').html() ==  "Potvrdi"){
+                            if($('#seenidstore' +id).val() == 'True'){
+                                $('#seenid' + id).click();
+                            }
+                        }
                     }
                 }
 
