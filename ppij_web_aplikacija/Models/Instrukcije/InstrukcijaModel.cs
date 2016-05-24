@@ -18,6 +18,8 @@ namespace ppij_web_aplikacija.Models.Instrukcije
 			OdabranoTrajanjeID = 1;
 		}
 
+		public Predmet Predmet { get; set; }
+
 		[DataType(DataType.Date)]
 		public DateTime Datum { get; set; }
 
