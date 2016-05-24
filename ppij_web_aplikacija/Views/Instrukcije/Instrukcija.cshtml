@@ -4,6 +4,8 @@
 <html>
 <head>
     <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 </head>
 <body class="bootstrap-fix">
     @using (Html.BeginForm())
@@ -91,7 +93,10 @@
                                     <td style="text-align:center; vertical-align:middle">@opis.Ocjena</td>
                                     <td style="text-align:center; vertical-align:middle">@opis.Cijena</td>
                                     <td style="text-align:center; vertical-align:middle">@opis.BrojInstrukcija</td>
-                                    <td style="text-align:center; vertical-align:middle">@Html.DropDownList("lokacija:" + opis.Instruktor.ID_osoba, opis.SelectListLokacija, new { @class = "form-control" })</td>
+                                    <td style="text-align:center; vertical-align:middle;display: flex;">
+                                        @Html.DropDownList("lokacija:" + opis.Instruktor.ID_osoba, opis.SelectListLokacija, new { @class = "form-control" })
+                                        <button style="margin-left: 5px;" type="button" class="btn btn-warning btn-xs karta-trigger" data-toggle="modal" data-target="#kartaModal" value="@opis.Instruktor.ID_osoba">karta</button>
+                                    </td>
                                     @if (opis.Status == "POSLAN")
                                     {
                                         <td>
@@ -141,7 +146,35 @@
             </div>
         </div>
 
+
+    <!-- Modal -->
+        <div id="kartaModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Karta</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="mapid"></div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Zatvori</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     }
+
+
+
+
+
 </body>
 </html>
 
@@ -172,4 +205,125 @@
         }
     );
     </script>
+    <script>
+        $('.karta-trigger').on('click', function (e) {
+            $modalBody = $(".modal-body");
+            idOsoba = $(this).val();
+
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: '/Profil/MapData',
+                async: false,
+                data: { idOsoba: idOsoba },
+                success: function (res) {
+                    if (!res) {
+                        //internal error
+                        alert("Greška pri učitavanju lokacije.");
+                    }
+                    else {
+                        //res holds value
+                        mojelokacijeInit(res);
+                        setTimeout(refreshmap, 250);
+
+                    }
+                }
+            });
+
+
+        });
+
+
+        $('#kartaModal').on('hidden.bs.modal', function () {
+            clearmap();
+        });
+    </script>
+
+
+
+
+<script id="mapscript">
+                var maxIdkarte = 0;
+                var markeriArray=[];
+                function makeStruct(names) {
+                    var names = names.split(' ');
+                    var count = names.length;
+                    function constructor() {
+                        for (var i = 0; i < count; i++) {
+                            this[names[i]] = arguments[i];
+                        }
+                    }
+                    return constructor;
+                }
+
+                var idmarkerKarta = makeStruct("id marker");
+                var popismarkeranakarti = [];
+
+
+                var mymap = L.map('mapid').setView([45.049222, 16.280702], 6);
+                L.tileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright" title="OpenStreetMap" target="_blank">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" title="MapQuest" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" width="16" height="16">',
+                    subdomains: ['otile1','otile2','otile3','otile4']
+                }).addTo(mymap);
+                mymap.addEventListener("click", kartaClick);
+
+                function refreshmap(){
+                    mymap.invalidateSize();
+                }
+
+
+                function clearmap() {
+
+                    for (var i = 0; i < markeriArray.length; i++) {
+                        mymap.removeLayer(markeriArray[i]);
+                    }
+                }
+
+
+                function kartaClick(e){
+                    maxIdkarte += 1;
+                    marker = L.marker([e.latlng.lat, e.latlng.lng], {title: "Lokacija šif. "+maxIdkarte} ).bindPopup("<p>Nedefinirano</p></br><input type='button' value='Ukloni lokaciju' class='marker-delete-button'/>");
+                    marker.on("popupopen", onPopupOpen);
+                    popismarkeranakarti.push(new idmarkerKarta(maxIdkarte, marker));
+                    var mcontent = marker.getPopup().getContent();
+                    mcontent = mcontent.substr(3);
+                    mcontent = mcontent.substr(0, mcontent.indexOf("<"));
+                    
+                    marker.addTo(mymap);
+                }
+
+                function onPopupOpen() {
+                    var tempMarker = this;
+                    $(".marker-delete-button:visible").on("click", function () {
+                        for(var i = 0; i<popismarkeranakarti.length;i++){
+                            if(popismarkeranakarti[i].marker == tempMarker){
+                                var element = document.getElementById("lilok"+popismarkeranakarti[i].id);
+                                element.parentElement.removeChild(element);
+                                popismarkeranakarti.splice(i, 1);
+                                break;
+                            }
+                        }
+                        mymap.removeLayer(tempMarker);
+                    });
+                }
+
+
+                function mojelokacijeInit(listamarkera){
+                    for(var i = 0; i < listamarkera.lokacije.length; i++ ){
+                        if(listamarkera.lokacije[i].id > maxIdkarte){
+                            maxIdkarte = listamarkera.lokacije[i].id;
+                        }
+                        marker = L.marker([listamarkera.lokacije[i].lat, listamarkera.lokacije[i].lon], {title: "Lokacija šif. " + listamarkera.lokacije[i].id} ).bindPopup("<p>" + listamarkera.lokacije[i].opis + "</p>");
+                        
+                        popismarkeranakarti.push(new idmarkerKarta(listamarkera.lokacije[i].id, marker));
+                        marker.addTo(mymap);
+                        markeriArray.push(marker);
+                    }
+                }
+
+</script>
+
+
 }

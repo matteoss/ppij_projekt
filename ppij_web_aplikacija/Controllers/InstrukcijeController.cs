@@ -231,5 +231,12 @@ namespace ppij_web_aplikacija.Controllers
 		{
 			return !b.Except(a).Any();
 		}
-	}
+
+
+
+
+
+
+
+    }
 }
