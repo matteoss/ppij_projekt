@@ -10,53 +10,57 @@
             {
                 @Html.ValidationSummary(true)
                 <fieldset>
-                    <div class="top-buffer">
-                        <div class="mali-razmak-gore row">
-                            <div class="col-md-4 text-right">
-                                <h4 class="mali-razmak-dolje">Ime</h4>
-                                <h4 class="mali-razmak-dolje">Prezime</h4>
-                                <h4 class="mali-razmak-dolje">Korisničko ime</h4>
-                                <h4 class="mali-razmak-dolje">Lozinka</h4>
-                                <h4 class="mali-razmak-dolje">Ponovljena Lozinka</h4>
-                                <h4 class="mali-razmak-dolje">email</h4>
-                                <h4 class="mali-razmak-dolje">Želim biti instruktor</h4>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-2"></div>
+                            <div class="col-xs-8" style="text-align:center">
+                                <hr />
+                                <h3><b>Registracija:</b></h3>
+                                <hr />
                             </div>
-                            <div class="col-md-5">
-                                <div class="mali-razmak-gore">
-                                    @Html.EditorFor(model => model.ime)
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4"></div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <h4>Ime</h4>
+                                    @Html.EditorFor(model => model.ime, new { htmlAttributes = new { id = "date", @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.ime)
                                 </div>
-                                <div class="mali-razmak-gore">
-                                    @Html.EditorFor(model => model.prezime)
+                                <div class="form-group">
+                                    <h4>Prezime</h4>
+                                    @Html.EditorFor(model => model.prezime, new { htmlAttributes = new { id = "date", @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.prezime)
                                 </div>
-                                <div class="mali-razmak-gore">
-                                    @Html.EditorFor(model => model.korisnicko_ime)
+                                <div class="form-group">
+                                    <h4>Korisničko ime</h4>
+                                    @Html.EditorFor(model => model.korisnicko_ime, new { htmlAttributes = new { id = "date", @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.korisnicko_ime)
                                     @Html.ValidationMessage("kor_ime_uniq")
                                 </div>
-                                <div class="mali-razmak-gore">
-                                    @Html.PasswordFor(model => model.Password)
+                                <div class="form-group">
+                                    <h4>Lozinka</h4>
+                                    @Html.PasswordFor(model => model.Password, new { id = "date", @class = "form-control" } )
                                     @Html.ValidationMessageFor(model => model.Password)
                                 </div>
-                                <div class="mali-razmak-gore">
-                                    @Html.PasswordFor(model => model.ConfirmPassword)
+                                <div class="form-group">
+                                    <h4>Ponovljena Lozinka</h4>
+                                    @Html.PasswordFor(model => model.ConfirmPassword, new { id = "date", @class = "form-control" } )
                                     @Html.ValidationMessageFor(model => model.ConfirmPassword)
                                     @Html.ValidationMessage("error_ista")
                                 </div>
-                                <div class="mali-razmak-gore">
-                                    @Html.EditorFor(model => model.Email)
+                                <div class="form-group">
+                                    <h4>Email</h4>
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { id = "date", @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.Email)
                                 </div>
-                                <div class="mali-razmak-gore">
-                                    @Html.CheckBoxFor(model => model.jeInstruktor)
+                                <div class="form-group">
+                                    <h4>Želim biti instruktor @Html.CheckBoxFor(model => model.jeInstruktor)</h4>
                                 </div>
+                                <input type="submit" class="btn btn-default" value="Registriraj se &raquo;" />
                             </div>
                         </div>
                     </div>
-                    <p class="mali-razmak-gore mali-razmak-dolje centered">
-                        <input type="submit" class="btn btn-default" value="Registriraj se &raquo;" />
-                    </p>
                 </fieldset>
             }
         </div>
