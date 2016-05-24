@@ -41,7 +41,10 @@ namespace ppij_web_aplikacija.Controllers {
                 model.mojeVlastiteInstrukcije.sviPredmeti = new List<Predmet>();
 
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin.ToList()) {
-                    if (dogovor.dogovor_status != 20) {
+                    if (dogovor.dogovor_status != 20 && dogovor.dogovor_status != 0 
+                        && dogovor.datum_dogovor.Value > DateTime.Now.AddDays(-10)
+                        && dogovor.dogovor_status != 3)
+                    {
                         //dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
                         //Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
                         model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba() {
@@ -55,16 +58,20 @@ namespace ppij_web_aplikacija.Controllers {
                     }
                 }
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList()) {
-                    //dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
-                    //Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
-                    model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba() {
-                        termin = dogovor,
-                        ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
-                        prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
-                        predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
-                        odustani = false,
-                        seen = false
-                    });
+                    if (dogovor.dogovor_status != 0 && dogovor.datum_dogovor.Value > DateTime.Now.AddDays(-10) && dogovor.dogovor_status != 2 && dogovor.dogovor_status != 2)
+                    {
+                        //dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
+                        //Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
+                        model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
+                        {
+                            termin = dogovor,
+                            ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
+                            prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
+                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
+                            odustani = false,
+                            seen = false
+                        });
+                    }
                 }
 
 
@@ -304,28 +311,38 @@ namespace ppij_web_aplikacija.Controllers {
 
 
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin.ToList()) {
-                    //dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
-                    //Debug.WriteLine(dogovor.datum_dogovor.Value);
-                    model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba() {
-                        termin = dogovor,
-                        ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
-                        prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
-                        predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
-                        odustani = false,
-                        seen = false
-                    });
+                    if (dogovor.dogovor_status != 20 && dogovor.dogovor_status != 0
+                        && dogovor.datum_dogovor.Value > DateTime.Now.AddDays(-10)
+                        && dogovor.dogovor_status != 3)
+                    {
+                        //dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
+                        //Debug.WriteLine(dogovor.datum_dogovor.Value);
+                        model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
+                        {
+                            termin = dogovor,
+                            ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
+                            prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
+                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
+                            odustani = false,
+                            seen = false
+                        });
+                    }
                 }
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList()) {
-                    //dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.OrderBy(o => o.period_termin).FirstOrDefault().period_termin);
-                    //Debug.WriteLine(dogovor.datum_dogovor.Value);
-                    model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba() {
-                        termin = dogovor,
-                        ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
-                        prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
-                        predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
-                        odustani = false,
-                        seen = false
-                    });
+                    if (dogovor.dogovor_status != 0 && dogovor.datum_dogovor.Value > DateTime.Now.AddDays(-10) && dogovor.dogovor_status != 2 && dogovor.dogovor_status != 2)
+                    {
+                        //dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.OrderBy(o => o.period_termin).FirstOrDefault().period_termin);
+                        //Debug.WriteLine(dogovor.datum_dogovor.Value);
+                        model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
+                        {
+                            termin = dogovor,
+                            ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
+                            prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
+                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
+                            odustani = false,
+                            seen = false
+                        });
+                    }
                 }
 
 
@@ -407,9 +424,9 @@ namespace ppij_web_aplikacija.Controllers {
                 Osoba trenutna = data.Osoba.Where(o => o.korisnicko_ime_osoba == User.Identity.Name).FirstOrDefault();
                 int notificationsIns = 0;
                 if (trenutna.razina_prava != 2) {
-                    notificationsIns = trenutna.dogovor_termin.Where(d => d.dogovor_status == 2 || d.dogovor_status == 10).Count();
+                    notificationsIns = trenutna.dogovor_termin.Where(d => (d.dogovor_status == 2 || d.dogovor_status == 10 ) && d.datum_dogovor > DateTime.Now.AddDays(-10)).Count();
                 }
-                int notificationsKlij = trenutna.dogovor_termin1.Where(d => d.dogovor_status == 3 || d.dogovor_status == 11).Count();
+                int notificationsKlij = trenutna.dogovor_termin1.Where(d => (d.dogovor_status == 3 || d.dogovor_status == 11 ) && d.datum_dogovor > DateTime.Now.AddDays(-10)).Count();
                 return "{\"klijent\":" + notificationsKlij + ",\"instruktor\":" + notificationsIns + "}";
             }
         }
