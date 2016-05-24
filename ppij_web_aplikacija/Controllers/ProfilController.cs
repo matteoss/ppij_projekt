@@ -51,7 +51,7 @@ namespace ppij_web_aplikacija.Controllers {
                             termin = dogovor,
                             ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
                             prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
-                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
+                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().naziv_predmet,
                             odustani = false,
                             seen = false
                         });
@@ -279,9 +279,23 @@ namespace ppij_web_aplikacija.Controllers {
                                 }
                                 data.SaveChanges();
                                 foreach (Lokacija nova in lokacije) {
-                                    if (osoba.Lokacija.Where(l => l.Geo_duzina == nova.Geo_duzina && l.Geo_sirina == nova.Geo_sirina).Count() == 0) {
+                                    Lokacija istaIzBaze;
+                                    if (osoba.Lokacija.Where(l => l.Geo_duzina == nova.Geo_duzina && l.Geo_sirina == nova.Geo_sirina).Count() >= 1)
+                                    {
+                                        istaIzBaze = osoba.Lokacija.Where(l => l.Geo_duzina == nova.Geo_duzina && l.Geo_sirina == nova.Geo_sirina).FirstOrDefault();
+                                    }
+                                    else
+                                    {
+                                        istaIzBaze = null;
+                                    }
+                                    if (istaIzBaze == null) {
                                         nova.Id = data.Lokacija.Max(l => l.Id) + 1;
                                         osoba.Lokacija.Add(nova);
+                                        data.SaveChanges();
+                                    }
+                                    else if (istaIzBaze.opis.Equals(nova.opis) == false)
+                                    {
+                                        istaIzBaze.opis = nova.opis;
                                         data.SaveChanges();
                                     }
                                 }
@@ -338,7 +352,7 @@ namespace ppij_web_aplikacija.Controllers {
                             termin = dogovor,
                             ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
                             prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
-                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
+                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().naziv_predmet,
                             odustani = false,
                             seen = false
                         });
