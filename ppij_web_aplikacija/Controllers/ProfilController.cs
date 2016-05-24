@@ -511,6 +511,10 @@ namespace ppij_web_aplikacija.Controllers {
         }
         #endregion
         public String convertLokacije(List<Lokacija> lokacije) {
+            System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
             Boolean prvi = true;
             String json = "{\"lokacije\":[";
             foreach (Lokacija lok in lokacije) {
