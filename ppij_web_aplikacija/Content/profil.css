@@ -2,12 +2,20 @@
 }
 
 /*********************************/
+
+.prihvati{
+    background-color: green;
+    color:white;
+}
+
+
 .redrazmak{
     width:80px;
 }
 
 .prihvati-lijevo{
-    margin-left:747px;
+    float:right;
+    font-weight:bold;
 }
 
 
@@ -90,7 +98,7 @@ display:block;
 border:solid 1px gray;
 line-height:25px;
 height:25px;
-width: 80px;
+width: 90px;
 border-radius:7px;
 -webkit-font-smoothing: antialiased; 
 margin-top:2px;
@@ -152,12 +160,17 @@ content: "\2713";
 }
 
 
+.header-fixed > thead > tr{
+    height:auto;
+}
+
 .header-fixed > tbody > tr:after,
 .header-fixed > thead > tr:after {
     content: ' ';
     display: block;
     visibility: hidden;
     clear: both;
+    height:auto;
 }
 
 .header-fixed > tbody {
@@ -167,16 +180,19 @@ content: "\2713";
 
 .header-fixed > tbody > tr > td,
 .header-fixed > thead > tr > th {
-    height: 45px;
     float: left;
+    height:inherit;
 }
 
 .header-fixed > tbody > tr > td,
 .header-fixed > thead > tr > th {
-    width: 97px;
+    width: auto;
 }
 
-
+.table > thead > tr > th {
+    color: white;
+    background-color: black;
+}
 /*********/
 
 /*****************************************************/

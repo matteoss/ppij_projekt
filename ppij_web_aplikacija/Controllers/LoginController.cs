@@ -125,14 +125,14 @@ namespace ppij_web_aplikacija.Controllers
                     osoba.korisnicko_ime_osoba = model.korisnicko_ime;
                     osoba.lozinka = Crypto.HashPassword(model.Password + salt);
                     osoba.salt = salt;
-                    if (model.jeInstruktor == true)
+                    /*if (model.jeInstruktor == true)
                     {
                         osoba.razina_prava = 1;
                     }
                     else
-                    {
+                    {*/
                         osoba.razina_prava = 2;
-                    }
+                    /*}*/
                     osoba.email_osoba = model.Email;
                     osoba.ID_osoba = data.Osoba.OrderByDescending(o => o.ID_osoba).FirstOrDefault().ID_osoba + 1;
                     osoba.dogovor_termin = null;
