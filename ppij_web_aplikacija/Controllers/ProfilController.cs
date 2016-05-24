@@ -544,6 +544,10 @@ namespace ppij_web_aplikacija.Controllers {
         }
         #endregion
         public String convertLokacije(List<Lokacija> lokacije) {
+            System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
             Boolean prvi = true;
             String json = "{\"lokacije\":[";
             foreach (Lokacija lok in lokacije) {
@@ -562,6 +566,52 @@ namespace ppij_web_aplikacija.Controllers {
             json += "]}";
             return json;
         }
+
+
+
+        #region ajax lokacija karta
+
+        [HttpGet]
+        public string MapData(int idOsoba) {
+            using (ppij_databaseEntities data = new ppij_databaseEntities()) {
+                try {
+                    List<Lokacija> lokacije = new List<Lokacija>();
+                    lokacije.AddRange(data.Osoba.Find(idOsoba).Lokacija);
+
+                    System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+                    customCulture.NumberFormat.NumberDecimalSeparator = ".";
+                    System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+
+                    Boolean prvi = true;
+                    String json = "{\"lokacije\":[";
+                    foreach (Lokacija lok in lokacije) {
+                        if (prvi == true) {
+                            prvi = false;
+                        } else {
+                            json += ",";
+                        }
+                        json += "{";
+                        json += "\"lat\":" + lok.Geo_sirina + ",";
+                        json += "\"lon\":" + lok.Geo_duzina + ",";
+                        json += "\"opis\":\"" + lok.opis + "\",";
+                        json += "\"id\":" + lok.Id;
+                        json += "}";
+                    }
+                    json += "]}";
+                    return json;
+
+
+
+                } catch (Exception) {
+                    return null;
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
+
 
     }
 }
