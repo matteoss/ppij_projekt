@@ -8,6 +8,9 @@
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     <link href="~/Content/predmeti.css" rel="stylesheet" />
     <link href="~/Content/profil.css" rel="stylesheet" />
+    <script src="~/Content/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="~/Content/sweetalert/dist/sweetalert.css" rel="stylesheet" />
+
 </head>
 <body>
     <div class="container">
@@ -89,7 +92,11 @@
                                                         <input onclick="dodajindex(11);" type="submit" class="btn btn-default prihvati" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                     </div>
 
+<<<<<<< HEAD
                                                     <table id ="dogovori1" class="table-bordered tablesorter table table-striped ">
+=======
+                                                    <table id="dogovori1" class="table-bordered tablesorter table table-striped header-fixed">
+>>>>>>> origin/master
                                                         <thead>
                                                             <tr>
                                                                 <th>Datum i vrijeme</th>
@@ -126,10 +133,20 @@
                                                                     <td >
                                                                         @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor <= @DateTime.Now) {
                                                                             if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 11) {
+<<<<<<< HEAD
                                                                                 
                                                                                 <div >
                                                                                     <label for="dogovorenitermklijentOcijena">Ocijenite: </label>
                                                                                     @Html.DropDownListFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, new System.Web.Mvc.SelectList(ppij_web_aplikacija.Models.Instrukcije.Konstante.Ocjene.ocjeneTekst, "vrijednost", "tekst", Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena), new { id = "dogovorenitermklijentOcijena" })
+=======
+                                                                                <label class="control-label" for="ocjena">Ocjenite:</label>
+                                                                                <div id="ocjena" class="col-md-5">
+                                                                                    @Html.RadioButtonFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, 1) 1
+                                                                                    @Html.RadioButtonFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, 2) 2
+                                                                                    @Html.RadioButtonFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, 3) 3
+                                                                                    @Html.RadioButtonFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, 4) 4
+                                                                                    @Html.RadioButtonFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, 5) 5
+>>>>>>> origin/master
                                                                                 </div>
                                                                             } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 10) {
                                                                                 <p>Nije odgovoreno</p>
@@ -217,7 +234,11 @@
                                                         <input onclick="dodajindex(12);" type="submit" class="btn btn-default prihvati" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                     </div>
 
+<<<<<<< HEAD
                                                     <table id ="dogovori2" class="table-bordered tablesorter table table-striped " id="tabledatainstruktori">
+=======
+                                                    <table id="dogovori2" class="table-bordered tablesorter table table-striped header-fixed" id="tabledatainstruktori">
+>>>>>>> origin/master
                                                         <thead>
                                                             <tr>
                                                                 <th >Datum i vrijeme</th>
@@ -353,7 +374,7 @@
                             <div class="tab-content">
 
                                 <div class="tab-pane active top-buffer table-responsive" role="tabpanel" id="tab21">
-                                    <table id ="predmeti1" class="table tablesorter table-condensed">
+                                    <table id="predmeti1" class="table tablesorter table-condensed">
                                         <thead>
                                             <tr>
                                                 <th>Naziv predmeta</th>
@@ -377,8 +398,8 @@
                                     </table>
 
                                     <div class="col-md-2 mali-razmak-gore">
-                                        <button class="btn btn-primary dodajPostojeci">Dodaj postojeći predmet</button><br />
-                                        <button class="btn btn-success dodajNovi">Stvori novi predmet</button>
+                                        <button class="btn btn-primary dodajPostojeci" style="width:200px;">Dodaj postojeći predmet</button><br />
+                                        <button class="btn btn-success dodajNovi" style="width:200px;">Stvori novi predmet</button>
                                     </div>
 
                                 </div>
@@ -581,7 +602,7 @@
                     </tr>
                 </tbody>
             </table>
-           
+
 
             <div id="test123">
 
@@ -948,29 +969,52 @@
             <script>
                 $(document).on('click', '.Delete', function(e){
                     e.preventDefault();
-                    if(confirm("Jeste li sigurni da želite obrisati predmet?")){
-                        var $el = $(this);
-                        $edit = $el.closest("tr").find(".Edit");
-                        $(this).prop("disabled", true);
-                        $edit.prop("disabled", true);
-                        $ajaxLoad = $el.closest("tr").find(".ajax-load");
-                        $ajaxLoad.fadeIn(300);
-                        $.ajax({
-                            url: '/Profil/Delete',
-                            type: 'POST',
-                            async: true,
-                            data: {id: $(this).attr("value") },
-                            error: function(){
-                                $el.prop("disabled", false);
-                                $edit.prop("disabled", false);
-                                alert("Greška pri brisanju predmeta!");
-                                $ajaxLoad.fadeOut(300);
-                            },
-                            success: function () {
-                                $el.closest("tr").fadeOut(200);
-                            }
-                        });
-                    }
+
+                    var $el = $(this);
+                    $edit = $el.closest("tr").find(".Edit");
+                    $ajaxLoad = $el.closest("tr").find(".ajax-load");
+                    swal({
+                        title: "Brisanje predmeta",
+                        text: "Jeste li sigurni da želite obrisati predmet?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Da, obriši predmet!",
+                        cancelButtonText: "Ne, Otkaži brisanje!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            $el.prop("disabled", true);
+                            $edit.prop("disabled", true);
+                            $ajaxLoad.fadeIn(300);
+
+                            $.ajax({
+                                url: '/Profil/Delete',
+                                type: 'POST',
+                                async: true,
+                                data: {id: $el.attr("value") },
+                                error: function(){
+                                    $el.prop("disabled", false);
+                                    $edit.prop("disabled", false);
+                                    swal("Greška!", "Greška pri brisanju predmeta.", "error")
+                                    $ajaxLoad.fadeOut(300);
+                                },
+                                success: function () {
+                                    swal("Obrisano", "Predmet je obrisan.", "success");
+                                    $el.closest("tr").fadeOut(200);
+                                }
+                            });
+
+                        } else {
+                            swal("Otkazano", "Predmet je siguran :)", "error");
+                            $ajaxLoad.fadeOut(300);
+                            $el.prop("disabled", false);
+                            $edit.prop("disabled", false);
+                        }
+                    });
+
                 });
             </script>
 
@@ -1000,14 +1044,14 @@
                     nazivPredmeta = tr.find(".predmetIme").val();
                     cijenaPredmeta = tr.find(".predmetCijena").val();
                     if(nazivPredmeta.length <= 0 || cijenaPredmeta.length <= 0){
-                        alert("Unesite ime predmeta i cijenu!");
+                        swal("Neispravni podatci", "Unesite ime predmeta i cijenu", "error");
                         return;
                     }
                     else if(parseFloat(cijenaPredmeta).toFixed(2) < 0.00 || parseFloat(cijenaPredmeta).toFixed(2) > 9999.99){
-                
-                        alert("Cijena mora biti između 0 i 9999.99 HRK");
+
+                        swal("Neispravni podatci", "Cijena mora biti između 0 i 9999.99 HRK", "error");
                         return;
-}
+                    }
                     $button = $(this);
                     ajaxLoad = tr.find(".ajax-load-add");
                     $edit = $button.closest("tr").find(".Edit");
@@ -1032,7 +1076,8 @@
                         success: function(res){
                             if(res == null){
                                 //internal error
-                                alert("Greška pri stvaranju novog predmeta.")
+
+                                swal("Greška!", "Greška pri stvaranju novog predmeta.", "error")
                                 $button.prop("disabled", false);
                                 $edit.prop("disabled", false);
                                 ajaxLoad.fadeOut(300);
@@ -1053,11 +1098,13 @@
                     var tr = $(this).closest("tr");
                     cijenaPredmet = tr.find(".predmetCijena").val();
                     if(cijenaPredmet.length <= 0){
-                        alert("Unesite cijenu!");
+
+                        swal("Neispravni podatci", "Molimo unesite cijenu predmeta", "error")
                         return;
                     }else if(parseFloat(cijenaPredmet).toFixed(2) < 0.00 || parseFloat(cijenaPredmet).toFixed(2) > 9999.99){
-                
-                        alert("Cijena mora biti između 0 i 9999.99 HRK");
+
+
+                        swal("Neispravni podatci", "Cijena mora biti između 0 i 9999.99 HRK", "error");
                         return;
                     }
                     ajaxLoad = tr.find(".ajax-load-add");
@@ -1081,14 +1128,14 @@
 
                         success: function(res){
                             if(parseInt(res) == -1){
-                                alert("Već držite instrukcije za odobrani predmet.");
+                                swal("Duplikat", "Već držite instrukcije za odabrani predmet.", "error");
                                 $button.prop("disabled", false);
                                 ajaxLoad.fadeOut(300);
 
                             }
                             else if(!res){
                                 //internal error
-                                alert("Greška pri dodavanju predmeta.");
+                                swal("Greška!", "Greška pri dodavanju predmeta.", "error")
                                 $button.prop("disabled", false);
                                 ajaxLoad.fadeOut(300);
                             }
@@ -1127,11 +1174,11 @@
 
 
                     if(novaCijena.length <= 0){
-                        alert("Unesite novu cijenu prije pohrane.");
+                        swal("Neispravni podatci", "Unesite cijenu", "error");
                         return;
                     }else if(parseFloat(novaCijena).toFixed(2) < 0.00 || parseFloat(novaCijena).toFixed(2) > 9999.99){
-                
-                        alert("Cijena mora biti između 0 i 9999.99 HRK");
+
+                        swal("Neispravni podatci", "Cijena mora biti između 0 i 9999.99 HRK", "error");
                         return;
                     }
 
@@ -1152,7 +1199,7 @@
                         success: function(res){
                             if(!res){
                                 //internal error
-                                alert("Greška pri promjeni cijene.");
+                                swal("Greška!", "Greška pri promjeni cijene.", "error")
                                 ajaxLoad.fadeOut(50);
                                 $savechangeButton.prop("disabled", false);
                             }
@@ -1170,6 +1217,7 @@
                 });
             </script>
 
+
         </div>
     </div>
 </body>
@@ -1177,28 +1225,28 @@
 
 @section Scripts {
 
-@Scripts.Render("~/bundles/jquery_tablesorter")
-@*@Styles.Render("~/Content/css_jquery_tablesorter")*@
+    @Scripts.Render("~/bundles/jquery_tablesorter")
+    @*@Styles.Render("~/Content/css_jquery_tablesorter")*@
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             $("#dogovori1").tablesorter();
         }
     );
-</script>
+    </script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             $("#dogovori2").tablesorter();
         }
     );
-</script>
+    </script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             $("#predmeti1").tablesorter();
         }
     );
-</script>
+    </script>
 
 }

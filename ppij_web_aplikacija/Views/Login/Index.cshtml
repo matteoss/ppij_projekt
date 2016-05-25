@@ -1,52 +1,51 @@
 ﻿@model ppij_web_aplikacija.Models.OsobaLogin
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Login</title>
-    </head>
-    <body>
+<head>
+    <title>Login</title>
+</head>
+<body>
     @using (Html.BeginForm())
-                {
-            @Html.ValidationSummary(true)
-            <fieldset>
-                    <form method="post">
-                        <div class=" row top-buffer text-right ">
-                            <div class="col-md-4 center-block">
-                                <div>
-                                    <text>
-                                        <mark>Korisničko ime </mark>
-                                        @Html.EditorFor(model => model.korisnicko_ime)
-                                    </text>
-                                </div>
-                                <div>
-                                    <text>
-                                        @Html.ValidationMessageFor(model => model.korisnicko_ime)
-                                        @Html.ValidationMessage("error_kor_ime")
-                                    </text>
-                                </div>
+    {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <form class="form-horizontal" method="post">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-2"></div>
+                        <div class="col-xs-8" style="text-align:center">
+                            <hr />
+                            <h3><b>Prijava:</b></h3>
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4"></div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <h4>Korisničko ime </h4>
+                                @Html.EditorFor(model => model.korisnicko_ime, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.korisnicko_ime)
+                                @Html.ValidationMessage("error_kor_ime")
                             </div>
-                            <div class="col-md-4 center-block mali-razmak-gore">
-                                <div>
-                                    <text>
-                                        <mark>Lozinka</mark>
-                                        @Html.PasswordFor(model => model.lozinka)
-                                    </text>
-                                </div>
-                                <div>
-                                    <text>
-                                        @Html.ValidationMessageFor(model => model.lozinka)
-                                        @Html.ValidationMessage("error_loz")
-                                    </text>
-                                </div>
+                            <div class="form-group">
+                                <h4>Lozinka</h4>
+                                @Html.PasswordFor(model => model.lozinka, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.lozinka)
+                                @Html.ValidationMessage("error_loz")
                             </div>
                         </div>
-                        <div class="text-center">
-                            <p>Zapamti me  @Html.CheckBoxFor(model => model.zapamtiMe)</p>
-                            <input type="submit" class="btn btn-default" value="Login &raquo;" t/> <br />
-                            <p><a class="btn btn-default" href="/Login/Registracija">Registracija &raquo;</a></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4"></div>
+                        <div class="col-xs-4">
+                            <h4>Zapamti me  @Html.CheckBoxFor(model => model.zapamtiMe)</h4>
+                            <input type="submit" class="btn btn-default" value="Login &raquo;" t /> <br />
                         </div>
-                    </form>
-            </fieldset>
-            }
-    </body>
+                    </div>
+                </div>
+            </form>
+        </fieldset>
+    }
+</body>
 </html>

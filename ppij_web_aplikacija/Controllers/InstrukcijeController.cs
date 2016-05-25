@@ -119,6 +119,7 @@ namespace ppij_web_aplikacija.Controllers
 					zahtjev.ID_predmet = Int32.Parse((string)RouteData.Values["predmet_id"]);
 					zahtjev.trajanje = model.OdabranoTrajanjeID;
 					zahtjev.ID_lokacija = ID_lokacija;
+					zahtjev.dogovor_ocijena = 0;
 					db.dogovor_termin.Add(zahtjev);
 					db.SaveChanges();
 				}
