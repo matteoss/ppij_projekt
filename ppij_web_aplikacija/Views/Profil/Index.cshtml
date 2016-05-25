@@ -83,52 +83,53 @@
                                 @using (Html.BeginForm()) {
                                     <fieldset>
                                         <form class="form-horizontal " method="post">
-                                            <div style="width:950px;">
+                                            <div >
                                                 <div>
                                                     <div class="col-md-2 prihvati-lijevo">
                                                         <input onclick="dodajindex(11);" type="submit" class="btn btn-default prihvati" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                     </div>
 
-                                                    <table id ="dogovori1" class="table-bordered tablesorter table table-striped header-fixed">
+                                                    <table id ="dogovori1" class="table-bordered tablesorter table table-striped ">
                                                         <thead>
                                                             <tr>
-                                                                <th style="width:150px;">Datum</th>
-                                                                <th style="width:75px;">Trajanje</th>
-                                                                <th style="width:75px;">Predmet</th>
-                                                                <th style="width:100px;">Ime</th>
-                                                                <th style="width:130px;">Prezime</th>
-                                                                <th style="width:200px;">Status</th>
-                                                                <th style="width:100px;">Viđeno</th>
-                                                                <th style="width:100px;">Odustani</th>
+                                                                <th>Datum i vrijeme</th>
+                                                                <th>Trajanje</th>
+                                                                <th>Predmet</th>
+                                                                <th>Ime</th>
+                                                                <th>Prezime</th>
+                                                                <th>Status</th>
+                                                                <th>Viđeno</th>
+                                                                <th>Odustani</th>
                                                             </tr>
                                                         </thead>
 
                                                         <tbody>
                                                             @for (i = 0; i < Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Count; i++) {
                                                                 <tr>
-                                                                    <td style="width:150px;">
+                                                                    <td >
                                                                         @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.ID_dogovor_termin)
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor)
                                                                     </td>
-                                                                    <td style="width:75px;">
+                                                                    <td >
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.trajanje)h
                                                                     </td>
-                                                                    <td style="width:75px;">
+                                                                    <td >
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].predmet)
                                                                     </td>
-                                                                    <td style="width:100px;">
+                                                                    <td>
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].ime)
                                                                     </td>
-                                                                    <td style="width:130px;">
+                                                                    <td >
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].prezime)
                                                                     </td>
                                                                     <!-- SVE ZA OCIJENE + TEKST STATUSA INSTRUKCIJA-->
-                                                                    <td style="width:200px;">
+                                                                    <td >
                                                                         @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor <= @DateTime.Now) {
                                                                             if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 11) {
-                                                                                <label class="control-label" for="ocjena">Ocjenite:</label>
-                                                                                <div id="ocjena" class="col-md-5">
-                                                                                    @Html.TextBoxFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena)
+                                                                                
+                                                                                <div >
+                                                                                    <label for="dogovorenitermklijentOcijena">Ocijenite: </label>
+                                                                                    @Html.DropDownListFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, new System.Web.Mvc.SelectList(ppij_web_aplikacija.Models.Instrukcije.Konstante.Ocjene.ocjeneTekst, "vrijednost", "tekst", Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena), new { id = "dogovorenitermklijentOcijena" })
                                                                                 </div>
                                                                             } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 10) {
                                                                                 <p>Nije odgovoreno</p>
@@ -162,7 +163,7 @@
                                                                         }
                                                                     </td>
                                                                     <!-- SVE OPCIJE ZA ODUSTAJANJE-->
-                                                                    <td style="width:100px;">
+                                                                    <td >
                                                                         @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 0 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 20) {
                                                                             <p>Odustano</p>
                                                                         } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 2) {
@@ -210,47 +211,47 @@
                                 @using (Html.BeginForm()) {
                                     <fieldset>
                                         <form class="form-horizontal " method="post">
-                                            <div style="width:950px;">
+                                            <div >
                                                 <div>
                                                     <div class="col-md-2 prihvati-lijevo">
                                                         <input onclick="dodajindex(12);" type="submit" class="btn btn-default prihvati" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                     </div>
 
-                                                    <table id ="dogovori2" class="table-bordered tablesorter table table-striped header-fixed" id="tabledatainstruktori">
+                                                    <table id ="dogovori2" class="table-bordered tablesorter table table-striped " id="tabledatainstruktori">
                                                         <thead>
                                                             <tr>
-                                                                <th style="width:150px;">Datum i vrijeme</th>
-                                                                <th style="width:75px;">Trajanje</th>
-                                                                <th style="width:75px;">Predmet</th>
-                                                                <th style="width:100px;">Ime</th>
-                                                                <th style="width:130px;">Prezime</th>
-                                                                <th style="width:200px;">Status</th>
-                                                                <th style="width:100px;">Viđeno</th>
-                                                                <th style="width:100px;">Odustani</th>
+                                                                <th >Datum i vrijeme</th>
+                                                                <th >Trajanje</th>
+                                                                <th>Predmet</th>
+                                                                <th >Ime</th>
+                                                                <th >Prezime</th>
+                                                                <th >Status</th>
+                                                                <th >Viđeno</th>
+                                                                <th >Odustani</th>
                                                             </tr>
                                                         </thead>
 
                                                         <tbody>
                                                             @for (var e = 0; e < Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Count; e++) {
                                                                 <tr>
-                                                                    <td style="width:150px;" id="pocetakinstruktor@(i)">
+                                                                    <td  id="pocetakinstruktor@(i)">
                                                                         @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.ID_dogovor_termin)
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor)
                                                                     </td>
-                                                                    <td style="width:75px;" id="trajanjeinstruktor@(i)">
+                                                                    <td  id="trajanjeinstruktor@(i)">
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.trajanje)h
                                                                     </td>
-                                                                    <td style="width:75px;">
+                                                                    <td >
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].predmet)
                                                                     </td>
-                                                                    <td style="width:100px;">
+                                                                    <td>
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].ime)
                                                                     </td>
-                                                                    <td style="width:130px;">
+                                                                    <td >
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].prezime)
                                                                     </td>
                                                                     <!-- SVE ZA TEKSTOVE STATUSA-->
-                                                                    <td style="width:200px;">
+                                                                    <td >
                                                                         @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now) {
                                                                             if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 11) {
                                                                                 <p>Prisustvovano</p>
@@ -288,7 +289,7 @@
                                                                         }
                                                                     </td>
                                                                     <!-- SVE OPCIJE ZA ODUSTAJANJE-->
-                                                                    <td style="width:100px;">
+                                                                    <td >
                                                                         @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.datum_dogovor < @DateTime.Now) {
                                                                             <p></p>
                                                                         } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].termin.dogovor_status == 0) {

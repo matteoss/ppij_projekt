@@ -40,6 +40,7 @@ namespace ppij_web_aplikacija.Controllers {
                 model.mojeVlastiteInstrukcije.sveUstanove = new List<Ustanova>();
                 model.mojeVlastiteInstrukcije.sviPredmeti = new List<Predmet>();
 
+
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin.ToList()) {
                     if (dogovor.dogovor_status != 20 && dogovor.dogovor_status != 0 
                         && dogovor.datum_dogovor.Value > DateTime.Now.AddDays(-10)
@@ -58,7 +59,7 @@ namespace ppij_web_aplikacija.Controllers {
                     }
                 }
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList()) {
-                    if (dogovor.dogovor_status != 0 && dogovor.datum_dogovor.Value > DateTime.Now.AddDays(-10) && dogovor.dogovor_status != 2 && dogovor.dogovor_status != 2)
+                    if (dogovor.dogovor_status != 0 && dogovor.datum_dogovor.Value > DateTime.Now.AddDays(-10) && dogovor.dogovor_status != 2 && dogovor.dogovor_status != 20)
                     {
                         //dogovor.datum_dogovor = dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.FirstOrDefault().period_termin);
                         //Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
@@ -182,9 +183,13 @@ namespace ppij_web_aplikacija.Controllers {
                                     }
                                     //Debug.WriteLine("odustano od dogovora: " + dogovor.ID_dogovor_termin);
                                 }
+                                if (dogovor.dogovor_ocijena == null || dto.termin.dogovor_ocijena != dogovor.dogovor_ocijena)
+                                {
+                                    dogovor.dogovor_ocijena = dto.termin.dogovor_ocijena;
+                                }
+                                data.SaveChanges();
                             }
                         }
-
                         if (model.mojeVlastiteInstrukcije != null && model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor != null) {
                             foreach (dogovor_term_osoba dto in model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor) {
                                 dogovor_termin dogovor = data.dogovor_termin.Where(d => d.ID_dogovor_termin == dto.termin.ID_dogovor_termin).FirstOrDefault();
@@ -205,6 +210,7 @@ namespace ppij_web_aplikacija.Controllers {
                                 }
                             }
                         }
+                        data.SaveChanges();
                     } else if (trenutniTab.Equals("21") || trenutniTab.Equals("22")) {
                         /*foreach (String t in model.mojeVlastiteInstrukcije.mojiTermini)
                         {
@@ -343,7 +349,7 @@ namespace ppij_web_aplikacija.Controllers {
                     }
                 }
                 foreach (dogovor_termin dogovor in osoba.dogovor_termin1.ToList()) {
-                    if (dogovor.dogovor_status != 0 && dogovor.datum_dogovor.Value > DateTime.Now.AddDays(-10) && dogovor.dogovor_status != 2 && dogovor.dogovor_status != 2)
+                    if (dogovor.dogovor_status != 0 && dogovor.datum_dogovor.Value > DateTime.Now.AddDays(-10) && dogovor.dogovor_status != 2 && dogovor.dogovor_status != 20)
                     {
                         //dogovor.datum_dogovor.Value.AddHours((int)dogovor.Termin.OrderBy(o => o.period_termin).FirstOrDefault().period_termin);
                         //Debug.WriteLine(dogovor.datum_dogovor.Value);

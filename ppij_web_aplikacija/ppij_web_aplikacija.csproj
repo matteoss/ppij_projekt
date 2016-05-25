@@ -228,6 +228,7 @@
     <Compile Include="Models\Instrukcije\Konstante\Dan.cs" />
     <Compile Include="Models\Instrukcije\InstrukcijaModel.cs" />
     <Compile Include="Models\Instrukcije\Konstante\Minute.cs" />
+    <Compile Include="Models\Instrukcije\Konstante\Ocjene.cs" />
     <Compile Include="Models\Instrukcije\Konstante\Trajanje.cs" />
     <Compile Include="Models\Instrukcije\Opisnici\OpisInstrukcije.cs" />
     <Compile Include="Models\Instrukcije\Opisnici\OpisKategorije.cs" />
