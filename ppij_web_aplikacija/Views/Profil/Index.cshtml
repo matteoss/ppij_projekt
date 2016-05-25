@@ -88,20 +88,17 @@
                                         <form class="form-horizontal " method="post">
                                             <div >
                                                 <div>
-                                                    <div class="col-md-2 prihvati-lijevo">
+                                                    <div class=" prihvati-lijevo">
                                                         <input onclick="dodajindex(11);" type="submit" class="btn btn-default prihvati" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                     </div>
 
-<<<<<<< HEAD
                                                     <table id ="dogovori1" class="table-bordered tablesorter table table-striped ">
-=======
-                                                    <table id="dogovori1" class="table-bordered tablesorter table table-striped header-fixed">
->>>>>>> origin/master
                                                         <thead>
                                                             <tr>
                                                                 <th>Datum i vrijeme</th>
                                                                 <th>Trajanje</th>
                                                                 <th>Predmet</th>
+                                                                <th>Lokacija</th>
                                                                 <th>Ime</th>
                                                                 <th>Prezime</th>
                                                                 <th>Status</th>
@@ -124,6 +121,9 @@
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].predmet)
                                                                     </td>
                                                                     <td>
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].lokacija.opis)
+                                                                    </td>
+                                                                    <td>
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].ime)
                                                                     </td>
                                                                     <td >
@@ -133,20 +133,11 @@
                                                                     <td >
                                                                         @if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.datum_dogovor <= @DateTime.Now) {
                                                                             if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 1 || @Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 11) {
-<<<<<<< HEAD
-                                                                                
+                                                                         
                                                                                 <div >
                                                                                     <label for="dogovorenitermklijentOcijena">Ocijenite: </label>
                                                                                     @Html.DropDownListFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, new System.Web.Mvc.SelectList(ppij_web_aplikacija.Models.Instrukcije.Konstante.Ocjene.ocjeneTekst, "vrijednost", "tekst", Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena), new { id = "dogovorenitermklijentOcijena" })
-=======
-                                                                                <label class="control-label" for="ocjena">Ocjenite:</label>
-                                                                                <div id="ocjena" class="col-md-5">
-                                                                                    @Html.RadioButtonFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, 1) 1
-                                                                                    @Html.RadioButtonFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, 2) 2
-                                                                                    @Html.RadioButtonFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, 3) 3
-                                                                                    @Html.RadioButtonFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, 4) 4
-                                                                                    @Html.RadioButtonFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_ocijena, 5) 5
->>>>>>> origin/master
+
                                                                                 </div>
                                                                             } else if (@Model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].termin.dogovor_status == 10) {
                                                                                 <p>Nije odgovoreno</p>
@@ -214,7 +205,7 @@
                                                 </div>
                                             </div>
                                             @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab11" })
-                                            <div class="col-md-2 mali-razmak-gore prihvati-lijevo">
+                                            <div class=" mali-razmak-gore prihvati-lijevo">
                                                 <input onclick="dodajindex(11);" type="submit" class="btn btn-default prihvati " style="font-weight: bold;" value="Prihvati izmjene &raquo;" /><br />
                                             </div>
                                         </form>
@@ -230,20 +221,17 @@
                                         <form class="form-horizontal " method="post">
                                             <div >
                                                 <div>
-                                                    <div class="col-md-2 prihvati-lijevo">
+                                                    <div class=" prihvati-lijevo">
                                                         <input onclick="dodajindex(12);" type="submit" class="btn btn-default prihvati" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /> <br />
                                                     </div>
 
-<<<<<<< HEAD
-                                                    <table id ="dogovori2" class="table-bordered tablesorter table table-striped " id="tabledatainstruktori">
-=======
-                                                    <table id="dogovori2" class="table-bordered tablesorter table table-striped header-fixed" id="tabledatainstruktori">
->>>>>>> origin/master
+                                                    <table class="table-bordered tablesorter table table-striped " id="tabledatainstruktori">
                                                         <thead>
                                                             <tr>
                                                                 <th >Datum i vrijeme</th>
                                                                 <th >Trajanje</th>
                                                                 <th>Predmet</th>
+                                                                <th>Lokacija</th>
                                                                 <th >Ime</th>
                                                                 <th >Prezime</th>
                                                                 <th >Status</th>
@@ -264,6 +252,9 @@
                                                                     </td>
                                                                     <td >
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].predmet)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent[i].lokacija.opis)
                                                                     </td>
                                                                     <td>
                                                                         @Html.DisplayFor(model => model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor[e].ime)
@@ -343,7 +334,7 @@
                                                 </div>
                                             </div>
                                             @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab12" })
-                                            <div class="col-md-2 mali-razmak-gore prihvati-lijevo">
+                                            <div class=" mali-razmak-gore prihvati-lijevo">
                                                 <input onclick="dodajindex(12);" type="submit" class="btn btn-default prihvati" style="font-weight: bold;" value="Prihvati izmjene &raquo;" /><br />
                                             </div>
                                         </form>
@@ -357,272 +348,276 @@
 
 
 
-                <!--Nudim instrukcije tab-->
-                <div class="tab-pane  top-buffer" role="tabpanel" id="tab2">
-                    @if (@ViewBag.razinaPrava == 1 || @ViewBag.razinaPrava == 0) {
+
+
+
+
+                    <!--Nudim instrukcije tab-->
+                    <div class="tab-pane  top-buffer" role="tabpanel" id="tab2">
+                        @if (@ViewBag.razinaPrava == 1 || @ViewBag.razinaPrava == 0) {
 
 
 
                         <div class=" tabbable " style="margin-top:-40px" role="tablist">
-                            <ul class="nav nav-tabs subtabs" id="myTabTermini">
-                                <!--Popis subtabova-->
-                                <li role="presentation" class="active"><a href="#tab21" aria-controls="tab21" role="tab" data-toggle="tab">Moji predmeti</a></li>
-                                <li role="presentation"><a href="#tab22" aria-controls="tab22" role="tab" data-toggle="tab">Moji termini</a></li>
-                            </ul>
+                                <ul class="nav nav-tabs subtabs" id="myTabTermini">
+                                    <!--Popis subtabova-->
+                                    <li role="presentation" class="active"><a href="#tab21" aria-controls="tab21" role="tab" data-toggle="tab">Moji predmeti</a></li>
+                                    <li role="presentation"><a href="#tab22" aria-controls="tab22" role="tab" data-toggle="tab">Moji termini</a></li>
+                                </ul>
 
 
-                            <div class="tab-content">
+                                <div class="tab-content">
 
-                                <div class="tab-pane active top-buffer table-responsive" role="tabpanel" id="tab21">
-                                    <table id="predmeti1" class="table tablesorter table-condensed">
-                                        <thead>
-                                            <tr>
-                                                <th>Naziv predmeta</th>
-                                                <th>Cijena</th>
-                                                <th>Ukloni</th>
-                                                <th>Uredi cijenu</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="predmeti">
-                                            @foreach (var predmet in Model.mojeVlastiteInstrukcije.mojiPredmeti) {
+                                    <div class="tab-pane active top-buffer table-responsive" role="tabpanel" id="tab21">
+                                        <table id="predmeti1" class="table tablesorter table-condensed">
+                                            <thead>
                                                 <tr>
-                                                    <td>@Html.Raw(predmet.nazivPredmet)</td>
-                                                    <td>@Html.Raw(predmet.cijenaPredmet.ToString()) HRK</td>
-                                                    <td><button class="btn btn-sm btn-danger Delete" value="@Html.DisplayName(predmet.IDpredmet.ToString())">Ukloni</button></td>
-                                                    <td class="ajax-load-td">
-                                                        <button class="btn btn-sm btn-warning Edit" value="@Html.DisplayName(predmet.IDpredmet.ToString())">Uredi</button><div class="ajax-load"><img class="img-responsive" src="~/Content/Images/ajax_load.gif" /></div>
-                                                    </td>
+                                                    <th>Naziv predmeta</th>
+                                                    <th>Cijena</th>
+                                                    <th>Ukloni</th>
+                                                    <th>Uredi cijenu</th>
                                                 </tr>
+                                            </thead>
+                                            <tbody id="predmeti">
+                                                @foreach (var predmet in Model.mojeVlastiteInstrukcije.mojiPredmeti) {
+                                                <tr>
+                                                        <td>@Html.Raw(predmet.nazivPredmet)</td>
+                                                        <td>@Html.Raw(predmet.cijenaPredmet.ToString()) HRK</td>
+                                                        <td><button class="btn btn-sm btn-danger Delete" value="@Html.DisplayName(predmet.IDpredmet.ToString())">Ukloni</button></td>
+                                                        <td class="ajax-load-td">
+                                                            <button class="btn btn-sm btn-warning Edit" value="@Html.DisplayName(predmet.IDpredmet.ToString())">Uredi</button><div class="ajax-load"><img class="img-responsive" src="~/Content/Images/ajax_load.gif" /></div>
+                                                        </td>
+                                                    </tr>
                                             }
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
 
-                                    <div class="col-md-2 mali-razmak-gore">
-                                        <button class="btn btn-primary dodajPostojeci" style="width:200px;">Dodaj postojeći predmet</button><br />
-                                        <button class="btn btn-success dodajNovi" style="width:200px;">Stvori novi predmet</button>
+                                        <div class="col-md-2 mali-razmak-gore">
+                                            <button class="btn btn-primary dodajPostojeci" style="width:200px;">Dodaj postojeći predmet</button><br />
+                                            <button class="btn btn-success dodajNovi" style="width:200px;">Stvori novi predmet</button>
+                                        </div>
+
                                     </div>
 
-                                </div>
 
 
-
-                                <div class="tab-pane top-buffer" role="tabpanel" id="tab22">
-                                    @using (Html.BeginForm()) {
+                                    <div class="tab-pane top-buffer" role="tabpanel" id="tab22">
+                                        @using (Html.BeginForm()) {
                                         <fieldset>
-                                            <form class="form-horizontal " method="post">
-                                                <div class="col-md-5 ">
-                                                    <h3>Odaberite termine u kojima želite davati instrukcije</h3>
-                                                    <input onclick="addterminmodel(22);" type="submit" class="btn btn-default prihvati" style="font-weight:bold; margin-left:700px;" value="Promjeni &raquo;" /> <br />
-                                                </div>
-                                                <div style="width:800px;">
-                                                    <table id="termini" class="table-bordered tablesorter table table-striped header-fixed">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>sat  </th>
-                                                                <th>PON</th>
-                                                                <th>UTO</th>
-                                                                <th>SRI</th>
-                                                                <th>ČET</th>
-                                                                <th>PET</th>
-                                                                <th>SUB</th>
-                                                                <th>NED</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="tableT"></tbody>
-                                                    </table>
-                                                </div>
-                                                @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.mojiTermini, new { id = "hiddenstateid" })
-                                                @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab22" })
+                                                <form class="form-horizontal " method="post">
+                                                    <div >
+                                                        <h3>Odaberite termine u kojima želite davati instrukcije</h3>
+                                                        <input onclick="addterminmodel(22);" type="submit" class="btn btn-default prihvati" style="float:right" value="Promjeni &raquo;" /> <br />
+                                                    </div>
+                                                    <div >
+                                                        <table id="termini" class="table-bordered tablesorter table table-striped ">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>sat  </th>
+                                                                    <th>PON</th>
+                                                                    <th>UTO</th>
+                                                                    <th>SRI</th>
+                                                                    <th>ČET</th>
+                                                                    <th>PET</th>
+                                                                    <th>SUB</th>
+                                                                    <th>NED</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tableT"></tbody>
+                                                        </table>
+                                                    </div>
+                                                    @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.mojiTermini, new { id = "hiddenstateid" })
+                                                    @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab22" })
 
-                                                <div class="col-md-2 mali-razmak-gore">
-                                                    <input onclick="addterminmodel(22);" type="submit" class="btn btn-default prihvati" style="font-weight:bold; margin-left:700px;" value="Promjeni &raquo;" /> <br />
-                                                </div>
-                                            </form>
-                                        </fieldset>
+                                                    <div class="mali-razmak-gore">
+                                                        <input onclick="addterminmodel(22);" type="submit" class="btn btn-default prihvati" style="float:right" value="Promjeni &raquo;" /> <br />
+                                                    </div>
+                                                </form>
+                                            </fieldset>
                                     }
+                                    </div>
+
+
                                 </div>
-
-
                             </div>
-                        </div>
 
                     } else if (@ViewBag.razinaPrava == 2) {
                         <p>Ukoliko želite biti instruktor odaberite opciju "Želim biti instruktor" u Postavkama profila</p>
                     }
-                </div>
+                    </div>
 
 
 
 
-                <!--Postavke profila tab-->
-                <div class="tab-pane top-buffer" role="tabpanel" id="tab3">
-                    <h3>Postavke profila</h3>
-                    @using (Html.BeginForm()) {
+                    <!--Postavke profila tab-->
+                    <div class="tab-pane top-buffer" role="tabpanel" id="tab3">
+                        <h3>Postavke profila</h3>
+                        @using (Html.BeginForm()) {
 
                         <fieldset>
-                            <form class="form-horizontal " method="post">
+                                <form class="form-horizontal " method="post">
 
-                                <div class="row">
-                                    <label class="col-md-3 control-label" for="jeinstruktor">
-                                        <mark>Želim biti instruktor</mark>
-                                    </label>
-                                    <div id="jeinstruktor" class="col-md-6">
-                                        @Html.CheckBoxFor(model => model.ostalePostavke.instruktor, new { id = "zelimBitiInstruktorID", @onclick = "provjeriJeLiMoguce(this)" })
+                                    <div class="row">
+                                        <label class="col-md-3 control-label" for="jeinstruktor">
+                                            <mark>Želim biti instruktor</mark>
+                                        </label>
+                                        <div id="jeinstruktor" class="col-md-6">
+                                            @Html.CheckBoxFor(model => model.ostalePostavke.instruktor, new { id = "zelimBitiInstruktorID", @onclick = "provjeriJeLiMoguce(this)" })
+                                        </div>
                                     </div>
-                                </div>
-                                @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.MojeLokacijeJson, new { id = "jsonlokacije" })
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <h4>Uredi lokacije</h4>
-                                        <div id="mapid"></div>
+                                            @Html.HiddenFor(model => model.mojeVlastiteInstrukcije.MojeLokacijeJson, new { id = "jsonlokacije" })
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <h4>Uredi lokacije</h4>
+                                            <div id="mapid"></div>
+                                        </div>
+                                        <div class="col-md-4" style="height:320px; overflow-y:auto;">
+                                            <h4>Uredi opis lokacija</h4>
+                                            <ul id="popislokacija"></ul>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4" style="height:320px; overflow-y:auto;">
-                                        <h4>Uredi opis lokacija</h4>
-                                        <ul id="popislokacija"></ul>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-2 mali-razmak-gore">
-                                        <input onclick="dodajlokacijeumodel(3);" type="submit" class="btn btn-default prihvati" value="Promjeni &raquo;" /> <br />
+                                    <div class="row">
+                                        <div class="col-md-2 mali-razmak-gore">
+                                            <input onclick="dodajlokacijeumodel(3);" type="submit" class="btn btn-default prihvati" value="Promjeni &raquo;" /> <br />
+                                        </div>
                                     </div>
-                                </div>
-                                @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab3" })
-                            </form>
-                        </fieldset>
+                                            @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab3" })
+                                </form>
+                            </fieldset>
                     }
-                </div>
+                    </div>
 
 
 
 
-                <!--Promjena lozinke tab-->
-                <div class="tab-pane" role="tabpanel" id="tab4">
-                    <h3>Promjena lozinke</h3>
-                    @using (Html.BeginForm()) {
+                    <!--Promjena lozinke tab-->
+                    <div class="tab-pane" role="tabpanel" id="tab4">
+                        <h3>Promjena lozinke</h3>
+                                            @using (Html.BeginForm()) {
                         @Html.ValidationSummary(true)
                         <fieldset>
-                            <form class="form-horizontal " method="post">
+                                <form class="form-horizontal " method="post">
 
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label" for="promjena_lozinke_stara">
-                                        <mark>Stara lozinka</mark>
-                                    </label>
-                                    <div id="promjena_lozinke_stara" class="col-md-5">
-                                        @Html.EditorFor(model => model.changePassword.OldPassword)
-                                        @Html.ValidationMessageFor(model => model.changePassword.OldPassword)
-                                        @Html.ValidationMessage("error_old_password")
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="promjena_lozinke_stara">
+                                            <mark>Stara lozinka</mark>
+                                        </label>
+                                        <div id="promjena_lozinke_stara" class="col-md-5">
+                                            @Html.EditorFor(model => model.changePassword.OldPassword)
+                                            @Html.ValidationMessageFor(model => model.changePassword.OldPassword)
+                                            @Html.ValidationMessage("error_old_password")
+                                        </div>
                                     </div>
-                                </div>
-                                <br />
+                                    <br />
 
-                                <div class=" form-group">
-                                    <label class="col-md-3 control-label" for="promjena_lozinke_nova">
-                                        <mark>Nova lozinka</mark>
-                                    </label>
-                                    <div id="promjena_lozinke_nova" class="col-md-6">
-                                        @Html.PasswordFor(model => model.changePassword.NewPassword)
-                                        @Html.ValidationMessageFor(model => model.changePassword.NewPassword)
-                                        @Html.ValidationMessage("error_loz")
+                                    <div class=" form-group">
+                                        <label class="col-md-3 control-label" for="promjena_lozinke_nova">
+                                            <mark>Nova lozinka</mark>
+                                        </label>
+                                        <div id="promjena_lozinke_nova" class="col-md-6">
+                                            @Html.PasswordFor(model => model.changePassword.NewPassword)
+                                            @Html.ValidationMessageFor(model => model.changePassword.NewPassword)
+                                            @Html.ValidationMessage("error_loz")
+                                        </div>
                                     </div>
-                                </div>
-                                <br />
+                                    <br />
 
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label" for="promjena_lozinke_ponovljena">
-                                        <mark>Ponovljena nova lozinka</mark>
-                                    </label>
-                                    <div id="promjena_lozinke_ponovljena" class="col-md-6">
-                                        @Html.PasswordFor(model => model.changePassword.ConfirmPassword)
-                                        @Html.ValidationMessageFor(model => model.changePassword.ConfirmPassword)
-                                        @Html.ValidationMessage("error_loz")
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="promjena_lozinke_ponovljena">
+                                            <mark>Ponovljena nova lozinka</mark>
+                                        </label>
+                                        <div id="promjena_lozinke_ponovljena" class="col-md-6">
+                                            @Html.PasswordFor(model => model.changePassword.ConfirmPassword)
+                                            @Html.ValidationMessageFor(model => model.changePassword.ConfirmPassword)
+                                            @Html.ValidationMessage("error_loz")
+                                        </div>
                                     </div>
-                                </div>
-                                <br />
-                                @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab4" })
-                                <div class="col-md-2 mali-razmak-gore">
-                                    <input onclick="dodajindex(4);" type="submit" class="btn btn-default prihvati" value="Promjeni &raquo;" /> <br />
-                                </div>
-                            </form>
-                        </fieldset>
+                                    <br />
+                                            @Html.HiddenFor(model => model.trenutniTab, new { id = "trenutniTab4" })
+                                    <div class="col-md-2 mali-razmak-gore">
+                                        <input onclick="dodajindex(4);" type="submit" class="btn btn-default prihvati" value="Promjeni &raquo;" /> <br />
+                                    </div>
+                                </form>
+                            </fieldset>
                     }
+                    </div>
+
+
+
                 </div>
-
-
-
-            </div>
-            <table style="visibility: hidden;">
-                <tbody id="postojeci-predmet-tr">
-                    <tr>
-                        <td>
-                            <select class='predmet'>
-                                @foreach (var predmet in Model.mojeVlastiteInstrukcije.sviPredmeti) {
+                <table style="visibility: hidden;">
+                    <tbody id="postojeci-predmet-tr">
+                        <tr>
+                            <td>
+                                <select class='predmet'>
+                                            @foreach (var predmet in Model.mojeVlastiteInstrukcije.sviPredmeti) {
                                     <option value='@Html.Raw(predmet.ID_predmet.ToString())'>@Html.Raw(predmet.naziv_predmet)</option>
                                 }
-                            </select>
-                        </td>
-                        <td>
+                                </select>
+                            </td>
+                            <td>
 
-                            <input class='predmetCijena' type='number' min='0' step='0.01' placeholder='Cijena' required />
-                        </td>
-                        <td class="ajax-load-td">
-                            <button class='btn btn-success btn-sm postojeciPohrani'>Pohrani</button><div class="ajax-load-add"><img class="img-responsive" src="~/Content/Images/ajax_load.gif" /></div>
-                        </td>
-                        <td></td>
-                    </tr>
+                                <input class='predmetCijena' type='number' min='0' step='0.01' placeholder='Cijena' required />
+                            </td>
+                            <td class="ajax-load-td">
+                                <button class='btn btn-success btn-sm postojeciPohrani'>Pohrani</button><div class="ajax-load-add"><img class="img-responsive" src="~/Content/Images/ajax_load.gif" /></div>
+                            </td>
+                            <td></td>
+                        </tr>
 
 
-                </tbody>
-            </table>
-            <table style="visibility: hidden;">
-                <tbody id="novi-predmet-tr" style="visibility: hidden;">
-                    <tr>
-                        <td>
-                            <input class='predmetIme' type='text' maxlength='50' placeholder='Naziv predmeta' required />
+                    </tbody>
+                </table>
+                <table style="visibility: hidden;">
+                    <tbody id="novi-predmet-tr" style="visibility: hidden;">
+                        <tr>
+                            <td>
+                                <input class='predmetIme' type='text' maxlength='50' placeholder='Naziv predmeta' required />
 
-                            <input class='predmetKratica' type='text' maxlength='10' placeholder='Kratica' required />
-                            <input class='predmetOpis' type='text' maxlength='100' placeholder='Opis predmeta' required />
-                            <select class='predmetKategorija'>
-                                @foreach (var kategorija in Model.mojeVlastiteInstrukcije.sveKategorije) {
+                                <input class='predmetKratica' type='text' maxlength='10' placeholder='Kratica' required />
+                                <input class='predmetOpis' type='text' maxlength='100' placeholder='Opis predmeta' required />
+                                <select class='predmetKategorija'>
+                                            @foreach (var kategorija in Model.mojeVlastiteInstrukcije.sveKategorije) {
                                     <option value='@Html.Raw(kategorija.ID_kategorija.ToString())'>@Html.Raw(kategorija.naziv_kategorija)</option>
                                 }
-                            </select>
-                            <select class='predmetUstanova'>
-                                @foreach (var ustanova in Model.mojeVlastiteInstrukcije.sveUstanove) {
+                                </select>
+                                <select class='predmetUstanova'>
+                                            @foreach (var ustanova in Model.mojeVlastiteInstrukcije.sveUstanove) {
                                     <option value='@Html.Raw(ustanova.ID_ustanova.ToString())'>@Html.Raw(ustanova.Naziv_ustanova)</option>
                                 }
-                            </select>
-                        </td>
-                        <td>
-                            <input class='predmetCijena' type='number' min='0' step='0.01' placeholder='Cijena' required />
-                        </td>
-                        <td class="ajax-load-td">
-                            <button class='btn btn-success btn-sm predmetPohrani'>Pohrani</button><div class="ajax-load-add"><img class="img-responsive" src="~/Content/Images/ajax_load.gif" /></div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                </select>
+                            </td>
+                            <td>
+                                <input class='predmetCijena' type='number' min='0' step='0.01' placeholder='Cijena' required />
+                            </td>
+                            <td class="ajax-load-td">
+                                <button class='btn btn-success btn-sm predmetPohrani'>Pohrani</button><div class="ajax-load-add"><img class="img-responsive" src="~/Content/Images/ajax_load.gif" /></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
 
-            <div id="test123">
+                <div id="test123">
 
-            </div>
+                </div>
 
-            <script id="mapscript">
-                var maxIdkarte = 0;
+                <script id="mapscript">
+                    var maxIdkarte = 0;
 
-                function makeStruct(names) {
-                    var names = names.split(' ');
-                    var count = names.length;
-                    function constructor() {
-                        for (var i = 0; i < count; i++) {
-                            this[names[i]] = arguments[i];
-                        }
-                    }
-                    return constructor;
-                }
+                    function makeStruct(names) {
+                        var names = names.split(' ');
+                        var count = names.length;
+                        function constructor() {
+                            for (var i = 0; i < count; i++) {
+                                this[names[i]] = arguments[i];
+                                        }
+                                        }
+                        return constructor;
+                                        }
 
-                var idmarkerKarta = makeStruct("id marker");
+                    var idmarkerKarta = makeStruct("id marker");
                 var popismarkeranakarti = [];
 
 
@@ -719,7 +714,7 @@
                 }
 
 
-            </script>
+                </script>
 
 
 

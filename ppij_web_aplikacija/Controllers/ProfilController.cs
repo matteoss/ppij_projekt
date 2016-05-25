@@ -50,6 +50,7 @@ namespace ppij_web_aplikacija.Controllers {
                         //Debug.WriteLine(dogovor.datum_dogovor.Value + " " + (int)dogovor.Termin.FirstOrDefault().period_termin);
                         model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba() {
                             termin = dogovor,
+                            lokacija = dogovor.Lokacija,
                             ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
                             prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
                             predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().naziv_predmet,
@@ -66,9 +67,10 @@ namespace ppij_web_aplikacija.Controllers {
                         model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
                         {
                             termin = dogovor,
+                            lokacija = dogovor.Lokacija,
                             ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
                             prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
-                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
+                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().naziv_predmet,
                             odustani = false,
                             seen = false
                         });
@@ -340,9 +342,10 @@ namespace ppij_web_aplikacija.Controllers {
                         model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_instruktor.Add(new dogovor_term_osoba()
                         {
                             termin = dogovor,
+                            lokacija = dogovor.Lokacija,
                             ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().ime_osoba,
                             prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_klijent).FirstOrDefault().prezime_osoba,
-                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().kratica_predmet,
+                            predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().naziv_predmet,
                             odustani = false,
                             seen = false
                         });
@@ -356,6 +359,7 @@ namespace ppij_web_aplikacija.Controllers {
                         model.mojeVlastiteInstrukcije.dogovoreni_termini_kao_klijent.Add(new dogovor_term_osoba()
                         {
                             termin = dogovor,
+                            lokacija = dogovor.Lokacija,
                             ime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().ime_osoba,
                             prezime = data.Osoba.Where(o => o.ID_osoba == dogovor.ID_instruktor).FirstOrDefault().prezime_osoba,
                             predmet = data.Predmet.Where(k => k.ID_predmet == dogovor.ID_predmet).FirstOrDefault().naziv_predmet,

@@ -79,6 +79,7 @@ namespace ppij_web_aplikacija.Models
         public dogovor_termin termin { get; set; }
         public Boolean odustani { get; set; }
         public Boolean seen { get; set; }
+        public Lokacija lokacija { get; set; }
         public String predmet { get; set; }
     }
 
